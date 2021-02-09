@@ -444,7 +444,6 @@ class _BetterPlayerMaterialControlsState extends BetterPlayerControlsState<Bette
   void cancelAndRestartTimer() {
     _hideTimer?.cancel();
     _startHideTimer();
-
     setState(() {
       _hideStuff = false;
       _displayTapped = true;

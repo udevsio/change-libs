@@ -293,7 +293,7 @@ abstract class BetterPlayerControlsState<T extends StatefulWidget> extends State
     }
     final resolutions = betterPlayerController.betterPlayerDataSource.resolutions;
     resolutions?.forEach((key, value) {
-      children.add(_buildResolutionSelectionRow(key, value));
+      children.add(_buildResolutionSelectionRow(key, value, textColor));
     });
 
     if (children.isEmpty) {
@@ -378,26 +378,28 @@ abstract class BetterPlayerControlsState<T extends StatefulWidget> extends State
     );
   }
 
-  Widget _buildResolutionSelectionRow(String name, String url) {
+  Widget _buildResolutionSelectionRow(String name, String url, Color textColor) {
     final bool isSelected = url == betterPlayerController.betterPlayerDataSource.url;
     return BetterPlayerMaterialClickableWidget(
       onTap: () {
         Navigator.of(context).pop();
         betterPlayerController.setResolution(url);
       },
-      child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 8),
-        child: Row(
-          children: [
-            const SizedBox(width: 16),
-            Text(
-              name,
-              style: TextStyle(
-                fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
-              ),
-            ),
-          ],
+      child: ListTile(
+        title: Text(
+          name,
+          style: TextStyle(
+            fontWeight: FontWeight.normal,
+            color: textColor,
+            fontSize: 17
+          ),
         ),
+        trailing: Visibility(
+            visible: isSelected,
+            child: Icon(
+              Icons.done,
+              color: Colors.white,
+            )),
       ),
     );
   }
