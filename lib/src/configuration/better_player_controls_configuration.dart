@@ -124,8 +124,6 @@ class BetterPlayerControlsConfiguration {
   ///Flag used to show/hide audio tracks
   final bool enableAudioTracks;
 
-  final bool isSerial;
-
   ///Custom items of overflow menu
   final List<BetterPlayerOverflowMenuItem> overflowMenuCustomItems;
 
@@ -202,7 +200,6 @@ class BetterPlayerControlsConfiguration {
     this.skipForwardIcon = Icons.fast_forward,
     this.enableFullscreen = true,
     this.enableMute = true,
-    this.isSerial = false,
     this.onVideoEnd,
     this.track,
     this.prev,

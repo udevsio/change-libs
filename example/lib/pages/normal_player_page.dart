@@ -56,7 +56,6 @@ class _NormalPlayerPageState extends State<NormalPlayerPage> {
             skipForwardIcon: Icons.forward_10,
             nextEpisode: () {},
             prevEpisode: () {},
-            isSerial: true,
             enableAudioTracks: false,
             enableSubtitles: false,
             qualitiesIcon: SvgPicture.asset(

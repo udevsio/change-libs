@@ -17,6 +17,8 @@ class BetterPlayerDataSource {
 
   final String quality;
 
+  final bool isSerial;
+
   ///Subtitles configuration
   final List<BetterPlayerSubtitlesSource> subtitles;
 
@@ -67,6 +69,7 @@ class BetterPlayerDataSource {
     this.subtitles,
     this.liveStream = false,
     this.headers,
+    this.isSerial = false,
     this.useHlsSubtitles = true,
     this.useHlsTracks = true,
     this.useHlsAudioTracks = true,
@@ -74,16 +77,12 @@ class BetterPlayerDataSource {
     this.resolutions,
     this.quality,
     this.cacheConfiguration,
-    this.notificationConfiguration =
-        const BetterPlayerNotificationConfiguration(showNotification: false),
+    this.notificationConfiguration = const BetterPlayerNotificationConfiguration(showNotification: false),
     this.overriddenDuration,
     this.videoFormat,
   }) : assert(
-            ((type == BetterPlayerDataSourceType.network ||
-                        type == BetterPlayerDataSourceType.file) &&
-                    url != null) ||
-                (type == BetterPlayerDataSourceType.memory &&
-                    bytes?.isNotEmpty == true),
+            ((type == BetterPlayerDataSourceType.network || type == BetterPlayerDataSourceType.file) && url != null) ||
+                (type == BetterPlayerDataSourceType.memory && bytes?.isNotEmpty == true),
             "Url can't be null in network or file data source | bytes can't be null when using memory data source");
 
   ///Factory method to build network data source which uses url as data source
@@ -189,8 +188,7 @@ class BetterPlayerDataSource {
       useHlsAudioTracks: useHlsAudioTracks ?? this.useHlsAudioTracks,
       resolutions: resolutions ?? this.resolutions,
       cacheConfiguration: cacheConfiguration ?? this.cacheConfiguration,
-      notificationConfiguration:
-          notificationConfiguration ?? this.notificationConfiguration,
+      notificationConfiguration: notificationConfiguration ?? this.notificationConfiguration,
       overriddenDuration: overriddenDuration ?? this.overriddenDuration,
     );
   }

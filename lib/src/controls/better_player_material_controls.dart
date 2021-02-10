@@ -67,6 +67,7 @@ class _BetterPlayerMaterialControlsState extends BetterPlayerControlsState<Bette
     if (_latestValue?.hasError == true) {
       return Container(
         color: Colors.black26,
+        margin: EdgeInsets.only(top: 48),
         child: _buildErrorWidget(),
       );
     }
@@ -88,12 +89,10 @@ class _BetterPlayerMaterialControlsState extends BetterPlayerControlsState<Bette
         },
         child: AbsorbPointer(
           absorbing: _hideStuff,
-          child: Stack(
+          child: Column(
             children: [
-              if (_wasLoading) Expanded(child: Center(child: _buildLoadingWidget())) else _buildHitArea(),
-              Align(
-                  alignment: Alignment.bottomCenter,
-                  child: _buildBottomBar()),
+              if (_wasLoading) Expanded(child: Container(margin: EdgeInsets.only(top: 48), child: Center(child: _buildLoadingWidget()))) else _buildHitArea(),
+              _buildBottomBar(),
             ],
           ),
         ),
@@ -136,30 +135,32 @@ class _BetterPlayerMaterialControlsState extends BetterPlayerControlsState<Bette
       return errorBuilder(context, _betterPlayerController.videoPlayerController.value.errorDescription);
     } else {
       final textStyle = TextStyle(color: _controlsConfiguration.textColor);
-      return Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(
-              Icons.warning,
-              color: _controlsConfiguration.iconsColor,
-              size: 42,
-            ),
-            Text(
-              _betterPlayerController.translations.generalDefaultError,
-              style: textStyle,
-            ),
-            if (_controlsConfiguration.enableRetry)
-              FlatButton(
-                onPressed: () {
-                  _betterPlayerController.retryDataSource();
-                },
-                child: Text(
-                  _betterPlayerController.translations.generalRetry,
-                  style: textStyle.copyWith(fontWeight: FontWeight.bold),
-                ),
-              )
-          ],
+      return Container(
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(
+                Icons.warning_amber_outlined,
+                color: _controlsConfiguration.iconsColor,
+                size: 42,
+              ),
+              Text(
+                _betterPlayerController.translations.generalDefaultError,
+                style: textStyle,
+              ),
+              if (_controlsConfiguration.enableRetry)
+                FlatButton(
+                  onPressed: () {
+                    _betterPlayerController.retryDataSource();
+                  },
+                  child: Text(
+                    _betterPlayerController.translations.generalRetry,
+                    style: textStyle.copyWith(fontWeight: FontWeight.bold),
+                  ),
+                )
+            ],
+          ),
         ),
       );
     }
@@ -237,6 +238,7 @@ class _BetterPlayerMaterialControlsState extends BetterPlayerControlsState<Bette
     }
     return Expanded(
       child: Container(
+        margin: EdgeInsets.only(top: 48),
         color: Colors.transparent,
         child: Center(
           child: AnimatedOpacity(
@@ -273,6 +275,7 @@ class _BetterPlayerMaterialControlsState extends BetterPlayerControlsState<Bette
   Widget _buildHitAreaClickableButton({Widget icon, void Function() onClicked}) {
     return BetterPlayerMaterialClickableWidget(
       onTap: onClicked,
+      radius: 0,
       child: Align(
         child: Container(
           decoration: BoxDecoration(
@@ -280,9 +283,7 @@ class _BetterPlayerMaterialControlsState extends BetterPlayerControlsState<Bette
           ),
           child: Padding(
             padding: const EdgeInsets.all(12),
-            child: Stack(
-              children: [icon],
-            ),
+            child: icon,
           ),
         ),
       ),
@@ -290,44 +291,44 @@ class _BetterPlayerMaterialControlsState extends BetterPlayerControlsState<Bette
   }
 
   Widget _buildSkipButton() {
-    return _buildHitAreaClickableButton(
-      icon: Icon(
+    return BetterPlayerMaterialClickableWidget(
+      child: Icon(
         _controlsConfiguration.skipBackIcon,
         size: 32,
         color: _controlsConfiguration.iconsColor,
       ),
-      onClicked: skipBack,
+      onTap: skipBack,
     );
   }
 
   Widget _buildPrevButton() {
     return Visibility(
-      visible: _controlsConfiguration.isSerial,
-      child: _buildHitAreaClickableButton(
-        icon: _controlsConfiguration.prev ?? SizedBox(),
-        onClicked: _controlsConfiguration.nextEpisode,
+      visible: _betterPlayerController.betterPlayerDataSource.isSerial,
+      child: BetterPlayerMaterialClickableWidget(
+        child: _controlsConfiguration.prev ?? SizedBox(),
+        onTap: _controlsConfiguration.nextEpisode,
       ),
     );
   }
 
   Widget _buildNextButton() {
     return Visibility(
-      visible: _controlsConfiguration.isSerial,
-      child: _buildHitAreaClickableButton(
-        icon: _controlsConfiguration.next ?? SizedBox(),
-        onClicked: _controlsConfiguration.prevEpisode,
+      visible: _betterPlayerController.betterPlayerDataSource.isSerial,
+      child: BetterPlayerMaterialClickableWidget(
+        child: _controlsConfiguration.next ?? SizedBox(),
+        onTap: _controlsConfiguration.prevEpisode,
       ),
     );
   }
 
   Widget _buildForwardButton() {
-    return _buildHitAreaClickableButton(
-      icon: Icon(
+    return BetterPlayerMaterialClickableWidget(
+      child: Icon(
         _controlsConfiguration.skipForwardIcon,
         size: 32,
         color: _controlsConfiguration.iconsColor,
       ),
-      onClicked: skipForward,
+      onTap: skipForward,
     );
   }
 
@@ -336,13 +337,13 @@ class _BetterPlayerMaterialControlsState extends BetterPlayerControlsState<Bette
     if (!isFinished) {
       return _buildPlayPause(_controller, 48);
     }
-    return _buildHitAreaClickableButton(
-      icon: Icon(
+    return BetterPlayerMaterialClickableWidget(
+      child: Icon(
         Icons.replay,
         size: 48,
         color: _controlsConfiguration.iconsColor,
       ),
-      onClicked: () {
+      onTap: () {
         if (_latestValue != null && _latestValue.isPlaying) {
           if (_displayTapped) {
             setState(() {
@@ -502,7 +503,7 @@ class _BetterPlayerMaterialControlsState extends BetterPlayerControlsState<Bette
     final duration = _controller.value.duration;
     String textPosition = position != null ? formatDuration(position) : '00:00';
 
-    if(position != null && duration!=null && position >= duration){
+    if (position != null && duration != null && position >= duration) {
       _controlsConfiguration.onVideoEnd();
     }
 
