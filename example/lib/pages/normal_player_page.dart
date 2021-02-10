@@ -42,6 +42,12 @@ class _NormalPlayerPageState extends State<NormalPlayerPage> {
               'assets/svg/skip_next.svg',
               color: Colors.white,
             ),
+            onVideoEnd: (){
+
+            },
+            track: (){
+
+            },
             prev: SvgPicture.asset(
               'assets/svg/skip_prev.svg',
               color: Colors.white,

@@ -66,7 +66,7 @@ class _BetterPlayerMaterialControlsState extends BetterPlayerControlsState<Bette
     _wasLoading = isLoading(_latestValue);
     if (_latestValue?.hasError == true) {
       return Container(
-        color: Colors.black,
+        color: Colors.black26,
         child: _buildErrorWidget(),
       );
     }
@@ -88,10 +88,12 @@ class _BetterPlayerMaterialControlsState extends BetterPlayerControlsState<Bette
         },
         child: AbsorbPointer(
           absorbing: _hideStuff,
-          child: Column(
+          child: Stack(
             children: [
               if (_wasLoading) Expanded(child: Center(child: _buildLoadingWidget())) else _buildHitArea(),
-              _buildBottomBar(),
+              Align(
+                  alignment: Alignment.bottomCenter,
+                  child: _buildBottomBar()),
             ],
           ),
         ),
@@ -148,7 +150,7 @@ class _BetterPlayerMaterialControlsState extends BetterPlayerControlsState<Bette
               style: textStyle,
             ),
             if (_controlsConfiguration.enableRetry)
-              TextButton(
+              FlatButton(
                 onPressed: () {
                   _betterPlayerController.retryDataSource();
                 },
@@ -162,7 +164,7 @@ class _BetterPlayerMaterialControlsState extends BetterPlayerControlsState<Bette
       );
     }
   }
-  
+
   Widget _buildBottomBar() {
     if (!betterPlayerController.controlsEnabled) {
       return const SizedBox();
@@ -180,19 +182,29 @@ class _BetterPlayerMaterialControlsState extends BetterPlayerControlsState<Bette
               height: 24,
               child: Row(
                 children: [
-                  SizedBox(width: 8,),
+                  SizedBox(
+                    width: 8,
+                  ),
                   _buildPlayPause(_controller, 24),
-                  SizedBox(width: 12,),
+                  SizedBox(
+                    width: 12,
+                  ),
                   _buildMuteButton(_controller),
-                  SizedBox(width: 12,),
+                  SizedBox(
+                    width: 12,
+                  ),
                   _buildCurrentPosition(),
                   _buildTotalPosition(),
                   Spacer(),
                   if (_betterPlayerController.isLiveStream()) _buildLiveWidget() else _controlsConfiguration.enableProgressText ? _buildPosition() : const SizedBox(),
                   _buildSettingButton(),
-                  SizedBox(width: 12,),
+                  SizedBox(
+                    width: 12,
+                  ),
                   _buildExpandButton(),
-                  SizedBox(width: 8,),
+                  SizedBox(
+                    width: 8,
+                  ),
                 ],
               ),
             ),
@@ -215,7 +227,7 @@ class _BetterPlayerMaterialControlsState extends BetterPlayerControlsState<Bette
   Widget _buildExpandButton() {
     return BetterPlayerMaterialClickableWidget(
       onTap: _onExpandCollapse,
-      child:_betterPlayerController.isFullScreen ? _controlsConfiguration.exitFullScreen: _controlsConfiguration.enterFullScreen,
+      child: _betterPlayerController.isFullScreen ? _controlsConfiguration.exitFullScreen : _controlsConfiguration.enterFullScreen,
     );
   }
 
@@ -225,7 +237,6 @@ class _BetterPlayerMaterialControlsState extends BetterPlayerControlsState<Bette
     }
     return Expanded(
       child: Container(
-        margin: EdgeInsets.only(top: 48),
         color: Colors.transparent,
         child: Center(
           child: AnimatedOpacity(
@@ -247,7 +258,7 @@ class _BetterPlayerMaterialControlsState extends BetterPlayerControlsState<Bette
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
           _buildSkipButton(),
           _buildPrevButton(),
@@ -293,7 +304,7 @@ class _BetterPlayerMaterialControlsState extends BetterPlayerControlsState<Bette
     return Visibility(
       visible: _controlsConfiguration.isSerial,
       child: _buildHitAreaClickableButton(
-        icon: _controlsConfiguration.prev??SizedBox(),
+        icon: _controlsConfiguration.prev ?? SizedBox(),
         onClicked: _controlsConfiguration.nextEpisode,
       ),
     );
@@ -303,7 +314,7 @@ class _BetterPlayerMaterialControlsState extends BetterPlayerControlsState<Bette
     return Visibility(
       visible: _controlsConfiguration.isSerial,
       child: _buildHitAreaClickableButton(
-        icon: _controlsConfiguration.next??SizedBox(),
+        icon: _controlsConfiguration.next ?? SizedBox(),
         onClicked: _controlsConfiguration.prevEpisode,
       ),
     );
@@ -416,17 +427,13 @@ class _BetterPlayerMaterialControlsState extends BetterPlayerControlsState<Bette
   Widget _buildPlayPause(VideoPlayerController controller, double size) {
     return BetterPlayerMaterialClickableWidget(
       onTap: _onPlayPause,
-      child: SizedBox(
-          height: size,
-          width: size,
-          child: controller.value.isPlaying? _controlsConfiguration.pause : _controlsConfiguration.play),
+      child: SizedBox(height: size, width: size, child: controller.value.isPlaying ? _controlsConfiguration.pause : _controlsConfiguration.play),
     );
   }
 
   Widget _buildPosition() {
     final position = _latestValue != null && _latestValue.position != null ? _latestValue.position : Duration.zero;
     final duration = _latestValue != null && _latestValue.duration != null ? _latestValue.duration : Duration.zero;
-
     return Padding(
       padding: const EdgeInsets.only(right: 24),
       child: Text(
@@ -490,25 +497,30 @@ class _BetterPlayerMaterialControlsState extends BetterPlayerControlsState<Bette
     });
   }
 
-  Widget _buildCurrentPosition(){
-    String textPosition = _controller.value.position != null ? formatDuration(_controller.value.position) : '00:00';
+  Widget _buildCurrentPosition() {
+    final position = _controller.value.position;
+    final duration = _controller.value.duration;
+    String textPosition = position != null ? formatDuration(position) : '00:00';
+
+    if(position != null && duration!=null && position >= duration){
+      _controlsConfiguration.onVideoEnd();
+    }
+
+    if (position != null && position.inSeconds != 0 && position.inSeconds % 30 == 0) {
+      _controlsConfiguration.track(position.inSeconds);
+    }
+
     return Text(
       "${textPosition} / ",
-      style: TextStyle(
-        fontSize: 14,
-        color: Colors.white
-      ),
+      style: TextStyle(fontSize: 14, color: Colors.white),
     );
   }
 
-  Widget _buildTotalPosition(){
+  Widget _buildTotalPosition() {
     String textDuration = _controller.value.duration != null ? formatDuration(_controller.value.duration) : '00:00';
     return Text(
       textDuration,
-      style: TextStyle(
-        fontSize: 14,
-        color: Colors.white
-      ),
+      style: TextStyle(fontSize: 14, color: Colors.white),
     );
   }
 

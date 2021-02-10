@@ -15,6 +15,8 @@ class BetterPlayerDataSource {
   ///Url of the video
   final String url;
 
+  final String quality;
+
   ///Subtitles configuration
   final List<BetterPlayerSubtitlesSource> subtitles;
 
@@ -70,6 +72,7 @@ class BetterPlayerDataSource {
     this.useHlsAudioTracks = true,
     this.hlsTrackNames,
     this.resolutions,
+    this.quality,
     this.cacheConfiguration,
     this.notificationConfiguration =
         const BetterPlayerNotificationConfiguration(showNotification: false),

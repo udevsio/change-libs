@@ -134,6 +134,10 @@ class BetterPlayerControlsConfiguration {
 
   final Function nextEpisode;
 
+  final Function track;
+
+  final Function onVideoEnd;
+
   final Function prevEpisode;
 
   final Widget setting;
@@ -199,6 +203,8 @@ class BetterPlayerControlsConfiguration {
     this.enableFullscreen = true,
     this.enableMute = true,
     this.isSerial = false,
+    this.onVideoEnd,
+    this.track,
     this.prev,
     this.next,
     this.nextEpisode,
