@@ -80,8 +80,8 @@ class _BetterPlayerMaterialControlsState extends BetterPlayerControlsState<Bette
           _hideStuff
               ? cancelAndRestartTimer()
               : setState(() {
-                  _hideStuff = true;
-                });
+            _hideStuff = true;
+          });
         },
         onDoubleTap: () {
           cancelAndRestartTimer();
@@ -244,6 +244,29 @@ class _BetterPlayerMaterialControlsState extends BetterPlayerControlsState<Bette
           duration: _controlsConfiguration.controlsHideTime,
           child: Stack(
             children: [
+              /*Row(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: <Widget>[
+                  Expanded(
+                    child: GestureDetector(
+                      behavior: HitTestBehavior.opaque,
+                      onDoubleTap: () {
+                        skipBack();
+                      },
+                      child: SizedBox()
+                    ),
+                  ),
+                  Expanded(
+                    child: GestureDetector(
+                      behavior: HitTestBehavior.opaque,
+                      onDoubleTap: () {
+                        skipForward();
+                      },
+                      child: SizedBox(),
+                    ),
+                  )
+                ],
+              ),*/
               Visibility(
                 visible:  _betterPlayerController.betterPlayerDataSource.isMiniVideo,
                 child: Positioned(
