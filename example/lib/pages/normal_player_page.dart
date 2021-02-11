@@ -22,6 +22,7 @@ class _NormalPlayerPageState extends State<NormalPlayerPage> {
               'assets/svg/settings.svg',
               color: Colors.white,
             ),
+            playerTheme: BetterPlayerTheme.material,
             play: SvgPicture.asset(
               'assets/svg/play.svg',
               color: Colors.white,
