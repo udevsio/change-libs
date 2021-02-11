@@ -238,18 +238,30 @@ class _BetterPlayerMaterialControlsState extends BetterPlayerControlsState<Bette
     }
     return Expanded(
       child: Container(
-        margin: EdgeInsets.only(top: 48),
         color: Colors.transparent,
-        child: Center(
-          child: AnimatedOpacity(
-            opacity: _hideStuff ? 0.0 : 1.0,
-            duration: _controlsConfiguration.controlsHideTime,
-            child: Stack(
-              children: [
-                _buildMiddleRow(),
-                _buildNextVideoWidget(),
-              ],
-            ),
+        child: AnimatedOpacity(
+          opacity: _hideStuff ? 0.0 : 1.0,
+          duration: _controlsConfiguration.controlsHideTime,
+          child: Stack(
+            children: [
+              Visibility(
+                visible:  _betterPlayerController.betterPlayerDataSource.isMiniVideo,
+                child: Positioned(
+                    top: _betterPlayerController.isFullScreen? 8 : 0,
+                    left: _betterPlayerController.isFullScreen? 8 : 0,
+                    child: IconButton(
+                      onPressed: _controlsConfiguration.closeMiniVideo,
+                      icon: Icon(
+                        Icons.clear,
+                        color: Colors.white,
+                        size: 36,
+                      ),
+                    )
+                ),
+              ),
+              _buildMiddleRow(),
+              _buildNextVideoWidget(),
+            ],
           ),
         ),
       ),
@@ -257,17 +269,20 @@ class _BetterPlayerMaterialControlsState extends BetterPlayerControlsState<Bette
   }
 
   Widget _buildMiddleRow() {
-    return Padding(
+    return Container(
+      margin: EdgeInsets.only(top: 48),
       padding: const EdgeInsets.symmetric(horizontal: 16),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [
-          _buildSkipButton(),
-          _buildPrevButton(),
-          _buildCenterButton(),
-          _buildNextButton(),
-          _buildForwardButton(),
-        ],
+      child: Center(
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            _buildSkipButton(),
+            _buildPrevButton(),
+            _buildCenterButton(),
+            _buildNextButton(),
+            _buildForwardButton(),
+          ],
+        ),
       ),
     );
   }
@@ -294,7 +309,7 @@ class _BetterPlayerMaterialControlsState extends BetterPlayerControlsState<Bette
     return BetterPlayerMaterialClickableWidget(
       child: Icon(
         _controlsConfiguration.skipBackIcon,
-        size: 32,
+        size: 40,
         color: _controlsConfiguration.iconsColor,
       ),
       onTap: skipBack,
@@ -306,7 +321,7 @@ class _BetterPlayerMaterialControlsState extends BetterPlayerControlsState<Bette
       visible: _betterPlayerController.betterPlayerDataSource.isSerial,
       child: BetterPlayerMaterialClickableWidget(
         child: _controlsConfiguration.prev ?? SizedBox(),
-        onTap: _controlsConfiguration.nextEpisode,
+        onTap: _controlsConfiguration.prevEpisode,
       ),
     );
   }
@@ -316,7 +331,7 @@ class _BetterPlayerMaterialControlsState extends BetterPlayerControlsState<Bette
       visible: _betterPlayerController.betterPlayerDataSource.isSerial,
       child: BetterPlayerMaterialClickableWidget(
         child: _controlsConfiguration.next ?? SizedBox(),
-        onTap: _controlsConfiguration.prevEpisode,
+        onTap: _controlsConfiguration.nextEpisode,
       ),
     );
   }
@@ -325,7 +340,7 @@ class _BetterPlayerMaterialControlsState extends BetterPlayerControlsState<Bette
     return BetterPlayerMaterialClickableWidget(
       child: Icon(
         _controlsConfiguration.skipForwardIcon,
-        size: 32,
+        size: 40,
         color: _controlsConfiguration.iconsColor,
       ),
       onTap: skipForward,

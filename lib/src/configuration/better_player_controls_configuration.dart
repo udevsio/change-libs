@@ -132,6 +132,8 @@ class BetterPlayerControlsConfiguration {
 
   final Function nextEpisode;
 
+  final Function closeMiniVideo;
+
   final Function track;
 
   final Function onVideoEnd;
@@ -201,6 +203,7 @@ class BetterPlayerControlsConfiguration {
     this.enableFullscreen = true,
     this.enableMute = true,
     this.onVideoEnd,
+    this.closeMiniVideo,
     this.track,
     this.prev,
     this.next,
@@ -268,4 +271,5 @@ class BetterPlayerControlsConfiguration {
         pauseIcon: CupertinoIcons.pause_solid,
         enableProgressText: true);
   }
+
 }

@@ -21,6 +21,8 @@ class BetterPlayerDataSource {
 
   final bool isSerial;
 
+  final bool isMiniVideo;
+
   ///Subtitles configuration
   final List<BetterPlayerSubtitlesSource> subtitles;
 
@@ -73,6 +75,7 @@ class BetterPlayerDataSource {
     this.headers,
     this.startAt = Duration.zero,
     this.isSerial = false,
+    this.isMiniVideo = false,
     this.useHlsSubtitles = true,
     this.useHlsTracks = true,
     this.useHlsAudioTracks = true,
@@ -97,9 +100,10 @@ class BetterPlayerDataSource {
     Map<String, String> headers,
     bool useHlsSubtitles,
     bool useHlsTracks,
+    bool isMiniVideo,
     bool useHlsAudioTracks,
-        Duration startAt,
-        Map<String, String> qualities,
+    Duration startAt,
+    Map<String, String> qualities,
     BetterPlayerCacheConfiguration cacheConfiguration,
     BetterPlayerNotificationConfiguration notificationConfiguration,
     Duration overriddenDuration,
@@ -110,6 +114,7 @@ class BetterPlayerDataSource {
       subtitles: subtitles,
       liveStream: liveStream,
       headers: headers,
+      isMiniVideo: isMiniVideo,
       startAt: startAt,
       useHlsSubtitles: useHlsSubtitles,
       useHlsTracks: useHlsTracks,
@@ -150,6 +155,7 @@ class BetterPlayerDataSource {
     List<BetterPlayerSubtitlesSource> subtitles,
     bool useHlsSubtitles,
     bool useHlsTracks,
+    bool isMiniVideo,
     Map<String, String> qualities,
     BetterPlayerCacheConfiguration cacheConfiguration,
     BetterPlayerNotificationConfiguration notificationConfiguration,
@@ -172,6 +178,7 @@ class BetterPlayerDataSource {
     List<int> bytes,
     List<BetterPlayerSubtitlesSource> subtitles,
     bool liveStream,
+    bool isMiniVideo,
     Map<String, String> headers,
     bool useHlsSubtitles,
     bool useHlsTracks,
@@ -189,6 +196,7 @@ class BetterPlayerDataSource {
       liveStream: liveStream ?? this.liveStream,
       headers: headers ?? this.headers,
       startAt: startAt ?? this.startAt,
+      isMiniVideo: isMiniVideo ?? this.isMiniVideo,
       useHlsSubtitles: useHlsSubtitles ?? this.useHlsSubtitles,
       useHlsTracks: useHlsTracks ?? this.useHlsTracks,
       useHlsAudioTracks: useHlsAudioTracks ?? this.useHlsAudioTracks,

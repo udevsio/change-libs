@@ -41,6 +41,8 @@ class _NormalPlayerPageState extends State<NormalPlayerPage> {
             next: SvgPicture.asset(
               'assets/svg/skip_next.svg',
               color: Colors.white,
+              width: 32,
+              height: 32,
             ),
             onVideoEnd: (){
 
@@ -51,6 +53,8 @@ class _NormalPlayerPageState extends State<NormalPlayerPage> {
             prev: SvgPicture.asset(
               'assets/svg/skip_prev.svg',
               color: Colors.white,
+              width: 32,
+              height: 32,
             ),
             skipBackIcon: Icons.replay_10,
             skipForwardIcon: Icons.forward_10,
@@ -75,6 +79,8 @@ class _NormalPlayerPageState extends State<NormalPlayerPage> {
     BetterPlayerDataSource dataSource = BetterPlayerDataSource(
       BetterPlayerDataSourceType.network,
       "http://cdn.theoplayer.com/video/elephants-dream/playlist.m3u8",
+      isMiniVideo: true,
+        isSerial: true
     );
     _betterPlayerController = BetterPlayerController(betterPlayerConfiguration);
     _betterPlayerController.setupDataSource(dataSource);
