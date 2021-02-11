@@ -15,9 +15,6 @@ class BetterPlayerConfiguration {
   /// Play the video as soon as it's displayed
   final bool autoPlay;
 
-  /// Start video at a certain position
-  final Duration startAt;
-
   /// Whether or not the video should loop
   final bool looping;
 
@@ -110,7 +107,6 @@ class BetterPlayerConfiguration {
   const BetterPlayerConfiguration({
     this.aspectRatio,
     this.autoPlay = false,
-    this.startAt,
     this.looping = false,
     this.fullScreenByDefault = false,
     this.placeholder,
@@ -174,7 +170,6 @@ class BetterPlayerConfiguration {
     return BetterPlayerConfiguration(
       aspectRatio: aspectRatio ?? this.aspectRatio,
       autoPlay: autoPlay ?? this.autoPlay,
-      startAt: startAt ?? this.startAt,
       looping: looping ?? this.looping,
       fullScreenByDefault: fullScreenByDefault ?? this.fullScreenByDefault,
       placeholder: placeholder ?? this.placeholder,

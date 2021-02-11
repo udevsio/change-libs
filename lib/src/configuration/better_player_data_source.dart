@@ -15,6 +15,8 @@ class BetterPlayerDataSource {
   ///Url of the video
   final String url;
 
+  final Duration startAt;
+
   final String quality;
 
   final bool isSerial;
@@ -69,6 +71,7 @@ class BetterPlayerDataSource {
     this.subtitles,
     this.liveStream = false,
     this.headers,
+    this.startAt = Duration.zero,
     this.isSerial = false,
     this.useHlsSubtitles = true,
     this.useHlsTracks = true,
@@ -95,7 +98,8 @@ class BetterPlayerDataSource {
     bool useHlsSubtitles,
     bool useHlsTracks,
     bool useHlsAudioTracks,
-    Map<String, String> qualities,
+        Duration startAt,
+        Map<String, String> qualities,
     BetterPlayerCacheConfiguration cacheConfiguration,
     BetterPlayerNotificationConfiguration notificationConfiguration,
     Duration overriddenDuration,
@@ -106,6 +110,7 @@ class BetterPlayerDataSource {
       subtitles: subtitles,
       liveStream: liveStream,
       headers: headers,
+      startAt: startAt,
       useHlsSubtitles: useHlsSubtitles,
       useHlsTracks: useHlsTracks,
       useHlsAudioTracks: useHlsAudioTracks,
@@ -183,6 +188,7 @@ class BetterPlayerDataSource {
       subtitles: subtitles ?? this.subtitles,
       liveStream: liveStream ?? this.liveStream,
       headers: headers ?? this.headers,
+      startAt: startAt ?? this.startAt,
       useHlsSubtitles: useHlsSubtitles ?? this.useHlsSubtitles,
       useHlsTracks: useHlsTracks ?? this.useHlsTracks,
       useHlsAudioTracks: useHlsAudioTracks ?? this.useHlsAudioTracks,
