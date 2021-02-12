@@ -183,6 +183,8 @@ class BetterPlayerDataSource {
     List<BetterPlayerSubtitlesSource> subtitles,
     bool liveStream,
     bool isMiniVideo,
+    Duration startAt,
+    bool autoPlay,
     Map<String, String> headers,
     bool useHlsSubtitles,
     bool useHlsTracks,

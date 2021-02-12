@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:better_player/better_player.dart';
 import 'package:better_player_example/constants.dart';
 import 'package:better_player_example/utils.dart';
@@ -74,6 +76,7 @@ class _NormalPlayerPageState extends State<NormalPlayerPage> {
             bottomSheet: Color(0xff263c44),
             textColor: Colors.white));
     BetterPlayerDataSource dataSource = BetterPlayerDataSource(BetterPlayerDataSourceType.network, "http://cdn.theoplayer.com/video/elephants-dream/playlist.m3u8",
+        cacheConfiguration: getCacheConfiguration(),
         isMiniVideo: true, isSerial: true, startAt: Duration(seconds: 35),         autoPlay: true,);
     _betterPlayerController = BetterPlayerController(betterPlayerConfiguration);
     _betterPlayerController.setupDataSource(dataSource);
@@ -112,5 +115,11 @@ class _NormalPlayerPageState extends State<NormalPlayerPage> {
         ],
       ),
     );
+  }
+
+  BetterPlayerCacheConfiguration getCacheConfiguration() {
+    return Platform.isAndroid
+        ? BetterPlayerCacheConfiguration(useCache: true, maxCacheFileSize: 8096 * 8096 * 8096, maxCacheSize: 8096 * 8096 * 8096)
+        : BetterPlayerCacheConfiguration(useCache: true);
   }
 }

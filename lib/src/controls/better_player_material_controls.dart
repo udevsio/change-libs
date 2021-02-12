@@ -66,16 +66,68 @@ class _BetterPlayerMaterialControlsState extends BetterPlayerControlsState<Bette
     _wasLoading = isLoading(_latestValue);
     if (_latestValue?.hasError == true) {
       _hideStuff = false;
-      return Stack(
-        children: [
-          Container(
-            color: Colors.black26,
-            child: _buildErrorWidget(),
-          ),
-          Align(
-            alignment: Alignment.bottomCenter,
-              child: _buildBottomBar()),
-        ],
+      return Container(
+        color: Colors.black26,
+        child: Stack(
+          children: [
+            Positioned.fill(
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: <Widget>[
+                  Expanded(
+                    child: GestureDetector(
+                      behavior: HitTestBehavior.opaque,
+                      onDoubleTap: () {
+                        _betterPlayerController.setupDataSource(betterPlayerController.betterPlayerDataSource.copyWith(
+                          startAt: Duration(seconds: _betterPlayerController.videoPlayerController.value.position.inSeconds - 10
+                        )));
+                        },
+                      onTap: () {
+                        _hideStuff
+                            ? cancelAndRestartTimer()
+                            : setState(() {
+                          _hideStuff = true;
+                        });
+                      },
+                      child: SizedBox(
+                        width: double.infinity,
+                        height: double.infinity,
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    child: GestureDetector(
+                      behavior: HitTestBehavior.opaque,
+                      onDoubleTap: () {
+                        _betterPlayerController.setupDataSource(betterPlayerController.betterPlayerDataSource.copyWith(
+                            startAt: Duration(seconds: _betterPlayerController.videoPlayerController.value.position.inSeconds + 10
+                            )));
+                      },
+                      onTap: () {
+                        _hideStuff
+                            ? cancelAndRestartTimer()
+                            : setState(() {
+                          _hideStuff = true;
+                        });
+                      },
+                      child: SizedBox(
+                        width: double.infinity,
+                        height: double.infinity,
+                      ),
+                    ),
+                  )
+                ],
+              ),
+            ),
+            Align(
+              alignment: Alignment.center,
+              child: _buildErrorWidget(),
+            ),
+            Align(
+              alignment: Alignment.bottomCenter,
+                child: _buildBottomBar()),
+          ],
+        ),
       );
     }
     return MouseRegion(
@@ -142,33 +194,29 @@ class _BetterPlayerMaterialControlsState extends BetterPlayerControlsState<Bette
       return errorBuilder(context, _betterPlayerController.videoPlayerController.value.errorDescription);
     } else {
       final textStyle = TextStyle(color: _controlsConfiguration.textColor);
-      return Container(
-        child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Icon(
-                Icons.warning_amber_outlined,
-                color: _controlsConfiguration.iconsColor,
-                size: getIconSize(32),
-              ),
-              Text(
-                _betterPlayerController.translations.generalDefaultError,
-                style: textStyle,
-              ),
-              if (_controlsConfiguration.enableRetry)
-                FlatButton(
-                  onPressed: () {
-                    _betterPlayerController.retryDataSource();
-                  },
-                  child: Text(
-                    _betterPlayerController.translations.generalRetry,
-                    style: textStyle.copyWith(fontWeight: FontWeight.bold),
-                  ),
-                ),
-            ],
+      return Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Icon(
+            Icons.warning_amber_outlined,
+            color: _controlsConfiguration.iconsColor,
+            size: getIconSize(32),
           ),
-        ),
+          Text(
+            _betterPlayerController.translations.generalDefaultError,
+            style: textStyle,
+          ),
+          if (_controlsConfiguration.enableRetry)
+            FlatButton(
+              onPressed: () {
+                _betterPlayerController.retryDataSource();
+              },
+              child: Text(
+                _betterPlayerController.translations.generalRetry,
+                style: textStyle.copyWith(fontWeight: FontWeight.bold),
+              ),
+            ),
+        ],
       );
     }
   }

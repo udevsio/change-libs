@@ -62,6 +62,7 @@ class _VideoProgressBarState
 
   @override
   Widget build(BuildContext context) {
+
     void seekToRelativePosition(Offset globalPosition) {
       final box = context.findRenderObject() as RenderBox;
       final Offset tapPos = box.globalToLocal(globalPosition);
@@ -69,6 +70,9 @@ class _VideoProgressBarState
       if (relative > 0) {
         final Duration position = controller.value.duration * relative;
         betterPlayerController.seekTo(position);
+        betterPlayerController.setupDataSource(betterPlayerController.betterPlayerDataSource.copyWith(
+          startAt: position
+        ));
       }
     }
 
@@ -79,7 +83,7 @@ class _VideoProgressBarState
         if (!controller.value.initialized || !enableProgressBarDrag) {
           return;
         }
-
+        debugPrint("TTT: start");
         _controllerWasPlaying = controller.value.isPlaying;
         if (_controllerWasPlaying) {
           controller.pause();
@@ -93,7 +97,7 @@ class _VideoProgressBarState
         if (!controller.value.initialized || !enableProgressBarDrag) {
           return;
         }
-
+        debugPrint("TTT: update");
         seekToRelativePosition(details.globalPosition);
 
         if (widget.onDragUpdate != null) {
@@ -104,7 +108,7 @@ class _VideoProgressBarState
         if (!enableProgressBarDrag) {
           return;
         }
-
+        debugPrint("TTT: end");
         if (_controllerWasPlaying) {
           controller.play();
         }
