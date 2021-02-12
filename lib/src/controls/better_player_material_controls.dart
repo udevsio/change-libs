@@ -228,7 +228,10 @@ class _BetterPlayerMaterialControlsState extends BetterPlayerControlsState<Bette
   Widget _buildExpandButton() {
     return BetterPlayerMaterialClickableWidget(
       onTap: _onExpandCollapse,
-      child: _betterPlayerController.isFullScreen ? _controlsConfiguration.exitFullScreen : _controlsConfiguration.enterFullScreen,
+      child: SizedBox(
+          width: getIconSize(24),
+          height: getIconSize(24),
+          child: _betterPlayerController.isFullScreen ? _controlsConfiguration.exitFullScreen : _controlsConfiguration.enterFullScreen),
     );
   }
 
@@ -343,7 +346,10 @@ class _BetterPlayerMaterialControlsState extends BetterPlayerControlsState<Bette
     return Visibility(
       visible: _betterPlayerController.betterPlayerDataSource.isSerial,
       child: BetterPlayerMaterialClickableWidget(
-        child: _controlsConfiguration.prev ?? SizedBox(),
+        child: SizedBox(
+            width: getIconSize(32),
+            height: getIconSize(32),
+            child: _controlsConfiguration.prev ?? SizedBox()),
         onTap: _controlsConfiguration.prevEpisode,
       ),
     );
@@ -353,7 +359,10 @@ class _BetterPlayerMaterialControlsState extends BetterPlayerControlsState<Bette
     return Visibility(
       visible: _betterPlayerController.betterPlayerDataSource.isSerial,
       child: BetterPlayerMaterialClickableWidget(
-        child: _controlsConfiguration.next ?? SizedBox(),
+        child: SizedBox(
+            width: getIconSize(32),
+            height: getIconSize(32),
+            child: _controlsConfiguration.next ?? SizedBox()),
         onTap: _controlsConfiguration.nextEpisode,
       ),
     );
