@@ -45,12 +45,8 @@ class _NormalPlayerPageState extends State<NormalPlayerPage> {
               width: 32,
               height: 32,
             ),
-            onVideoEnd: (){
-
-            },
-            track: (){
-
-            },
+            onVideoEnd: () {},
+            track: () {},
             prev: SvgPicture.asset(
               'assets/svg/skip_prev.svg',
               color: Colors.white,
@@ -77,12 +73,8 @@ class _NormalPlayerPageState extends State<NormalPlayerPage> {
             ),
             bottomSheet: Color(0xff263c44),
             textColor: Colors.white));
-    BetterPlayerDataSource dataSource = BetterPlayerDataSource(
-      BetterPlayerDataSourceType.network,
-      "http://cdn.theoplayer.com/video/elephants-dream/playlist.m3u8",
-      isMiniVideo: true,
-        isSerial: true
-    );
+    BetterPlayerDataSource dataSource = BetterPlayerDataSource(BetterPlayerDataSourceType.network, "http://cdn.theoplayer.com/video/elephants-dream/playlist.m3u8",
+        isMiniVideo: true, isSerial: true, startAt: Duration(seconds: 35));
     _betterPlayerController = BetterPlayerController(betterPlayerConfiguration);
     _betterPlayerController.setupDataSource(dataSource);
     super.initState();

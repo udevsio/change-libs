@@ -143,7 +143,7 @@ class _BetterPlayerMaterialControlsState extends BetterPlayerControlsState<Bette
               Icon(
                 Icons.warning_amber_outlined,
                 color: _controlsConfiguration.iconsColor,
-                size: 42,
+                size: getIconSize(32),
               ),
               Text(
                 _betterPlayerController.translations.generalDefaultError,
@@ -180,13 +180,13 @@ class _BetterPlayerMaterialControlsState extends BetterPlayerControlsState<Bette
         child: Column(
           children: [
             SizedBox(
-              height: 24,
+              height: getIconSize(24),
               child: Row(
                 children: [
                   SizedBox(
                     width: 8,
                   ),
-                  _buildPlayPause(_controller, 24),
+                  _buildPlayPause(_controller, getIconSize(24)),
                   SizedBox(
                     width: 12,
                   ),
@@ -277,7 +277,7 @@ class _BetterPlayerMaterialControlsState extends BetterPlayerControlsState<Bette
                       icon: Icon(
                         Icons.clear,
                         color: Colors.white,
-                        size: 36,
+                        size: getIconSize(32),
                       ),
                     )
                 ),
@@ -332,7 +332,7 @@ class _BetterPlayerMaterialControlsState extends BetterPlayerControlsState<Bette
     return BetterPlayerMaterialClickableWidget(
       child: Icon(
         _controlsConfiguration.skipBackIcon,
-        size: 40,
+        size: getIconSize(32),
         color: _controlsConfiguration.iconsColor,
       ),
       onTap: skipBack,
@@ -363,7 +363,7 @@ class _BetterPlayerMaterialControlsState extends BetterPlayerControlsState<Bette
     return BetterPlayerMaterialClickableWidget(
       child: Icon(
         _controlsConfiguration.skipForwardIcon,
-        size: 40,
+        size: getIconSize(32),
         color: _controlsConfiguration.iconsColor,
       ),
       onTap: skipForward,
@@ -373,12 +373,12 @@ class _BetterPlayerMaterialControlsState extends BetterPlayerControlsState<Bette
   Widget _buildCenterButton() {
     final bool isFinished = isVideoFinished(_latestValue);
     if (!isFinished) {
-      return _buildPlayPause(_controller, 48);
+      return _buildPlayPause(_controller, getIconSize(40));
     }
     return BetterPlayerMaterialClickableWidget(
       child: Icon(
         Icons.replay,
-        size: 48,
+        size: getIconSize(32),
         color: _controlsConfiguration.iconsColor,
       ),
       onTap: () {
@@ -459,6 +459,7 @@ class _BetterPlayerMaterialControlsState extends BetterPlayerControlsState<Bette
       child: Icon(
         (_latestValue != null && _latestValue.volume > 0) ? _controlsConfiguration.muteIcon : _controlsConfiguration.unMuteIcon,
         color: _controlsConfiguration.iconsColor,
+        size: getIconSize(24),
       ),
     );
   }
@@ -649,5 +650,9 @@ class _BetterPlayerMaterialControlsState extends BetterPlayerControlsState<Bette
     return CircularProgressIndicator(
       valueColor: AlwaysStoppedAnimation<Color>(_controlsConfiguration.loadingColor ?? _controlsConfiguration.controlBarColor),
     );
+  }
+
+  double getIconSize(double height){
+    return _betterPlayerController.isFullScreen? 1.5 * height: height;
   }
 }
