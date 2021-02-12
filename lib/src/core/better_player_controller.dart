@@ -384,7 +384,7 @@ class BetterPlayerController extends ChangeNotifier {
     await videoPlayerController.setLooping(betterPlayerConfiguration.looping);
     _videoEventStreamSubscription = videoPlayerController.videoEventStreamController.stream.listen(_handleVideoEvent);
     final fullScreenByDefault = betterPlayerConfiguration.fullScreenByDefault;
-    if (betterPlayerConfiguration.autoPlay) {
+    if (_betterPlayerDataSource.autoPlay) {
       if (fullScreenByDefault) {
         enterFullScreen();
       }

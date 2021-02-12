@@ -564,7 +564,7 @@ class _BetterPlayerCupertinoControlsState
     _updateState();
 
     if ((_controller.value != null && _controller.value.isPlaying) ||
-        _betterPlayerController.betterPlayerConfiguration.autoPlay) {
+        _betterPlayerController.betterPlayerDataSource.autoPlay) {
       _startHideTimer();
     }
 

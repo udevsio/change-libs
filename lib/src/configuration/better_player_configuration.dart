@@ -12,8 +12,6 @@ import 'better_player_event.dart';
 ///Master configuration which contains children that configure specific part
 ///of player.
 class BetterPlayerConfiguration {
-  /// Play the video as soon as it's displayed
-  final bool autoPlay;
 
   /// Whether or not the video should loop
   final bool looping;
@@ -106,7 +104,6 @@ class BetterPlayerConfiguration {
 
   const BetterPlayerConfiguration({
     this.aspectRatio,
-    this.autoPlay = false,
     this.looping = false,
     this.fullScreenByDefault = false,
     this.placeholder,
@@ -169,7 +166,6 @@ class BetterPlayerConfiguration {
   }) {
     return BetterPlayerConfiguration(
       aspectRatio: aspectRatio ?? this.aspectRatio,
-      autoPlay: autoPlay ?? this.autoPlay,
       looping: looping ?? this.looping,
       fullScreenByDefault: fullScreenByDefault ?? this.fullScreenByDefault,
       placeholder: placeholder ?? this.placeholder,

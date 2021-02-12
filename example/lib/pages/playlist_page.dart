@@ -61,7 +61,6 @@ class _PlaylistPageState extends State<PlaylistPage> {
                 child: BetterPlayerPlaylist(
                   key: _betterPlayerPlaylistStateKey,
                   betterPlayerConfiguration: BetterPlayerConfiguration(
-                      autoPlay: true,
                       aspectRatio: 1,
                       fit: BoxFit.cover,
                       subtitlesConfiguration:

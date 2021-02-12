@@ -20,7 +20,7 @@ class _VideoListWidgetState extends State<VideoListWidget> {
   void initState() {
     super.initState();
     controller = BetterPlayerListVideoPlayerController();
-    betterPlayerConfiguration = BetterPlayerConfiguration(autoPlay: true);
+    betterPlayerConfiguration = BetterPlayerConfiguration();
   }
 
   @override
@@ -47,6 +47,7 @@ class _VideoListWidgetState extends State<VideoListWidget> {
                 BetterPlayerDataSource(
                   BetterPlayerDataSourceType.network,
                   videoListData.videoUrl,
+                  autoPlay: false,
                   notificationConfiguration:
                       BetterPlayerNotificationConfiguration(
                           showNotification: true,
@@ -54,7 +55,6 @@ class _VideoListWidgetState extends State<VideoListWidget> {
                           author: "Test"),
                 ),
                 configuration: BetterPlayerConfiguration(
-                  autoPlay: false,
                   aspectRatio: 1,
                   fit: BoxFit.cover,
                 ),

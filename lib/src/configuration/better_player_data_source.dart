@@ -21,6 +21,9 @@ class BetterPlayerDataSource {
 
   final bool isSerial;
 
+  /// Play the video as soon as it's displayed
+  final bool autoPlay;
+
   final bool isMiniVideo;
 
   ///Subtitles configuration
@@ -71,6 +74,7 @@ class BetterPlayerDataSource {
     this.url, {
     this.bytes,
     this.subtitles,
+    this.autoPlay = false,
     this.liveStream = false,
     this.headers,
     this.startAt = Duration.zero,
@@ -196,6 +200,7 @@ class BetterPlayerDataSource {
       liveStream: liveStream ?? this.liveStream,
       headers: headers ?? this.headers,
       startAt: startAt ?? this.startAt,
+      autoPlay: autoPlay ?? this.autoPlay,
       isMiniVideo: isMiniVideo ?? this.isMiniVideo,
       useHlsSubtitles: useHlsSubtitles ?? this.useHlsSubtitles,
       useHlsTracks: useHlsTracks ?? this.useHlsTracks,
