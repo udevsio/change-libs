@@ -850,7 +850,7 @@ class BetterPlayerController extends ChangeNotifier {
   Future retryDataSource() async {
     await _setupDataSource(_betterPlayerDataSource);
     if (_videoPlayerValueOnError != null) {
-      final position = _videoPlayerValueOnError.position;
+      final position = videoPlayerController.value.position;
       await seekTo(position);
       await play();
       _videoPlayerValueOnError = null;
