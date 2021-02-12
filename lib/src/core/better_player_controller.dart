@@ -675,13 +675,13 @@ class BetterPlayerController extends ChangeNotifier {
   }
 
   ///Set different resolution (quality) for video
-  void setResolution(String url) async {
+  void setResolution(String url, String quality) async {
     assert(url != null, "Url can't be null");
     final position = await videoPlayerController.position;
     final wasPlayingBeforeChange = isPlaying();
     cancelFullScreenDismiss = true;
     videoPlayerController.pause();
-    await setupDataSource(betterPlayerDataSource.copyWith(url: url));
+    await setupDataSource(betterPlayerDataSource.copyWith(url: url, quality: quality));
     videoPlayerController.seekTo(position);
     if (wasPlayingBeforeChange) {
       videoPlayerController.play();
@@ -894,5 +894,9 @@ class BetterPlayerController extends ChangeNotifier {
       _tempFiles?.forEach((file) => file.delete());
       super.dispose();
     }
+  }
+
+  void setQuality(String name) {
+
   }
 }

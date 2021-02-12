@@ -383,7 +383,7 @@ abstract class BetterPlayerControlsState<T extends StatefulWidget> extends State
     return BetterPlayerMaterialClickableWidget(
       onTap: () {
         Navigator.of(context).pop();
-        betterPlayerController.setResolution(url);
+        betterPlayerController.setResolution(url, name);
       },
       child: ListTile(
         title: Text(
