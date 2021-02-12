@@ -175,7 +175,7 @@ class _BetterPlayerMaterialControlsState extends BetterPlayerControlsState<Bette
       duration: _controlsConfiguration.controlsHideTime,
       onEnd: _onPlayerHide,
       child: Container(
-        height: _controlsConfiguration.controlBarHeight,
+        height: _betterPlayerController.isFullScreen? _controlsConfiguration.controlBarHeight + 8 :_controlsConfiguration.controlBarHeight,
         // color: _controlsConfiguration.controlBarColor,
         child: Column(
           children: [
@@ -439,7 +439,10 @@ class _BetterPlayerMaterialControlsState extends BetterPlayerControlsState<Bette
       onTap: () {
         onShowMoreClicked(_controlsConfiguration.bottomSheet, _controlsConfiguration.textColor);
       },
-      child: _controlsConfiguration.setting,
+      child: SizedBox(
+          width: getIconSize(24),
+          height: getIconSize(24),
+          child: _controlsConfiguration.setting),
     );
   }
 
