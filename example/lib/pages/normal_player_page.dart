@@ -82,6 +82,7 @@ class _NormalPlayerPageState extends State<NormalPlayerPage> {
 
   @override
   Widget build(BuildContext context) {
+    _betterPlayerController.changeOfflineMode(true);
     return Scaffold(
       appBar: AppBar(
         title: Text("Normal player"),

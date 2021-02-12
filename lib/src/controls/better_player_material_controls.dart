@@ -65,10 +65,17 @@ class _BetterPlayerMaterialControlsState extends BetterPlayerControlsState<Bette
   Widget build(BuildContext context) {
     _wasLoading = isLoading(_latestValue);
     if (_latestValue?.hasError == true) {
-      return Container(
-        color: Colors.black26,
-        margin: EdgeInsets.only(top: 48),
-        child: _buildErrorWidget(),
+      _hideStuff = false;
+      return Stack(
+        children: [
+          Container(
+            color: Colors.black26,
+            child: _buildErrorWidget(),
+          ),
+          Align(
+            alignment: Alignment.bottomCenter,
+              child: _buildBottomBar()),
+        ],
       );
     }
     return MouseRegion(
@@ -91,7 +98,7 @@ class _BetterPlayerMaterialControlsState extends BetterPlayerControlsState<Bette
           absorbing: _hideStuff,
           child: Column(
             children: [
-              if (_wasLoading) Expanded(child: Container(margin: EdgeInsets.only(top: 48), child: Center(child: _buildLoadingWidget()))) else _buildHitArea(),
+              _wasLoading? Expanded(child: Container(margin: EdgeInsets.only(top: 48), child: Center(child: _buildLoadingWidget()))) : _buildHitArea(),
               _buildBottomBar(),
             ],
           ),
@@ -158,7 +165,7 @@ class _BetterPlayerMaterialControlsState extends BetterPlayerControlsState<Bette
                     _betterPlayerController.translations.generalRetry,
                     style: textStyle.copyWith(fontWeight: FontWeight.bold),
                   ),
-                )
+                ),
             ],
           ),
         ),
@@ -247,50 +254,50 @@ class _BetterPlayerMaterialControlsState extends BetterPlayerControlsState<Bette
           duration: _controlsConfiguration.controlsHideTime,
           child: Stack(
             children: [
-           Positioned.fill(
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: <Widget>[
-                Expanded(
-                  child: GestureDetector(
-                      behavior: HitTestBehavior.opaque,
-                      onDoubleTap: () {
-                        skipBack();
-                      },
-                      onTap: () {
-                        _hideStuff
-                            ? cancelAndRestartTimer()
-                            : setState(() {
-                          _hideStuff = true;
-                        });
-                      },
-                      child: SizedBox(
-                        width: double.infinity,
-                        height: double.infinity,
-                      )),
-                ),
-                Expanded(
-                  child: GestureDetector(
-                    behavior: HitTestBehavior.opaque,
-                    onDoubleTap: () {
-                      skipForward();
-                    },
-                    onTap: () {
-                      _hideStuff
-                          ? cancelAndRestartTimer()
-                          : setState(() {
-                        _hideStuff = true;
-                      });
-                    },
-                    child: SizedBox(
-                      width: double.infinity,
-                      height: double.infinity,
+              Positioned.fill(
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: <Widget>[
+                    Expanded(
+                      child: GestureDetector(
+                          behavior: HitTestBehavior.opaque,
+                          onDoubleTap: () {
+                            skipBack();
+                          },
+                          onTap: () {
+                            _hideStuff
+                                ? cancelAndRestartTimer()
+                                : setState(() {
+                                    _hideStuff = true;
+                                  });
+                          },
+                          child: SizedBox(
+                            width: double.infinity,
+                            height: double.infinity,
+                          )),
                     ),
-                  ),
-                )
-              ],
-            ),
-          ),
+                    Expanded(
+                      child: GestureDetector(
+                        behavior: HitTestBehavior.opaque,
+                        onDoubleTap: () {
+                          skipForward();
+                        },
+                        onTap: () {
+                          _hideStuff
+                              ? cancelAndRestartTimer()
+                              : setState(() {
+                                  _hideStuff = true;
+                                });
+                        },
+                        child: SizedBox(
+                          width: double.infinity,
+                          height: double.infinity,
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+              ),
               Visibility(
                 visible: _betterPlayerController.betterPlayerDataSource.isMiniVideo,
                 child: Positioned(
@@ -563,7 +570,6 @@ class _BetterPlayerMaterialControlsState extends BetterPlayerControlsState<Bette
   void _onExpandCollapse() {
     setState(() {
       _hideStuff = true;
-
       _betterPlayerController.toggleFullScreen();
       _showAfterExpandCollapseTimer = Timer(_controlsConfiguration.controlsHideTime, () {
         setState(() {
@@ -582,7 +588,7 @@ class _BetterPlayerMaterialControlsState extends BetterPlayerControlsState<Bette
       _controlsConfiguration.onVideoEnd();
     }
 
-    if (position != null && position.inSeconds != 0 && position.inSeconds % 30 == 0) {
+    if (!_betterPlayerController.isOffline && position != null && position.inSeconds != 0 && position.inSeconds % 30 == 0) {
       _controlsConfiguration.track(position.inSeconds);
     }
 

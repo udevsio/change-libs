@@ -59,8 +59,14 @@ class BetterPlayerController extends ChangeNotifier {
   ///Flag used to store full screen mode state.
   bool _isFullScreen = false;
 
+  ///Flag used to store is offline mode state.
+  bool _isOffline = false;
+
   ///Flag used to store full screen mode state.
   bool get isFullScreen => _isFullScreen;
+
+  ///Flag used to store is offline mode state.
+  bool get isOffline => _isOffline;
 
   ///Time when last progress event was sent
   int _lastPositionSelection = 0;
@@ -412,6 +418,12 @@ class BetterPlayerController extends ChangeNotifier {
   ///Enables full screen mode in player. This will trigger route change.
   void enterFullScreen() {
     _isFullScreen = true;
+    notifyListeners();
+  }
+
+  ///Enables full screen mode in player. This will trigger route change.
+  void changeOfflineMode(bool b) {
+    _isOffline = b;
     notifyListeners();
   }
 
