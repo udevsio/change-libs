@@ -99,6 +99,8 @@ class BetterPlayerControlsConfiguration {
   ///Control bar height
   final double controlBarHeight;
 
+  final double iconTime;
+
   ///Live text color;
   final Color liveTextColor;
 
@@ -202,6 +204,7 @@ class BetterPlayerControlsConfiguration {
     this.skipForwardIcon = Icons.fast_forward,
     this.enableFullscreen = true,
     this.enableMute = true,
+    this.iconTime = 1.5,
     this.onVideoEnd,
     this.closeMiniVideo,
     this.track,
@@ -271,5 +274,4 @@ class BetterPlayerControlsConfiguration {
         pauseIcon: CupertinoIcons.pause_solid,
         enableProgressText: true);
   }
-
 }

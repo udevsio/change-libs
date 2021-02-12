@@ -665,6 +665,6 @@ class _BetterPlayerMaterialControlsState extends BetterPlayerControlsState<Bette
   }
 
   double getIconSize(double height){
-    return _betterPlayerController.isFullScreen? 1.5 * height: height;
+    return _betterPlayerController.isFullScreen? _controlsConfiguration.iconTime * height: height;
   }
 }
