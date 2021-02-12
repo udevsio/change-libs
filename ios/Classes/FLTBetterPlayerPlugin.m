@@ -373,12 +373,39 @@ static inline CGFloat radiansToDegrees(CGFloat radians) {
 
 - (NSTimeInterval) availableDuration
 {
-    NSArray *loadedTimeRanges = [[_player currentItem] loadedTimeRanges];
-    CMTimeRange timeRange = [[loadedTimeRanges objectAtIndex:0] CMTimeRangeValue];
-    Float64 startSeconds = CMTimeGetSeconds(timeRange.start);
-    Float64 durationSeconds = CMTimeGetSeconds(timeRange.duration);
-    NSTimeInterval result = startSeconds + durationSeconds;
-    return result;
+    //  use loadedTimeRanges to compute playableDuration.
+    
+    AVPlayerItem *item = _player.currentItem;
+
+    if (item.status == AVPlayerItemStatusReadyToPlay) {
+        
+        NSArray *timeRangeArray = item.loadedTimeRanges;
+
+        NSLog(@"##########");
+        
+        CMTimeRange aTimeRange = [[timeRangeArray firstObject] CMTimeRangeValue];
+
+        double startTime = CMTimeGetSeconds(aTimeRange.start);
+        double loadedDuration = CMTimeGetSeconds(aTimeRange.duration);
+
+        // FIXME: shoule we sum up all sections to have a total playable duration,
+        // or we just use first section as whole?
+
+        NSLog(@"get time range, its start is %f seconds, its duration is %f seconds.", startTime, loadedDuration);
+
+
+        return (NSTimeInterval)(startTime + loadedDuration);
+    }
+    else
+    {
+        return(CMTimeGetSeconds(kCMTimeInvalid));
+    }
+//    NSArray *loadedTimeRanges = [[_player currentItem] loadedTimeRanges];
+//    CMTimeRange timeRange = [[loadedTimeRanges objectAtIndex:0] CMTimeRangeValue];
+//    Float64 startSeconds = CMTimeGetSeconds(timeRange.start);
+//    Float64 durationSeconds = CMTimeGetSeconds(timeRange.duration);
+//    NSTimeInterval result = startSeconds + durationSeconds;
+//    return result;
 }
 
 - (void)observeValueForKeyPath:(NSString*)path
