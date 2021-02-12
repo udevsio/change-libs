@@ -300,12 +300,23 @@ class _BetterPlayerMaterialControlsState extends BetterPlayerControlsState<Bette
       padding: const EdgeInsets.symmetric(horizontal: 16),
       child: Center(
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             _buildSkipButton(),
+            SizedBox(
+              width: 32,
+            ),
             _buildPrevButton(),
+            SizedBox(
+              width: 32,
+            ),
             _buildCenterButton(),
+            SizedBox(
+              width: 32,
+            ),
             _buildNextButton(),
+            SizedBox(
+              width: 32,
+            ),
             _buildForwardButton(),
           ],
         ),
