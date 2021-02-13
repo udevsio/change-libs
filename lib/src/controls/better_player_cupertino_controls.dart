@@ -355,11 +355,11 @@ class _BetterPlayerCupertinoControlsState
                             skipBack();
                           },
                           onTap: () {
-                            _hideStuff
-                                ? cancelAndRestartTimer()
-                                : setState(() {
-                                    _hideStuff = true;
-                                  });
+                            // _hideStuff
+                            //     ? cancelAndRestartTimer()
+                            //     : setState(() {
+                            //         _hideStuff = true;
+                            //       });
                           },
                           child: SizedBox(
                             width: double.infinity,
@@ -373,11 +373,11 @@ class _BetterPlayerCupertinoControlsState
                           skipForward();
                         },
                         onTap: () {
-                          _hideStuff
-                              ? cancelAndRestartTimer()
-                              : setState(() {
-                                  _hideStuff = true;
-                                });
+                          // _hideStuff
+                          //     ? cancelAndRestartTimer()
+                          //     : setState(() {
+                          //         _hideStuff = true;
+                          //       });
                         },
                         child: SizedBox(
                           width: double.infinity,
@@ -411,6 +411,35 @@ class _BetterPlayerCupertinoControlsState
       ),
     );
   }
+
+  // Expanded _buildHitArea() {
+  //   return Expanded(
+  //     child: GestureDetector(
+  //       onTap: _latestValue != null && _latestValue.isPlaying
+  //           ? () {
+  //               if (_hideStuff == true) {
+  //                 cancelAndRestartTimer();
+  //               } else {
+  //                 _hideTimer?.cancel();
+  //
+  //                 setState(() {
+  //                   _hideStuff = true;
+  //                 });
+  //               }
+  //             }
+  //           : () {
+  //               _hideTimer?.cancel();
+  //
+  //               setState(() {
+  //                 _hideStuff = false;
+  //               });
+  //             },
+  //       child: Container(
+  //         color: Colors.transparent,
+  //       ),
+  //     ),
+  //   );
+  // }
 
   Widget _buildMiddleRow() {
     return Container(
@@ -784,8 +813,8 @@ class _BetterPlayerCupertinoControlsState
     return Expanded(
       child: Padding(
         padding: const EdgeInsets.only(
-          right: 16,
-          left: 16,
+          right: 12,
+          left: 12,
         ),
         child: BetterPlayerMaterialVideoProgressBar(
           _controller,
