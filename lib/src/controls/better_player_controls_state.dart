@@ -74,7 +74,7 @@ abstract class BetterPlayerControlsState<T extends StatefulWidget> extends State
               child: Text(
                 translations.setting,
                 textAlign: TextAlign.start,
-                style: TextStyle(fontSize: 20, color: Colors.white, fontWeight: FontWeight.w700),
+                style: TextStyle(fontSize: 20, color: textColor, fontWeight: FontWeight.w700),
               ),
             ),
             if (betterPlayerControlsConfiguration.enableQualities)
@@ -82,25 +82,25 @@ abstract class BetterPlayerControlsState<T extends StatefulWidget> extends State
                 Navigator.of(context).pop();
                 _showQualitiesSelectionWidget(translations.overflowMenuQuality, color, textColor);
               }, textColor),
-            Divider(height: 1, thickness: 0.5, color: Color(0x50FFFFFF)),
+            Divider(height: 1, thickness: 0.5, color: textColor.withOpacity(.5)),
             if (betterPlayerControlsConfiguration.enablePlaybackSpeed)
               _buildMoreOptionsListRow(betterPlayerControlsConfiguration.playbackSpeedIcon, translations.overflowMenuPlaybackSpeed, () {
                 Navigator.of(context).pop();
                 _showSpeedChooserWidget(translations.overflowMenuPlaybackSpeed, color, textColor);
               }, textColor),
-            // Divider(height: 1, thickness: 0.5, color: Color(0x50FFFFFF)),
+            // Divider(height: 1, thickness: 0.5, color: textColor.withOpacity(.5)),
             if (betterPlayerControlsConfiguration.enableSubtitles)
               _buildMoreOptionsListRow(betterPlayerControlsConfiguration.subtitlesIcon, translations.overflowMenuSubtitles, () {
                 Navigator.of(context).pop();
                 _showSubtitlesSelectionWidget();
               }, textColor),
-            // Divider(height: 1, thickness: 0.5, color: Color(0x50FFFFFF)),
+            // Divider(height: 1, thickness: 0.5, color: textColor.withOpacity(.5)),
             if (betterPlayerControlsConfiguration.enableAudioTracks)
               _buildMoreOptionsListRow(betterPlayerControlsConfiguration.audioTracksIcon, translations.overflowMenuAudioTracks, () {
                 Navigator.of(context).pop();
                 _showAudioTracksSelectionWidget();
               }, textColor),
-            // Divider(height: 1, thickness: 0.5, color: Color(0x50FFFFFF)),
+            // Divider(height: 1, thickness: 0.5, color: textColor.withOpacity(.5)),
             if (betterPlayerControlsConfiguration.overflowMenuCustomItems?.isNotEmpty)
               ...betterPlayerControlsConfiguration.overflowMenuCustomItems.map(
                 (customItem) => _buildMoreOptionsListRow(customItem.icon, customItem.title, () {
