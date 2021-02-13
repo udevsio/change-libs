@@ -30,4 +30,6 @@ class Constants {
   static String logo = "logo.png";
   static String placeholderUrl =
       "https://imgix.bustle.com/uploads/image/2020/8/5/23905b9c-6b8c-47fa-bc0f-434de1d7e9bf-avengers-5.jpg";
+  static String testUrl =
+      "http://voxecdn.s3.us-east-2.amazonaws.com/720p/45bd6df38c4b4879f3599eda318ee1fa/video.m3u8";
 }
