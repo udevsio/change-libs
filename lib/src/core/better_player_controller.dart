@@ -693,9 +693,7 @@ class BetterPlayerController extends ChangeNotifier {
   ///called manually.
   void setupTranslations(Locale locale) {
     if (locale != null) {
-      final String languageCode = locale.languageCode;
-      translations =
-          betterPlayerConfiguration.translations?.firstWhere((translations) => translations.languageCode == languageCode, orElse: () => null) ?? _getDefaultTranslations(locale);
+      translations =  _getDefaultTranslations(locale);
     } else {
       BetterPlayerUtils.log("Locale is null. Couldn't setup translations.");
     }
@@ -707,11 +705,11 @@ class BetterPlayerController extends ChangeNotifier {
     if (locale != null) {
       final String languageCode = locale.languageCode;
       switch (languageCode) {
-        case "pl":
-          return BetterPlayerTranslations.rus();
-        case "zh":
-          return BetterPlayerTranslations.china();
-        case "hi":
+        case "ru":
+          return BetterPlayerTranslations.ru();
+        case "kr":
+          return BetterPlayerTranslations.kr();
+        case "uz":
           return BetterPlayerTranslations.uz();
         default:
           return BetterPlayerTranslations();

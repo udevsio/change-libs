@@ -19,6 +19,7 @@ class _NormalPlayerPageState extends State<NormalPlayerPage> {
     BetterPlayerConfiguration betterPlayerConfiguration = BetterPlayerConfiguration(
         aspectRatio: 16 / 9,
         fit: BoxFit.contain,
+        translations: [],
         controlsConfiguration: BetterPlayerControlsConfiguration(
             setting: SvgPicture.asset(
               'assets/svg/settings.svg',
@@ -73,6 +74,7 @@ class _NormalPlayerPageState extends State<NormalPlayerPage> {
               'assets/svg/play_circle.svg',
               color: Colors.white,
             ),
+
             bottomSheet: Color(0xff263c44),
             textColor: Colors.white));
     BetterPlayerDataSource dataSource = BetterPlayerDataSource(BetterPlayerDataSourceType.network, "http://cdn.theoplayer.com/video/elephants-dream/playlist.m3u8",
@@ -102,7 +104,7 @@ class _NormalPlayerPageState extends State<NormalPlayerPage> {
           ),
           AspectRatio(
             aspectRatio: 16 / 9,
-            child: BetterPlayer(controller: _betterPlayerController),
+            child: BetterPlayer(controller: _betterPlayerController, locale: Locale('uz', 'UZ'),),
           ),
           ElevatedButton(
             child: Text("Play file data source"),

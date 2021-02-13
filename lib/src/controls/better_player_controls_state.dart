@@ -164,7 +164,7 @@ abstract class BetterPlayerControlsState<T extends StatefulWidget> extends State
                   margin: EdgeInsets.only(top: 64),
                   child: ListView.separated(
                       separatorBuilder: (context, index) {
-                        return Divider(height: 1, thickness: 0.5, color: Color(0x50FFFFFF));
+                        return Divider(height: 1, thickness: 0.5, color: textColor.withOpacity(.5));
                       },
                       itemCount: speed.length,
                       physics: BouncingScrollPhysics(),
@@ -187,6 +187,7 @@ abstract class BetterPlayerControlsState<T extends StatefulWidget> extends State
         Navigator.of(context).pop();
         betterPlayerController.setSpeed(value);
       },
+      radius: 0,
       child: ListTile(
         title: Text(
           "$value x",
@@ -261,6 +262,7 @@ abstract class BetterPlayerControlsState<T extends StatefulWidget> extends State
         Navigator.of(context).pop();
         betterPlayerController.setupSubtitleSource(subtitlesSource);
       },
+      radius: 0,
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 8),
         child: Row(
@@ -331,7 +333,7 @@ abstract class BetterPlayerControlsState<T extends StatefulWidget> extends State
                   margin: EdgeInsets.only(top: 64),
                   child: ListView.separated(
                     separatorBuilder: (context, index) {
-                      return Divider(height: 1, thickness: 0.5, color: Color(0x50FFFFFF));
+                      return Divider(height: 1, thickness: 0.5, color: textColor.withOpacity(.5));
                     },
                     physics: BouncingScrollPhysics(),
                     itemCount: children.length,
@@ -360,6 +362,7 @@ abstract class BetterPlayerControlsState<T extends StatefulWidget> extends State
         Navigator.of(context).pop();
         betterPlayerController.setTrack(track);
       },
+      radius: 0,
       child: ListTile(
         title: Text(
           trackName,
@@ -385,6 +388,7 @@ abstract class BetterPlayerControlsState<T extends StatefulWidget> extends State
         Navigator.of(context).pop();
         betterPlayerController.setResolution(url, name);
       },
+      radius: 0,
       child: ListTile(
         title: Text(
           name,
@@ -398,7 +402,7 @@ abstract class BetterPlayerControlsState<T extends StatefulWidget> extends State
             visible: isSelected,
             child: Icon(
               Icons.done,
-              color: Colors.white,
+              color: textColor,
             )),
       ),
     );

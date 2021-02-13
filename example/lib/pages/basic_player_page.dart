@@ -41,7 +41,7 @@ class _BasicPlayerPageState extends State<BasicPlayerPage> {
             future: Utils.getFileUrl(Constants.fileTestVideoUrl),
             builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
               if (snapshot.data != null) {
-                return BetterPlayer.file(snapshot.data);
+                return BetterPlayer.file(snapshot.data, locale: Locale('uz', 'UZ'),);
               } else {
                 return const SizedBox();
               }
