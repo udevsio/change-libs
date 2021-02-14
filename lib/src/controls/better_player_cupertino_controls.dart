@@ -167,7 +167,7 @@ class _BetterPlayerCupertinoControlsState
 
       debugPrint('ERROR: ${_latestValue.errorDescription}');
       return Container(
-        color: Colors.black,
+        color: Colors.transparent,
         child: _buildErrorWidget(),
       );
     }
