@@ -81,7 +81,7 @@ class _NormalPlayerPageState extends State<NormalPlayerPage> {
                 textColor: Colors.white));
     BetterPlayerDataSource dataSource = BetterPlayerDataSource(
       BetterPlayerDataSourceType.network,
-      "http://cdn.theoplayer.com/video/elephants-dream/playlist.m3u8",
+      Constants.hlsTestStreamUrl,
       cacheConfiguration: getCacheConfiguration(),
       isMiniVideo: true,
       isSerial: true,
