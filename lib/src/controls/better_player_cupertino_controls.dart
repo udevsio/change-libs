@@ -147,6 +147,25 @@ class _BetterPlayerCupertinoControlsState
     //   );
     // }
     if (_latestValue?.hasError == true) {
+      // if (_controlsConfiguration.enableRetry) {
+      //   _betterPlayerController.retryDataSource();
+      // }
+      // debugPrint('ERROR: ${_latestValue.errorDescription}');
+      //
+      // return Center(
+      //   child: Expanded(
+      //     child: Container(
+      //       margin: EdgeInsets.only(top: 48),
+      //       child: CircularProgressIndicator(
+      //         valueColor: AlwaysStoppedAnimation<Color>(
+      //             _controlsConfiguration.loadingColor ??
+      //                 _controlsConfiguration.controlBarColor),
+      //       ),
+      //     ),
+      //   ),
+      // );
+
+      debugPrint('ERROR: ${_latestValue.errorDescription}');
       return Container(
         color: Colors.black,
         child: _buildErrorWidget(),
@@ -164,10 +183,10 @@ class _BetterPlayerCupertinoControlsState
                   _hideStuff = true;
                 });
         },
-        onDoubleTap: () {
-          cancelAndRestartTimer();
-          _onPlayPause();
-        },
+        // onDoubleTap: () {
+        //   cancelAndRestartTimer();
+        //   _onPlayPause();
+        // },
         child: AbsorbPointer(
           absorbing: _hideStuff,
           child: Column(
@@ -175,8 +194,12 @@ class _BetterPlayerCupertinoControlsState
               _wasLoading
                   ? Expanded(
                       child: Container(
-                          margin: EdgeInsets.only(top: 48),
-                          child: Center(child: _buildLoadingWidget())))
+                        margin: EdgeInsets.only(top: 48),
+                        child: Center(
+                          child: _buildLoadingWidget(),
+                        ),
+                      ),
+                    )
                   : _buildHitArea(),
               _buildBottomBar(),
             ],
@@ -224,30 +247,40 @@ class _BetterPlayerCupertinoControlsState
           _betterPlayerController.videoPlayerController.value.errorDescription);
     } else {
       final textStyle = TextStyle(color: _controlsConfiguration.textColor);
-      return Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Icon(
-            Icons.warning_amber_outlined,
-            color: _controlsConfiguration.iconsColor,
-            size: getIconSize(32),
-          ),
-          Text(
-            _betterPlayerController.translations.generalDefaultError,
-            style: textStyle,
-          ),
-          if (_controlsConfiguration.enableRetry)
-            FlatButton(
-              onPressed: () {
-                _betterPlayerController.retryDataSource();
-              },
-              child: Text(
-                _betterPlayerController.translations.generalRetry,
-                style: textStyle.copyWith(fontWeight: FontWeight.bold),
-              ),
-            ),
-        ],
+      return BetterPlayerMaterialClickableWidget(
+        child: Icon(
+          Icons.replay,
+          size: getIconSize(40),
+          color: _controlsConfiguration.iconsColor,
+        ),
+        onTap: () {
+          _betterPlayerController.retryDataSource();
+        },
       );
+      // return Column(
+      //   mainAxisAlignment: MainAxisAlignment.center,
+      //   children: [
+      //     Icon(
+      //       Icons.warning_amber_outlined,
+      //       color: _controlsConfiguration.iconsColor,
+      //       size: getIconSize(32),
+      //     ),
+      //     Text(
+      //       _betterPlayerController.translations.generalDefaultError,
+      //       style: textStyle,
+      //     ),
+      //     if (_controlsConfiguration.enableRetry)
+      //       FlatButton(
+      //         onPressed: () {
+      //           _betterPlayerController.retryDataSource();
+      //         },
+      //         child: Text(
+      //           _betterPlayerController.translations.generalRetry,
+      //           style: textStyle.copyWith(fontWeight: FontWeight.bold),
+      //         ),
+      //       ),
+      //   ],
+      // );
     }
   }
 
@@ -357,11 +390,11 @@ class _BetterPlayerCupertinoControlsState
                             skipBack();
                           },
                           onTap: () {
-                            // _hideStuff
-                            //     ? cancelAndRestartTimer()
-                            //     : setState(() {
-                            //         _hideStuff = true;
-                            //       });
+                            _hideStuff
+                                ? cancelAndRestartTimer()
+                                : setState(() {
+                                    _hideStuff = true;
+                                  });
                           },
                           child: SizedBox(
                             width: double.infinity,
@@ -375,11 +408,11 @@ class _BetterPlayerCupertinoControlsState
                           skipForward();
                         },
                         onTap: () {
-                          // _hideStuff
-                          //     ? cancelAndRestartTimer()
-                          //     : setState(() {
-                          //         _hideStuff = true;
-                          //       });
+                          _hideStuff
+                              ? cancelAndRestartTimer()
+                              : setState(() {
+                                  _hideStuff = true;
+                                });
                         },
                         child: SizedBox(
                           width: double.infinity,
@@ -501,7 +534,11 @@ class _BetterPlayerCupertinoControlsState
         size: getIconSize(32),
         color: _controlsConfiguration.iconsColor,
       ),
-      onTap: skipBack,
+      onTap: () {
+        skipBack();
+        // _betterPlayerController.play();
+      },
+      // onDoubleTap: skipBack,
     );
   }
 
@@ -538,7 +575,11 @@ class _BetterPlayerCupertinoControlsState
         size: getIconSize(32),
         color: _controlsConfiguration.iconsColor,
       ),
-      onTap: skipForward,
+      onTap: () {
+        skipForward();
+        // _betterPlayerController.play();
+      },
+      // onDoubleTap: skipForward,
     );
   }
 
@@ -888,6 +929,6 @@ class _BetterPlayerCupertinoControlsState
   }
 
   double getPaddingSize() {
-    return _betterPlayerController.isFullScreen ? 16.0 : 0.0;
+    return _betterPlayerController.isFullScreen ? 32.0 : 0.0;
   }
 }
