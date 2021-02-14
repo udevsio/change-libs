@@ -15,6 +15,7 @@ import 'package:better_player/src/video_player/video_player.dart';
 // Flutter imports:
 import 'package:flutter/material.dart';
 import 'better_player_clickable_widget.dart';
+import 'better_player_cupertino_progress_bar.dart';
 
 class BetterPlayerCupertinoControls extends StatefulWidget {
   ///Callback used to send information if player bar is hidden or not
@@ -217,6 +218,7 @@ class _BetterPlayerCupertinoControlsState
   Widget _buildErrorWidget() {
     final errorBuilder =
         _betterPlayerController.betterPlayerConfiguration.errorBuilder;
+    debugPrint('TTT: Videoplayer error iOS: \n$errorBuilder');
     if (errorBuilder != null) {
       return errorBuilder(context,
           _betterPlayerController.videoPlayerController.value.errorDescription);
@@ -809,14 +811,40 @@ class _BetterPlayerCupertinoControlsState
     }
   }
 
+  // Widget _buildProgressBar() {
+  //   return Expanded(
+  //     child: Padding(
+  //       padding: const EdgeInsets.only(
+  //         right: 12,
+  //         left: 12,
+  //       ),
+  //       child: BetterPlayerMaterialVideoProgressBar(
+  //         _controller,
+  //         _betterPlayerController,
+  //         onDragStart: () {
+  //           _hideTimer?.cancel();
+  //         },
+  //         onDragEnd: () {
+  //           _startHideTimer();
+  //         },
+  //         colors: BetterPlayerProgressColors(
+  //             playedColor: _controlsConfiguration.progressBarPlayedColor,
+  //             handleColor: _controlsConfiguration.progressBarHandleColor,
+  //             bufferedColor: _controlsConfiguration.progressBarBufferedColor,
+  //             backgroundColor:
+  //                 _controlsConfiguration.progressBarBackgroundColor),
+  //       ),
+  //     ),
+  //   );
+  // }
   Widget _buildProgressBar() {
     return Expanded(
       child: Padding(
         padding: const EdgeInsets.only(
-          right: 12,
-          left: 12,
+          right: 12.0,
+          left: 12.0,
         ),
-        child: BetterPlayerMaterialVideoProgressBar(
+        child: BetterPlayerCupertinoVideoProgressBar(
           _controller,
           _betterPlayerController,
           onDragStart: () {

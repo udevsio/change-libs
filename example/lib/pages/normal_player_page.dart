@@ -85,7 +85,7 @@ class _NormalPlayerPageState extends State<NormalPlayerPage> {
       cacheConfiguration: getCacheConfiguration(),
       isMiniVideo: true,
       isSerial: true,
-      startAt: Duration(seconds: 35),
+      // startAt: Duration(seconds: 35),
       autoPlay: true,
     );
     _betterPlayerController = BetterPlayerController(betterPlayerConfiguration);
@@ -137,6 +137,6 @@ class _NormalPlayerPageState extends State<NormalPlayerPage> {
             useCache: true,
             maxCacheFileSize: 8096 * 8096 * 8096,
             maxCacheSize: 8096 * 8096 * 8096)
-        : BetterPlayerCacheConfiguration(useCache: true);
+        : BetterPlayerCacheConfiguration(useCache: false);
   }
 }
