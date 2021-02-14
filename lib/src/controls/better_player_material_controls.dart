@@ -79,9 +79,9 @@ class _BetterPlayerMaterialControlsState extends BetterPlayerControlsState<Bette
                       behavior: HitTestBehavior.opaque,
                       onDoubleTap: () {
                         _betterPlayerController.setupDataSource(betterPlayerController.betterPlayerDataSource.copyWith(
-                          startAt: Duration(seconds: _betterPlayerController.videoPlayerController.value.position.inSeconds - 10
-                        )));
-                        },
+                            startAt: Duration(seconds: _betterPlayerController.videoPlayerController.value.position.inSeconds - 10
+                            )));
+                      },
                       onTap: () {
                         _hideStuff
                             ? cancelAndRestartTimer()
@@ -124,7 +124,7 @@ class _BetterPlayerMaterialControlsState extends BetterPlayerControlsState<Bette
               child: _buildErrorWidget(),
             ),
             Align(
-              alignment: Alignment.bottomCenter,
+                alignment: Alignment.bottomCenter,
                 child: _buildBottomBar()),
           ],
         ),
@@ -139,8 +139,8 @@ class _BetterPlayerMaterialControlsState extends BetterPlayerControlsState<Bette
           _hideStuff
               ? cancelAndRestartTimer()
               : setState(() {
-                  _hideStuff = true;
-                });
+            _hideStuff = true;
+          });
         },
         onDoubleTap: () {
           cancelAndRestartTimer();
@@ -150,7 +150,7 @@ class _BetterPlayerMaterialControlsState extends BetterPlayerControlsState<Bette
           absorbing: _hideStuff,
           child: Column(
             children: [
-              _wasLoading? Expanded(child: Container(child: Center(child: _buildLoadingWidget()))) : _buildHitArea(),
+              _wasLoading? Expanded(child: _buildLoadingWidget()) : _buildHitArea(),
               _buildBottomBar(),
             ],
           ),
@@ -204,6 +204,7 @@ class _BetterPlayerMaterialControlsState extends BetterPlayerControlsState<Bette
           ),
           Text(
             _betterPlayerController.translations.generalDefaultError,
+            textAlign: TextAlign.center,
             style: textStyle,
           ),
           if (_controlsConfiguration.enableRetry)
@@ -213,7 +214,7 @@ class _BetterPlayerMaterialControlsState extends BetterPlayerControlsState<Bette
               },
               child: Text(
                 _betterPlayerController.translations.generalRetry,
-                style: textStyle.copyWith(fontWeight: FontWeight.bold),
+                style: textStyle.copyWith(fontWeight: FontWeight.bold, color: _controlsConfiguration.progressBarPlayedColor),
               ),
             ),
         ],
@@ -230,7 +231,7 @@ class _BetterPlayerMaterialControlsState extends BetterPlayerControlsState<Bette
       duration: _controlsConfiguration.controlsHideTime,
       onEnd: _onPlayerHide,
       child: Container(
-        height: _betterPlayerController.isFullScreen ? _controlsConfiguration.controlBarHeight + 8 : _controlsConfiguration.controlBarHeight,
+        height: _betterPlayerController.isFullScreen ? _controlsConfiguration.controlBarHeight + 16 : _controlsConfiguration.controlBarHeight,
         // color: _controlsConfiguration.controlBarColor,
         child: Column(
           children: [
@@ -316,8 +317,8 @@ class _BetterPlayerMaterialControlsState extends BetterPlayerControlsState<Bette
                             _hideStuff
                                 ? cancelAndRestartTimer()
                                 : setState(() {
-                                    _hideStuff = true;
-                                  });
+                              _hideStuff = true;
+                            });
                           },
                           child: SizedBox(
                             width: double.infinity,
@@ -334,8 +335,8 @@ class _BetterPlayerMaterialControlsState extends BetterPlayerControlsState<Bette
                           _hideStuff
                               ? cancelAndRestartTimer()
                               : setState(() {
-                                  _hideStuff = true;
-                                });
+                            _hideStuff = true;
+                          });
                         },
                         child: SizedBox(
                           width: double.infinity,
@@ -535,8 +536,8 @@ class _BetterPlayerMaterialControlsState extends BetterPlayerControlsState<Bette
   }
 
   Widget _buildMuteButton(
-    VideoPlayerController controller,
-  ) {
+      VideoPlayerController controller,
+      ) {
     return BetterPlayerMaterialClickableWidget(
       onTap: () {
         cancelAndRestartTimer();
@@ -684,7 +685,7 @@ class _BetterPlayerMaterialControlsState extends BetterPlayerControlsState<Bette
     if (_betterPlayerController.controlsAlwaysVisible) {
       return;
     }
-    _hideTimer = Timer(const Duration(seconds: 3), () {
+    _hideTimer = Timer(const Duration(seconds: 5), () {
       setState(() {
         _hideStuff = true;
       });
@@ -737,8 +738,64 @@ class _BetterPlayerMaterialControlsState extends BetterPlayerControlsState<Bette
       return _controlsConfiguration.loadingWidget;
     }
 
-    return CircularProgressIndicator(
-      valueColor: AlwaysStoppedAnimation<Color>(_controlsConfiguration.loadingColor ?? _controlsConfiguration.controlBarColor),
+    return Stack(
+      children: [
+        Positioned.fill(
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: <Widget>[
+              Expanded(
+                child: GestureDetector(
+                  behavior: HitTestBehavior.opaque,
+                  onDoubleTap: () {
+                    _betterPlayerController.setupDataSource(betterPlayerController.betterPlayerDataSource.copyWith(
+                        startAt: Duration(seconds: _betterPlayerController.videoPlayerController.value.position.inSeconds - 10
+                        )));
+                  },
+                  onTap: () {
+                    _hideStuff
+                        ? cancelAndRestartTimer()
+                        : setState(() {
+                      _hideStuff = true;
+                    });
+                  },
+                  child: SizedBox(
+                    width: double.infinity,
+                    height: double.infinity,
+                  ),
+                ),
+              ),
+              Expanded(
+                child: GestureDetector(
+                  behavior: HitTestBehavior.opaque,
+                  onDoubleTap: () {
+                    _betterPlayerController.setupDataSource(betterPlayerController.betterPlayerDataSource.copyWith(
+                        startAt: Duration(seconds: _betterPlayerController.videoPlayerController.value.position.inSeconds + 10
+                        )));
+                  },
+                  onTap: () {
+                    _hideStuff
+                        ? cancelAndRestartTimer()
+                        : setState(() {
+                      _hideStuff = true;
+                    });
+                  },
+                  child: SizedBox(
+                    width: double.infinity,
+                    height: double.infinity,
+                  ),
+                ),
+              )
+            ],
+          ),
+        ),
+        Align(
+          alignment: Alignment.center,
+          child: CircularProgressIndicator(
+            valueColor: AlwaysStoppedAnimation<Color>(_controlsConfiguration.loadingColor ?? _controlsConfiguration.controlBarColor),
+          ),
+        ),
+      ],
     );
   }
 
