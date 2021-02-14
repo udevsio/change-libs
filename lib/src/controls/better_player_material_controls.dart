@@ -150,7 +150,7 @@ class _BetterPlayerMaterialControlsState extends BetterPlayerControlsState<Bette
           absorbing: _hideStuff,
           child: Column(
             children: [
-              _wasLoading? Expanded(child: Container(margin: EdgeInsets.only(top: 48), child: Center(child: _buildLoadingWidget()))) : _buildHitArea(),
+              _wasLoading? Expanded(child: Container(child: Center(child: _buildLoadingWidget()))) : _buildHitArea(),
               _buildBottomBar(),
             ],
           ),
