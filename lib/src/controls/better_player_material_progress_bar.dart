@@ -121,7 +121,7 @@ class _VideoProgressBarState
         if (!controller.value.initialized || !enableProgressBarDrag) {
           return;
         }
-        seekToRelativePosition(details.globalPosition);
+        // seekToRelativePosition(details.globalPosition);
       },
       child: Center(
         child: Container(

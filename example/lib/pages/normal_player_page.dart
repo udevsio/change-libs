@@ -56,6 +56,8 @@ class _NormalPlayerPageState extends State<NormalPlayerPage> {
               width: 32,
               height: 32,
             ),
+            progressBarPlayedColor: Colors.blue,
+            progressBarHandleColor: Colors.white,
             skipBackIcon: Icons.replay_10,
             skipForwardIcon: Icons.forward_10,
             nextEpisode: () {},
@@ -77,9 +79,13 @@ class _NormalPlayerPageState extends State<NormalPlayerPage> {
 
             bottomSheet: Color(0xff263c44),
             textColor: Colors.white));
-    BetterPlayerDataSource dataSource = BetterPlayerDataSource(BetterPlayerDataSourceType.network, "http://cdn.theoplayer.com/video/elephants-dream/playlist.m3u8",
+    BetterPlayerDataSource dataSource = BetterPlayerDataSource(BetterPlayerDataSourceType.network, "https://voxecdn.s3.us-east-2.amazonaws.com/240p/52204e0ec8813c29186e09cf431b2f46/video.m3u8",
         cacheConfiguration: getCacheConfiguration(),
-        isMiniVideo: true, isSerial: true, startAt: Duration(seconds: 35),         autoPlay: true,);
+        isMiniVideo: true, isSerial: true, startAt: Duration(seconds: 35),
+      useHlsSubtitles: false,
+      useHlsAudioTracks: false,
+      useHlsTracks: false,
+      autoPlay: true,);
     _betterPlayerController = BetterPlayerController(betterPlayerConfiguration);
     _betterPlayerController.setupDataSource(dataSource);
     super.initState();
