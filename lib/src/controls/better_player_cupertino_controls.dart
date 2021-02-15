@@ -165,11 +165,18 @@ class _BetterPlayerCupertinoControlsState
       //   ),
       // );
 
+      // if (_controlsConfiguration.enableRetry) {
+      _betterPlayerController.retryDataSource();
+      // }
       debugPrint('ERROR: ${_latestValue.errorDescription}');
-      return Container(
-        color: Colors.transparent,
-        child: _buildErrorWidget(),
-      );
+      debugPrint('PLAYING: ${!_betterPlayerController.isPlaying()}');
+      // return Visibility(
+      //   visible: !_hideStuff,
+      //   child: Container(
+      //     color: Colors.transparent,
+      //     child: _buildErrorWidget(),
+      //   ),
+      // );
     }
     return MouseRegion(
       onHover: (_) {
@@ -247,16 +254,19 @@ class _BetterPlayerCupertinoControlsState
           _betterPlayerController.videoPlayerController.value.errorDescription);
     } else {
       final textStyle = TextStyle(color: _controlsConfiguration.textColor);
-      return BetterPlayerMaterialClickableWidget(
-        child: Icon(
-          Icons.replay,
-          size: getIconSize(40),
-          color: _controlsConfiguration.iconsColor,
-        ),
-        onTap: () {
-          _betterPlayerController.retryDataSource();
-        },
-      );
+      if (_controlsConfiguration.enableRetry) {
+        return BetterPlayerMaterialClickableWidget(
+          child: Icon(
+            Icons.replay,
+            size: getIconSize(40),
+            color: _controlsConfiguration.iconsColor,
+          ),
+          onTap: () {
+            _betterPlayerController.retryDataSource();
+          },
+        );
+      }
+
       // return Column(
       //   mainAxisAlignment: MainAxisAlignment.center,
       //   children: [
