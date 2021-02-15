@@ -74,7 +74,7 @@ class BetterPlayerDataSource {
     this.url, {
     this.bytes,
     this.subtitles,
-    this.autoPlay = false,
+    this.autoPlay = true,
     this.liveStream = false,
     this.headers,
     this.startAt = Duration.zero,
