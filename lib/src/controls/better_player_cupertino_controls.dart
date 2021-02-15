@@ -147,10 +147,16 @@ class _BetterPlayerCupertinoControlsState
     //   );
     // }
     if (_latestValue?.hasError == true) {
-      // if (_controlsConfiguration.enableRetry) {
-      //   _betterPlayerController.retryDataSource();
-      // }
-      // debugPrint('ERROR: ${_latestValue.errorDescription}');
+      if (_controlsConfiguration.enableRetry &&
+          _latestValue.errorDescription
+              .contains("The Internet connection appears to be offline.")) {
+        // _betterPlayerController.retryDataSource();
+        return Container(
+          color: Colors.transparent,
+          child: _buildErrorWidget(),
+        );
+      }
+
       //
       // return Center(
       //   child: Expanded(
@@ -164,19 +170,8 @@ class _BetterPlayerCupertinoControlsState
       //     ),
       //   ),
       // );
-
-      // if (_controlsConfiguration.enableRetry) {
-      _betterPlayerController.retryDataSource();
-      // }
       debugPrint('ERROR: ${_latestValue.errorDescription}');
-      debugPrint('PLAYING: ${!_betterPlayerController.isPlaying()}');
-      // return Visibility(
-      //   visible: !_hideStuff,
-      //   child: Container(
-      //     color: Colors.transparent,
-      //     child: _buildErrorWidget(),
-      //   ),
-      // );
+      debugPrint('PLAYING: ${_betterPlayerController.isPlaying()}');
     }
     return MouseRegion(
       onHover: (_) {
@@ -190,10 +185,6 @@ class _BetterPlayerCupertinoControlsState
                   _hideStuff = true;
                 });
         },
-        // onDoubleTap: () {
-        //   cancelAndRestartTimer();
-        //   _onPlayPause();
-        // },
         child: AbsorbPointer(
           absorbing: _hideStuff,
           child: Column(
@@ -250,47 +241,47 @@ class _BetterPlayerCupertinoControlsState
         _betterPlayerController.betterPlayerConfiguration.errorBuilder;
     debugPrint('TTT: Videoplayer error iOS: \n$errorBuilder');
     if (errorBuilder != null) {
-      return errorBuilder(context,
-          _betterPlayerController.videoPlayerController.value.errorDescription);
+      return errorBuilder(
+          context, "The Internet connection appears to be offline.");
     } else {
       final textStyle = TextStyle(color: _controlsConfiguration.textColor);
-      if (_controlsConfiguration.enableRetry) {
-        return BetterPlayerMaterialClickableWidget(
-          child: Icon(
-            Icons.replay,
-            size: getIconSize(40),
-            color: _controlsConfiguration.iconsColor,
-          ),
-          onTap: () {
-            _betterPlayerController.retryDataSource();
-          },
-        );
-      }
-
-      // return Column(
-      //   mainAxisAlignment: MainAxisAlignment.center,
-      //   children: [
-      //     Icon(
-      //       Icons.warning_amber_outlined,
+      // if (_controlsConfiguration.enableRetry) {
+      //   return BetterPlayerMaterialClickableWidget(
+      //     child: Icon(
+      //       Icons.replay,
+      //       size: getIconSize(40),
       //       color: _controlsConfiguration.iconsColor,
-      //       size: getIconSize(32),
       //     ),
-      //     Text(
-      //       _betterPlayerController.translations.generalDefaultError,
-      //       style: textStyle,
-      //     ),
-      //     if (_controlsConfiguration.enableRetry)
-      //       FlatButton(
-      //         onPressed: () {
-      //           _betterPlayerController.retryDataSource();
-      //         },
-      //         child: Text(
-      //           _betterPlayerController.translations.generalRetry,
-      //           style: textStyle.copyWith(fontWeight: FontWeight.bold),
-      //         ),
-      //       ),
-      //   ],
-      // );
+      //     onTap: () {
+      //       _betterPlayerController.retryDataSource();
+      //     },
+      //   );
+      // }
+
+      return Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Icon(
+            Icons.error_outline,
+            color: _controlsConfiguration.iconsColor,
+            size: getIconSize(32),
+          ),
+          Text(
+            _betterPlayerController.translations.generalDefaultError,
+            style: textStyle,
+          ),
+          if (_controlsConfiguration.enableRetry)
+            FlatButton(
+              onPressed: () {
+                _betterPlayerController.retryDataSource();
+              },
+              child: Text(
+                _betterPlayerController.translations.generalRetry,
+                style: textStyle.copyWith(fontWeight: FontWeight.bold),
+              ),
+            ),
+        ],
+      );
     }
   }
 
