@@ -145,10 +145,10 @@ class _BetterPlayerMaterialControlsState extends BetterPlayerControlsState<Bette
                   _hideStuff = true;
                 });
               },
-              onDoubleTap: () {
+              /*onDoubleTap: () {
                 cancelAndRestartTimer();
                 // _onPlayPause();
-              },
+              },*/
               child: AbsorbPointer(
                 absorbing: _hideStuff,
                 child: Column(
