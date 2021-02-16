@@ -620,6 +620,9 @@ class _BetterPlayerMaterialControlsState extends BetterPlayerControlsState<Bette
     setState(() {
       _hideStuff = true;
       _betterPlayerController.toggleFullScreen();
+      if(_betterPlayerController.isPlaying()){
+        _betterPlayerController.play();
+      }
       _showAfterExpandCollapseTimer = Timer(_controlsConfiguration.controlsHideTime, () {
         setState(() {
           cancelAndRestartTimer();
