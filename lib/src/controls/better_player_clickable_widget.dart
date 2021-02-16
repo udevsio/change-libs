@@ -5,13 +5,15 @@ class BetterPlayerMaterialClickableWidget extends StatelessWidget {
   final Widget child;
   final double radius;
   final void Function() onTap;
+  final void Function() onDoubleTap;
 
-  const BetterPlayerMaterialClickableWidget({
-    Key key,
-    @required this.onTap,
-    @required this.child,
-    this.radius = 60
-  })  : assert(onTap != null),
+  const BetterPlayerMaterialClickableWidget(
+      {Key key,
+      @required this.onTap,
+      this.onDoubleTap,
+      @required this.child,
+      this.radius = 60})
+      : assert(onTap != null),
         assert(child != null),
         super(key: key);
 
@@ -24,6 +26,7 @@ class BetterPlayerMaterialClickableWidget extends StatelessWidget {
       clipBehavior: Clip.hardEdge,
       color: Colors.transparent,
       child: InkWell(
+        onDoubleTap: onDoubleTap,
         onTap: onTap,
         child: child,
       ),

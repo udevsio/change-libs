@@ -160,7 +160,7 @@ class _BetterPlayerWithControlsState extends State<BetterPlayerWithControls> {
     BetterPlayerController betterPlayerController,
   ) {
     if (controlsConfiguration.showControls) {
-      /*BetterPlayerTheme playerTheme = controlsConfiguration.playerTheme;
+      BetterPlayerTheme playerTheme = controlsConfiguration.playerTheme;
       if (playerTheme == null) {
         if (Platform.isAndroid) {
           playerTheme = BetterPlayerTheme.material;
@@ -171,13 +171,14 @@ class _BetterPlayerWithControlsState extends State<BetterPlayerWithControls> {
 
       if (controlsConfiguration.customControlsBuilder != null &&
           playerTheme == BetterPlayerTheme.custom) {
-        return controlsConfiguration.customControlsBuilder(betterPlayerController);
+        return controlsConfiguration
+            .customControlsBuilder(betterPlayerController);
       } else if (playerTheme == BetterPlayerTheme.material) {
         return _buildMaterialControl();
       } else if (playerTheme == BetterPlayerTheme.cupertino) {
         return _buildCupertinoControl();
-      }*/
-      return _buildMaterialControl();
+      }
+      // return _buildMaterialControl();
     }
 
     return const SizedBox();
