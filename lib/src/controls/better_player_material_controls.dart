@@ -247,54 +247,56 @@ class _BetterPlayerMaterialControlsState
     if (!betterPlayerController.controlsEnabled) {
       return const SizedBox();
     }
-    return AnimatedOpacity(
-      opacity: _hideStuff ? 0.0 : 1.0,
-      duration: _controlsConfiguration.controlsHideTime,
-      onEnd: _onPlayerHide,
-      child: Container(
-        height: _betterPlayerController.isFullScreen
-            ? _controlsConfiguration.controlBarHeight + 8
-            : _controlsConfiguration.controlBarHeight,
-        // color: _controlsConfiguration.controlBarColor,
-        child: Column(
-          children: [
-            SizedBox(
-              height: getIconSize(24),
-              child: Row(
-                children: [
-                  SizedBox(
-                    width: 8,
-                  ),
-                  _buildPlayPause(_controller, getIconSize(24)),
-                  SizedBox(
-                    width: 12,
-                  ),
-                  _buildMuteButton(_controller),
-                  SizedBox(
-                    width: 12,
-                  ),
-                  _buildCurrentPosition(),
-                  _buildTotalPosition(),
-                  Spacer(),
-                  if (_betterPlayerController.isLiveStream())
-                    _buildLiveWidget()
-                  else
-                    _controlsConfiguration.enableProgressText
-                        ? _buildPosition()
-                        : const SizedBox(),
-                  _buildSettingButton(),
-                  SizedBox(
-                    width: 12,
-                  ),
-                  _buildExpandButton(),
-                  SizedBox(
-                    width: 8,
-                  ),
-                ],
+    return SafeArea(
+      child: AnimatedOpacity(
+        opacity: _hideStuff ? 0.0 : 1.0,
+        duration: _controlsConfiguration.controlsHideTime,
+        onEnd: _onPlayerHide,
+        child: Container(
+          height: _betterPlayerController.isFullScreen
+              ? _controlsConfiguration.controlBarHeight + 8
+              : _controlsConfiguration.controlBarHeight,
+          // color: _controlsConfiguration.controlBarColor,
+          child: Column(
+            children: [
+              SizedBox(
+                height: getIconSize(24),
+                child: Row(
+                  children: [
+                    SizedBox(
+                      width: 8,
+                    ),
+                    _buildPlayPause(_controller, getIconSize(24)),
+                    SizedBox(
+                      width: 12,
+                    ),
+                    _buildMuteButton(_controller),
+                    SizedBox(
+                      width: 12,
+                    ),
+                    _buildCurrentPosition(),
+                    _buildTotalPosition(),
+                    Spacer(),
+                    if (_betterPlayerController.isLiveStream())
+                      _buildLiveWidget()
+                    else
+                      _controlsConfiguration.enableProgressText
+                          ? _buildPosition()
+                          : const SizedBox(),
+                    _buildSettingButton(),
+                    SizedBox(
+                      width: 12,
+                    ),
+                    _buildExpandButton(),
+                    SizedBox(
+                      width: 8,
+                    ),
+                  ],
+                ),
               ),
-            ),
-            _buildProgressBar(),
-          ],
+              _buildProgressBar(),
+            ],
+          ),
         ),
       ),
     );
@@ -774,7 +776,7 @@ class _BetterPlayerMaterialControlsState
   Widget _buildProgressBar() {
     return Expanded(
       child: Padding(
-        padding: const EdgeInsets.only(right: 12, left: 12),
+        padding: const EdgeInsets.only(right: 24, left: 24),
         child: BetterPlayerMaterialVideoProgressBar(
           _controller,
           _betterPlayerController,
@@ -800,15 +802,80 @@ class _BetterPlayerMaterialControlsState
     widget.onControlsVisibilityChanged(!_hideStuff);
   }
 
-  Widget _buildLoadingWidget() {
+/*  Widget _buildLoadingWidget() {
     if (_controlsConfiguration.loadingWidget != null) {
       return _controlsConfiguration.loadingWidget;
     }
 
     return CircularProgressIndicator(
       valueColor: AlwaysStoppedAnimation<Color>(
-          _controlsConfiguration.loadingColor ??
-              _controlsConfiguration.controlBarColor),
+          _controlsConfiguration.loadingColor ?? _controlsConfiguration.controlBarColor),
+    );
+  }*/
+
+  Widget _buildLoadingWidget() {
+    if (_controlsConfiguration.loadingWidget != null) {
+      return _controlsConfiguration.loadingWidget;
+    }
+
+    return Stack(
+      children: [
+        Positioned.fill(
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: <Widget>[
+              Expanded(
+                child: GestureDetector(
+                  behavior: HitTestBehavior.opaque,
+                  onDoubleTap: () {
+                    _betterPlayerController.setupDataSource(betterPlayerController.betterPlayerDataSource.copyWith(
+                        startAt: Duration(seconds: _betterPlayerController.videoPlayerController.value.position.inSeconds - 10
+                        )));
+                  },
+                  onTap: () {
+                    _hideStuff
+                        ? cancelAndRestartTimer()
+                        : setState(() {
+                      _hideStuff = true;
+                    });
+                  },
+                  child: SizedBox(
+                    width: double.infinity,
+                    height: double.infinity,
+                  ),
+                ),
+              ),
+              Expanded(
+                child: GestureDetector(
+                  behavior: HitTestBehavior.opaque,
+                  onDoubleTap: () {
+                    _betterPlayerController.setupDataSource(betterPlayerController.betterPlayerDataSource.copyWith(
+                        startAt: Duration(seconds: _betterPlayerController.videoPlayerController.value.position.inSeconds + 10
+                        )));
+                  },
+                  onTap: () {
+                    _hideStuff
+                        ? cancelAndRestartTimer()
+                        : setState(() {
+                      _hideStuff = true;
+                    });
+                  },
+                  child: SizedBox(
+                    width: double.infinity,
+                    height: double.infinity,
+                  ),
+                ),
+              )
+            ],
+          ),
+        ),
+        Align(
+          alignment: Alignment.center,
+          child: CircularProgressIndicator(
+            valueColor: AlwaysStoppedAnimation<Color>(_controlsConfiguration.loadingColor ?? _controlsConfiguration.controlBarColor),
+          ),
+        ),
+      ],
     );
   }
 
