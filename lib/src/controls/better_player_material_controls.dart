@@ -802,7 +802,7 @@ class _BetterPlayerMaterialControlsState
     widget.onControlsVisibilityChanged(!_hideStuff);
   }
 
-/*  Widget _buildLoadingWidget() {
+  Widget _buildLoadingWidget() {
     if (_controlsConfiguration.loadingWidget != null) {
       return _controlsConfiguration.loadingWidget;
     }
@@ -811,8 +811,9 @@ class _BetterPlayerMaterialControlsState
       valueColor: AlwaysStoppedAnimation<Color>(
           _controlsConfiguration.loadingColor ?? _controlsConfiguration.controlBarColor),
     );
-  }*/
+  }
 
+/*
   Widget _buildLoadingWidget() {
     if (_controlsConfiguration.loadingWidget != null) {
       return _controlsConfiguration.loadingWidget;
@@ -878,6 +879,7 @@ class _BetterPlayerMaterialControlsState
       ],
     );
   }
+*/
 
   double getIconSize(double height) {
     return _betterPlayerController.isFullScreen

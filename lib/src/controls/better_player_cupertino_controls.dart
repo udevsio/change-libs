@@ -1,5 +1,6 @@
 // Dart imports:
 import 'dart:async';
+import 'dart:io';
 
 // Project imports:
 import 'package:better_player/src/configuration/better_player_controls_configuration.dart';
@@ -858,13 +859,81 @@ class _BetterPlayerCupertinoControlsState extends BetterPlayerControlsState<Bett
     widget.onControlsVisibilityChanged(!_hideStuff);
   }
 
-  Widget _buildLoadingWidget() {
+  /*Widget _buildLoadingWidget() {
     if (_controlsConfiguration.loadingWidget != null) {
       return _controlsConfiguration.loadingWidget;
     }
 
     return CircularProgressIndicator(
       valueColor: AlwaysStoppedAnimation<Color>(_controlsConfiguration.loadingColor ?? _controlsConfiguration.controlBarColor),
+    );
+  }*/
+
+  Widget _buildLoadingWidget() {
+    if (_controlsConfiguration.loadingWidget != null) {
+      return _controlsConfiguration.loadingWidget;
+    }
+
+    return Stack(
+      children: [
+        Positioned.fill(
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: <Widget>[
+              Expanded(
+                child: GestureDetector(
+                  behavior: HitTestBehavior.opaque,
+                  onDoubleTap: () {
+                    skipBack();
+                    /*_betterPlayerController.setupDataSource(betterPlayerController.betterPlayerDataSource.copyWith(
+                        startAt: Duration(seconds: _betterPlayerController.videoPlayerController.value.position.inSeconds - 10
+                        )));*/
+                  },
+                  onTap: () {
+                    _hideStuff
+                        ? cancelAndRestartTimer()
+                        : setState(() {
+                      _hideStuff = true;
+                    });
+                  },
+                  child: SizedBox(
+                    width: double.infinity,
+                    height: double.infinity,
+                  ),
+                ),
+              ),
+              Expanded(
+                child: GestureDetector(
+                  behavior: HitTestBehavior.opaque,
+                  onDoubleTap: () {
+                    skipForward();
+                    /*_betterPlayerController.setupDataSource(betterPlayerController.betterPlayerDataSource.copyWith(
+                        startAt: Duration(seconds: _betterPlayerController.videoPlayerController.value.position.inSeconds + 10
+                        )));*/
+                  },
+                  onTap: () {
+                    _hideStuff
+                        ? cancelAndRestartTimer()
+                        : setState(() {
+                      _hideStuff = true;
+                    });
+                  },
+                  child: SizedBox(
+                    width: double.infinity,
+                    height: double.infinity,
+                  ),
+                ),
+              )
+            ],
+          ),
+        ),
+        Align(
+          alignment: Alignment.center,
+          child: CircularProgressIndicator(
+            valueColor: AlwaysStoppedAnimation<Color>(_controlsConfiguration.loadingColor ?? _controlsConfiguration.controlBarColor),
+          ),
+        ),
+      ],
     );
   }
 
@@ -873,6 +942,6 @@ class _BetterPlayerCupertinoControlsState extends BetterPlayerControlsState<Bett
   }
 
   double getPaddingSize() {
-    return _betterPlayerController.isFullScreen ? 32.0 : 0.0;
+    return _betterPlayerController.isFullScreen ? Platform.isAndroid? 16.0: 32.0 : 0.0;
   }
 }
