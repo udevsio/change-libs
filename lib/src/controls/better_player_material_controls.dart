@@ -11,6 +11,7 @@ import 'package:better_player/src/core/better_player_controller.dart';
 import 'package:better_player/src/core/better_player_utils.dart';
 import 'package:better_player/src/core/utils.dart';
 import 'package:better_player/src/video_player/video_player.dart';
+import 'package:flutter/gestures.dart';
 
 // Flutter imports:
 import 'package:flutter/material.dart';
@@ -130,82 +131,31 @@ class _BetterPlayerMaterialControlsState extends BetterPlayerControlsState<Bette
         ),
       );
     }
-    return Stack(
-      children: [
-        Positioned.fill(
-          child: MouseRegion(
-            onHover: (_) {
-              cancelAndRestartTimer();
-            },
-            child: GestureDetector(
-              onTap: () {
-                _hideStuff
-                    ? cancelAndRestartTimer()
-                    : setState(() {
-                  _hideStuff = true;
-                });
-              },
-              /*onDoubleTap: () {
-                cancelAndRestartTimer();
-                // _onPlayPause();
-              },*/
-              child: AbsorbPointer(
-                absorbing: _hideStuff,
-                child: Column(
-                  children: [
-                    _wasLoading? Expanded(child: _buildLoadingWidget()) : _buildHitArea(),
-                    _buildBottomBar(),
-                  ],
-                ),
-              ),
-            ),
-          ),
-        ),
-        Positioned.fill(
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: <Widget>[
-              Expanded(
-                child: GestureDetector(
-                    behavior: HitTestBehavior.opaque,
-                    onDoubleTap: () {
-                      skipBack();
-                    },
-                    onTap: () {
-                      _hideStuff
-                          ? cancelAndRestartTimer()
-                          : setState(() {
-                        _hideStuff = true;
-                      });
-                    },
-                    child: SizedBox(
-                      width: double.infinity,
-                      height: double.infinity,
-                    )),
-              ),
-              Expanded(
-                child: GestureDetector(
-                  behavior: HitTestBehavior.opaque,
-                  onDoubleTap: () {
-                    skipForward();
-                  },
-                  onTap: () {
-                    _hideStuff
-                        ? cancelAndRestartTimer()
-                        : setState(() {
-                      _hideStuff = true;
-                    });
-                  },
-                  child: SizedBox(
-                    width: double.infinity,
-                    height: double.infinity,
-                  ),
-                ),
-              )
+    return MouseRegion(
+      onHover: (PointerHoverEvent event) {
+        cancelAndRestartTimer();
+      },
+      child: GestureDetector(
+        /*onDoubleTap: () {
+        cancelAndRestartTimer();
+        },*/
+        onTap: () {
+          _hideStuff ? cancelAndRestartTimer() : setState(() {
+            _hideStuff = true;
+          });
+        },
+        child: AbsorbPointer(
+          absorbing: _hideStuff,
+          child: Column(
+            children: [
+              _wasLoading? Expanded(child: Container(
+                  margin: EdgeInsets.only(top: getTopSize(_controlsConfiguration.controlBarHeight)),
+                  child: _buildLoadingWidget())) : _buildHitArea(),
+              _buildBottomBar(),
             ],
           ),
         ),
-      ],
+      ),
     );
   }
 
@@ -281,7 +231,7 @@ class _BetterPlayerMaterialControlsState extends BetterPlayerControlsState<Bette
       duration: _controlsConfiguration.controlsHideTime,
       onEnd: _onPlayerHide,
       child: Container(
-        height: _betterPlayerController.isFullScreen ? _controlsConfiguration.controlBarHeight + 16 : _controlsConfiguration.controlBarHeight,
+        height: getTopSize(_controlsConfiguration.controlBarHeight),
         // color: _controlsConfiguration.controlBarColor,
         child: Column(
           children: [
@@ -353,6 +303,50 @@ class _BetterPlayerMaterialControlsState extends BetterPlayerControlsState<Bette
           duration: _controlsConfiguration.controlsHideTime,
           child: Stack(
             children: [
+              Positioned.fill(
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: <Widget>[
+                    Expanded(
+                      child: GestureDetector(
+                          behavior: HitTestBehavior.opaque,
+                          onDoubleTap: () {
+                            skipBack();
+                          },
+                          onTap: () {
+                            _hideStuff
+                                ? cancelAndRestartTimer()
+                                : setState(() {
+                              _hideStuff = true;
+                            });
+                          },
+                          child: SizedBox(
+                            width: double.infinity,
+                            height: double.infinity,
+                          )),
+                    ),
+                    Expanded(
+                      child: GestureDetector(
+                        behavior: HitTestBehavior.opaque,
+                        onDoubleTap: () {
+                          skipForward();
+                        },
+                        onTap: () {
+                          _hideStuff
+                              ? cancelAndRestartTimer()
+                              : setState(() {
+                            _hideStuff = true;
+                          });
+                        },
+                        child: SizedBox(
+                          width: double.infinity,
+                          height: double.infinity,
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+              ),
               Visibility(
                 visible: _betterPlayerController.betterPlayerDataSource.isMiniVideo,
                 child: Positioned(
@@ -378,7 +372,7 @@ class _BetterPlayerMaterialControlsState extends BetterPlayerControlsState<Bette
 
   Widget _buildMiddleRow() {
     return Container(
-      margin: EdgeInsets.only(top: 48),
+      margin: EdgeInsets.only(top: getTopSize(_controlsConfiguration.controlBarHeight)),
       padding: const EdgeInsets.symmetric(horizontal: 16),
       child: Center(
         child: Row(
@@ -810,5 +804,9 @@ class _BetterPlayerMaterialControlsState extends BetterPlayerControlsState<Bette
 
   double getIconSize(double height) {
     return _betterPlayerController.isFullScreen ? _controlsConfiguration.iconTime * height : height;
+  }
+
+  double getTopSize(double height) {
+    return _betterPlayerController.isFullScreen ? height + 16 : height;
   }
 }
