@@ -33,6 +33,7 @@ class BetterPlayerController extends ChangeNotifier {
   static const String _volumeParameter = "volume";
   static const String _speedParameter = "speed";
   static const String _hlsExtension = "m3u8";
+  Timer _timer;
 
   ///General configuration used in controller instance.
   final BetterPlayerConfiguration betterPlayerConfiguration;
@@ -156,6 +157,7 @@ class BetterPlayerController extends ChangeNotifier {
 
   ///Was controls enabled before Picture in Picture opened.
   bool _wasControlsEnabledBeforePiP = false;
+  bool _isPrefetch = false;
 
   ///GlobalKey of the BetterPlayer widget
   GlobalKey _betterPlayerGlobalKey;
@@ -373,7 +375,15 @@ class BetterPlayerController extends ChangeNotifier {
         throw UnimplementedError("${betterPlayerDataSource.type} is not implemented");
     }
     await _initializeVideo(betterPlayerDataSource.startAt);
-    await setVolume(betterPlayerDataSource.volume);
+    if (betterPlayerDataSource.isPrefetch && !_isPrefetch) {
+      await setVolume(betterPlayerDataSource.volume);
+      _timer = Timer(Duration(milliseconds: 2000), () async {
+        await videoPlayerController.pause();
+        await videoPlayerController.seekTo(Duration.zero);
+        betterPlayerConfiguration.controlsConfiguration.prefetch();
+        _isPrefetch = true;
+      });
+    }
   }
 
   ///Create file from provided list of bytes. File will be created in temporary
@@ -694,7 +704,7 @@ class BetterPlayerController extends ChangeNotifier {
   ///called manually.
   void setupTranslations(Locale locale) {
     if (locale != null) {
-      translations =  _getDefaultTranslations(locale);
+      translations = _getDefaultTranslations(locale);
     } else {
       BetterPlayerUtils.log("Locale is null. Couldn't setup translations.");
     }
@@ -847,9 +857,7 @@ class BetterPlayerController extends ChangeNotifier {
 
   ///Retry data source if playback failed.
   Future retryDataSource() async {
-    await _setupDataSource(_betterPlayerDataSource.copyWith(
-      startAt: videoPlayerController.value.position
-    ));
+    await _setupDataSource(_betterPlayerDataSource.copyWith(startAt: videoPlayerController.value.position));
     if (_videoPlayerValueOnError != null) {
       final position = videoPlayerController.value.position;
       await seekTo(position);
@@ -876,6 +884,7 @@ class BetterPlayerController extends ChangeNotifier {
   ///(if it wasn't disposed before).
   @override
   void dispose({bool forceDispose = false}) {
+    _timer?.cancel();
     if (!betterPlayerConfiguration.autoDispose && !forceDispose) {
       return;
     }
