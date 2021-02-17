@@ -26,9 +26,6 @@ class _NormalPlayerPageState extends State<NormalPlayerPage> {
                   'assets/svg/settings.svg',
                   color: Colors.white,
                 ),
-                prefetch: (){
-                  debugPrint("TTT: oxwadiiii");
-                },
                 playerTheme: BetterPlayerTheme.cupertino,
                 play: SvgPicture.asset(
                   'assets/svg/play.svg',
@@ -87,10 +84,10 @@ class _NormalPlayerPageState extends State<NormalPlayerPage> {
       cacheConfiguration: getCacheConfiguration(),
       isMiniVideo: true,
       volume: 1.0,
-      isPrefetch: true,
+      // isPrefetch: true,
       isSerial: true,
       // startAt: Duration(seconds: 35),
-      autoPlay: true,
+      // autoPlay: true,
     );
     _betterPlayerController = BetterPlayerController(betterPlayerConfiguration);
     _betterPlayerController.setupDataSource(dataSource);

@@ -138,8 +138,6 @@ class BetterPlayerControlsConfiguration {
 
   final Function track;
 
-  final Function prefetch;
-
   final Function onVideoEnd;
 
   final Function prevEpisode;
@@ -219,7 +217,6 @@ class BetterPlayerControlsConfiguration {
     this.exitFullScreen,
     this.enterFullScreen,
     this.pause,
-    this.prefetch,
     this.enableProgressText = false,
     this.enableProgressBar = true,
     this.enableProgressBarDrag = true,

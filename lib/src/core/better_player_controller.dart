@@ -33,7 +33,6 @@ class BetterPlayerController extends ChangeNotifier {
   static const String _volumeParameter = "volume";
   static const String _speedParameter = "speed";
   static const String _hlsExtension = "m3u8";
-  Timer _timer;
 
   ///General configuration used in controller instance.
   final BetterPlayerConfiguration betterPlayerConfiguration;
@@ -375,15 +374,6 @@ class BetterPlayerController extends ChangeNotifier {
         throw UnimplementedError("${betterPlayerDataSource.type} is not implemented");
     }
     await _initializeVideo(betterPlayerDataSource.startAt);
-    if (betterPlayerDataSource.isPrefetch && !_isPrefetch) {
-      await setVolume(betterPlayerDataSource.volume);
-      _timer = Timer(Duration(milliseconds: 2000), () async {
-        await videoPlayerController.pause();
-        await videoPlayerController.seekTo(Duration.zero);
-        betterPlayerConfiguration.controlsConfiguration.prefetch();
-        _isPrefetch = true;
-      });
-    }
   }
 
   ///Create file from provided list of bytes. File will be created in temporary
@@ -884,7 +874,6 @@ class BetterPlayerController extends ChangeNotifier {
   ///(if it wasn't disposed before).
   @override
   void dispose({bool forceDispose = false}) {
-    _timer?.cancel();
     if (!betterPlayerConfiguration.autoDispose && !forceDispose) {
       return;
     }

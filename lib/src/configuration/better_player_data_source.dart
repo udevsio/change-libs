@@ -21,8 +21,6 @@ class BetterPlayerDataSource {
 
   final bool isSerial;
 
-  final bool isPrefetch;
-
   /// Play the video as soon as it's displayed
   final bool autoPlay;
 
@@ -78,12 +76,11 @@ class BetterPlayerDataSource {
     this.url, {
     this.bytes,
     this.subtitles,
-    this.autoPlay = true,
+    this.autoPlay = false,
     this.liveStream = false,
     this.headers,
     this.startAt = Duration.zero,
     this.isSerial = false,
-    this.isPrefetch = false,
     this.volume = 1.0,
     this.isMiniVideo = false,
     this.useHlsSubtitles = true,
@@ -132,7 +129,6 @@ class BetterPlayerDataSource {
       startAt: startAt,
       volume: volume,
       isSerial: isSerial,
-      isPrefetch: isPrefetch,
       useHlsSubtitles: useHlsSubtitles,
       quality: quality,
       useHlsTracks: useHlsTracks,
@@ -166,7 +162,6 @@ class BetterPlayerDataSource {
         resolutions: qualities,
         volume: volume,
         isSerial: isSerial,
-        isPrefetch: isPrefetch,
         cacheConfiguration: cacheConfiguration,
         notificationConfiguration: notificationConfiguration,
         overriddenDuration: overriddenDuration);
@@ -195,7 +190,6 @@ class BetterPlayerDataSource {
         useHlsTracks: useHlsTracks,
         volume: volume,
         isSerial: isSerial,
-        isPrefetch: isPrefetch,
         resolutions: qualities,
         cacheConfiguration: cacheConfiguration,
         notificationConfiguration: notificationConfiguration,
@@ -234,7 +228,6 @@ class BetterPlayerDataSource {
       volume: volume ?? this.volume,
       startAt: startAt ?? this.startAt,
       isSerial: isSerial ?? this.isSerial,
-      isPrefetch: isPrefetch ?? this.isPrefetch,
       autoPlay: autoPlay ?? this.autoPlay,
       quality: quality ?? this.quality,
       isMiniVideo: isMiniVideo ?? this.isMiniVideo,
