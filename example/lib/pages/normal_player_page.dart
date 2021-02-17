@@ -83,6 +83,8 @@ class _NormalPlayerPageState extends State<NormalPlayerPage> {
       "http://cdn.theoplayer.com/video/elephants-dream/playlist.m3u8",
       cacheConfiguration: getCacheConfiguration(),
       isMiniVideo: true,
+      volume: 1.0,
+      bytes: [1024, 1024],
       isSerial: true,
       // startAt: Duration(seconds: 35),
       autoPlay: true,

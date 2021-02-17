@@ -373,6 +373,7 @@ class BetterPlayerController extends ChangeNotifier {
         throw UnimplementedError("${betterPlayerDataSource.type} is not implemented");
     }
     await _initializeVideo(betterPlayerDataSource.startAt);
+    await setVolume(betterPlayerDataSource.volume);
   }
 
   ///Create file from provided list of bytes. File will be created in temporary
