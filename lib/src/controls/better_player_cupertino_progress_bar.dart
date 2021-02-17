@@ -107,6 +107,11 @@ class _VideoProgressBarState
         if (_controllerWasPlaying) {
           controller.play();
         }
+
+        if(betterPlayerController.isOffline){
+          betterPlayerController.setupDataSource(betterPlayerController.betterPlayerDataSource.copyWith(
+            startAt: betterPlayerController.videoPlayerController.value.position));
+        }
         if (widget.onDragEnd != null) {
           widget.onDragEnd();
         }

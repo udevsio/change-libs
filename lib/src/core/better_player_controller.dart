@@ -846,7 +846,9 @@ class BetterPlayerController extends ChangeNotifier {
 
   ///Retry data source if playback failed.
   Future retryDataSource() async {
-    await _setupDataSource(_betterPlayerDataSource);
+    await _setupDataSource(_betterPlayerDataSource.copyWith(
+      startAt: videoPlayerController.value.position
+    ));
     if (_videoPlayerValueOnError != null) {
       final position = videoPlayerController.value.position;
       await seekTo(position);
@@ -892,9 +894,5 @@ class BetterPlayerController extends ChangeNotifier {
       _tempFiles?.forEach((file) => file.delete());
       super.dispose();
     }
-  }
-
-  void setQuality(String name) {
-
   }
 }

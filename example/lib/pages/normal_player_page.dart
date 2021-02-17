@@ -76,7 +76,8 @@ class _NormalPlayerPageState extends State<NormalPlayerPage> {
                   color: Colors.white,
                 ),
                 bottomSheet: Color(0xff263c44),
-                textColor: Colors.white));
+                textColor: Colors.white),
+        );
     BetterPlayerDataSource dataSource = BetterPlayerDataSource(
       BetterPlayerDataSourceType.network,
       "http://cdn.theoplayer.com/video/elephants-dream/playlist.m3u8",
