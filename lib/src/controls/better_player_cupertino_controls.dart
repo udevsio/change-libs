@@ -232,7 +232,7 @@ class _BetterPlayerCupertinoControlsState extends BetterPlayerControlsState<Bett
                       SizedBox(
                         width: 8,
                       ),
-                      _buildPlayPause(_controller, getIconSize(24)),
+                      _buildPlayPause(_controller, getIconSize(24), 0),
                       SizedBox(
                         width: 12,
                       ),
@@ -385,7 +385,7 @@ class _BetterPlayerCupertinoControlsState extends BetterPlayerControlsState<Bett
             SizedBox(
               width: 32,
             ),
-            _buildCenterButton(),
+            _buildCenterButton(4),
             SizedBox(
               width: 32,
             ),
@@ -482,10 +482,10 @@ class _BetterPlayerCupertinoControlsState extends BetterPlayerControlsState<Bett
     );
   }
 
-  Widget _buildCenterButton() {
+  Widget _buildCenterButton(double margin) {
     final bool isFinished = isVideoFinished(_latestValue);
     if (!isFinished) {
-      return _buildPlayPause(_controller, getIconSize(40));
+      return _buildPlayPause(_controller, getIconSize(40), margin);
     }
     return BetterPlayerMaterialClickableWidget(
       child: Container(
@@ -579,13 +579,13 @@ class _BetterPlayerCupertinoControlsState extends BetterPlayerControlsState<Bett
     );
   }
 
-  Widget _buildPlayPause(VideoPlayerController controller, double size) {
+  Widget _buildPlayPause(VideoPlayerController controller, double size, double margin) {
     return BetterPlayerMaterialClickableWidget(
       onTap: _onPlayPause,
       child: Container(
           height: size,
           width: size,
-          margin: EdgeInsets.all(4),
+          margin: EdgeInsets.all(margin),
           child: controller.value.isPlaying ? _controlsConfiguration.pause : _controlsConfiguration.play),
     );
   }

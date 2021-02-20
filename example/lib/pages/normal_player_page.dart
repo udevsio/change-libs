@@ -29,9 +29,12 @@ class _NormalPlayerPageState extends State<NormalPlayerPage> {
                   color: Colors.white,
                 ),
                 playerTheme: BetterPlayerTheme.cupertino,
-                play: SvgPicture.asset(
-                  'assets/svg/play.svg',
-                  color: Colors.white,
+                play: Container(
+                  padding: EdgeInsets.only(left: 4),
+                  child: SvgPicture.asset(
+                    'assets/svg/play.svg',
+                    color: Colors.white,
+                  ),
                 ),
                 pause: SvgPicture.asset(
                   'assets/svg/ic_pause.svg',
