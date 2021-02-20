@@ -138,8 +138,7 @@ final class BetterPlayer {
             }
 
             if (useCache && maxCacheSize > 0 && maxCacheFileSize > 0) {
-                dataSourceFactory =
-                        new CacheDataSourceFactory(context, maxCacheSize, maxCacheFileSize, defaultHttpDataSourceFactory);
+                dataSourceFactory = new CacheDataSourceFactory(context, maxCacheSize, maxCacheFileSize, defaultHttpDataSourceFactory);
             } else {
                 dataSourceFactory = defaultHttpDataSourceFactory;
             }

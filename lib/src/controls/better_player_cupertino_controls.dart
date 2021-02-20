@@ -104,7 +104,7 @@ class _BetterPlayerCupertinoControlsState extends BetterPlayerControlsState<Bett
                         height: double.infinity,
                       ),
                     ),
-                  )
+                  ),
                 ],
               ),
             ),
@@ -206,49 +206,58 @@ class _BetterPlayerCupertinoControlsState extends BetterPlayerControlsState<Bett
   }
 
   Widget _buildBottomBar() {
-    return SafeArea(
-      child: AnimatedOpacity(
-        opacity: _hideStuff ? 0.0 : 1.0,
-        duration: _controlsConfiguration.controlsHideTime,
-        onEnd: _onPlayerHide,
-        child: Container(
-          margin: EdgeInsets.symmetric(vertical: getPaddingWidth(0)),
-          height: getPaddingSize(_controlsConfiguration.controlBarHeight),
-          // color: _controlsConfiguration.controlBarColor,
-          child: Column(
-            children: [
-              SizedBox(
-                height: getIconSize(24),
-                child: Row(
-                  children: [
-                    SizedBox(
-                      width: 8,
-                    ),
-                    _buildPlayPause(_controller, getIconSize(24)),
-                    SizedBox(
-                      width: 12,
-                    ),
-                    _buildMuteButton(_controller),
-                    SizedBox(
-                      width: 12,
-                    ),
-                    _buildCurrentPosition(),
-                    _buildTotalPosition(),
-                    Spacer(),
-                    if (_betterPlayerController.isLiveStream()) _buildLiveWidget() else _controlsConfiguration.enableProgressText ? _buildPosition() : const SizedBox(),
-                    _buildSettingButton(),
-                    SizedBox(
-                      width: 12,
-                    ),
-                    _buildExpandButton(),
-                    SizedBox(
-                      width: 8,
-                    ),
-                  ],
+    return Container(
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          colors: gradientColors,
+          stops: gradientStops,
+          end: Alignment.topCenter,
+          begin: Alignment.bottomCenter,
+        ),
+      ),
+      child: SafeArea(
+        child: AnimatedOpacity(
+          opacity: _hideStuff ? 0.0 : 1.0,
+          duration: _controlsConfiguration.controlsHideTime,
+          onEnd: _onPlayerHide,
+          child: Container(
+            margin: EdgeInsets.symmetric(vertical: getPaddingWidth(0)),
+            height: getPaddingSize(_controlsConfiguration.controlBarHeight),
+            child: Column(
+              children: [
+                SizedBox(
+                  height: getIconSize(24),
+                  child: Row(
+                    children: [
+                      SizedBox(
+                        width: 8,
+                      ),
+                      _buildPlayPause(_controller, getIconSize(24)),
+                      SizedBox(
+                        width: 12,
+                      ),
+                      _buildMuteButton(_controller),
+                      SizedBox(
+                        width: 12,
+                      ),
+                      _buildCurrentPosition(),
+                      _buildTotalPosition(),
+                      Spacer(),
+                      if (_betterPlayerController.isLiveStream()) _buildLiveWidget() else _controlsConfiguration.enableProgressText ? _buildPosition() : const SizedBox(),
+                      _buildSettingButton(),
+                      SizedBox(
+                        width: 12,
+                      ),
+                      _buildExpandButton(),
+                      SizedBox(
+                        width: 8,
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-              _buildProgressBar(),
-            ],
+                _buildProgressBar(),
+              ],
+            ),
           ),
         ),
       ),
@@ -335,12 +344,18 @@ class _BetterPlayerCupertinoControlsState extends BetterPlayerControlsState<Bett
                 child: Positioned(
                     top: _betterPlayerController.isFullScreen ? 8 : 0,
                     left: _betterPlayerController.isFullScreen ? 8 : 0,
-                    child: IconButton(
-                      onPressed: _controlsConfiguration.closeMiniVideo,
-                      icon: Icon(
-                        Icons.clear,
-                        color: Colors.white,
-                        size: getIconSize(32),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(32),
+                        color: Colors.black26,
+                      ),
+                      child: IconButton(
+                        onPressed: _controlsConfiguration.closeMiniVideo,
+                        icon: Icon(
+                          Icons.clear,
+                          color: Colors.white,
+                          size: getIconSize(32),
+                        ),
                       ),
                     )),
               ),
@@ -405,10 +420,13 @@ class _BetterPlayerCupertinoControlsState extends BetterPlayerControlsState<Bett
 
   Widget _buildSkipButton() {
     return BetterPlayerMaterialClickableWidget(
-      child: Icon(
-        _controlsConfiguration.skipBackIcon,
-        size: getIconSize(32),
-        color: _controlsConfiguration.iconsColor,
+      child: Container(
+        margin: EdgeInsets.all(4),
+        child: Icon(
+          _controlsConfiguration.skipBackIcon,
+          size: getIconSize(32),
+          color: _controlsConfiguration.iconsColor,
+        ),
       ),
       onTap: () {
         skipBack();
@@ -422,7 +440,11 @@ class _BetterPlayerCupertinoControlsState extends BetterPlayerControlsState<Bett
     return Visibility(
       visible: _betterPlayerController.betterPlayerDataSource.isSerial,
       child: BetterPlayerMaterialClickableWidget(
-        child: SizedBox(width: getIconSize(32), height: getIconSize(32), child: _controlsConfiguration.prev ?? SizedBox()),
+        child: Container(
+            width: getIconSize(32),
+            height: getIconSize(32),
+            margin: EdgeInsets.all(4),
+            child: _controlsConfiguration.prev ?? SizedBox()),
         onTap: _controlsConfiguration.prevEpisode,
       ),
     );
@@ -432,7 +454,11 @@ class _BetterPlayerCupertinoControlsState extends BetterPlayerControlsState<Bett
     return Visibility(
       visible: _betterPlayerController.betterPlayerDataSource.isSerial,
       child: BetterPlayerMaterialClickableWidget(
-        child: SizedBox(width: getIconSize(32), height: getIconSize(32), child: _controlsConfiguration.next ?? SizedBox()),
+        child: Container(
+            width: getIconSize(32),
+            height: getIconSize(32),
+            margin: EdgeInsets.all(4),
+            child: _controlsConfiguration.next ?? SizedBox()),
         onTap: _controlsConfiguration.nextEpisode,
       ),
     );
@@ -440,10 +466,13 @@ class _BetterPlayerCupertinoControlsState extends BetterPlayerControlsState<Bett
 
   Widget _buildForwardButton() {
     return BetterPlayerMaterialClickableWidget(
-      child: Icon(
-        _controlsConfiguration.skipForwardIcon,
-        size: getIconSize(32),
-        color: _controlsConfiguration.iconsColor,
+      child: Container(
+        margin: EdgeInsets.all(4),
+        child: Icon(
+          _controlsConfiguration.skipForwardIcon,
+          size: getIconSize(32),
+          color: _controlsConfiguration.iconsColor,
+        ),
       ),
       onTap: () {
         skipForward();
@@ -459,10 +488,13 @@ class _BetterPlayerCupertinoControlsState extends BetterPlayerControlsState<Bett
       return _buildPlayPause(_controller, getIconSize(40));
     }
     return BetterPlayerMaterialClickableWidget(
-      child: Icon(
-        Icons.replay,
-        size: getIconSize(32),
-        color: _controlsConfiguration.iconsColor,
+      child: Container(
+        margin: EdgeInsets.all(4),
+        child: Icon(
+          Icons.replay,
+          size: getIconSize(32),
+          color: _controlsConfiguration.iconsColor,
+        ),
       ),
       onTap: () {
         if (_latestValue != null && _latestValue.isPlaying) {
@@ -550,7 +582,11 @@ class _BetterPlayerCupertinoControlsState extends BetterPlayerControlsState<Bett
   Widget _buildPlayPause(VideoPlayerController controller, double size) {
     return BetterPlayerMaterialClickableWidget(
       onTap: _onPlayPause,
-      child: SizedBox(height: size, width: size, child: controller.value.isPlaying ? _controlsConfiguration.pause : _controlsConfiguration.play),
+      child: Container(
+          height: size,
+          width: size,
+          margin: EdgeInsets.all(4),
+          child: controller.value.isPlaying ? _controlsConfiguration.pause : _controlsConfiguration.play),
     );
   }
 
@@ -811,3 +847,56 @@ class _BetterPlayerCupertinoControlsState extends BetterPlayerControlsState<Bett
         : 0.0 + height;
   }
 }
+
+List<double> gradientStops = [
+  0.0125,
+  0.025,
+  0.05,
+  0.1,
+  0.15,
+  0.2,
+  0.25,
+  0.3,
+  0.35,
+  0.4,
+  0.45,
+  0.5,
+  0.55,
+  0.6,
+  0.65,
+  0.7,
+  0.75,
+  0.8,
+  0.85,
+  0.93,
+  0.95,
+  0.97,
+  0.99,
+  1.0
+];
+List<Color> gradientColors = [
+  Colors.black.withOpacity(0.93),
+  Colors.black.withOpacity(0.91),
+  Colors.black.withOpacity(0.9),
+  Colors.black.withOpacity(0.87),
+  Colors.black.withOpacity(0.85),
+  Colors.black.withOpacity(0.8),
+  Colors.black.withOpacity(0.75),
+  Colors.black.withOpacity(0.7),
+  Colors.black.withOpacity(0.65),
+  Colors.black.withOpacity(0.6),
+  Colors.black.withOpacity(0.55),
+  Colors.black.withOpacity(0.5),
+  Colors.black.withOpacity(0.45),
+  Colors.black.withOpacity(0.4),
+  Colors.black.withOpacity(0.35),
+  Colors.black.withOpacity(0.3),
+  Colors.black.withOpacity(0.25),
+  Colors.black.withOpacity(0.2),
+  Colors.black.withOpacity(0.15),
+  Colors.black.withOpacity(0.1),
+  Colors.black.withOpacity(0.05),
+  Colors.black.withOpacity(0.025),
+  Colors.black.withOpacity(0.0125),
+  Colors.black.withOpacity(0.00625),
+];

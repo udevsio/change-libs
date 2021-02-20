@@ -462,6 +462,12 @@ class BetterPlayerController extends ChangeNotifier {
     _postEvent(BetterPlayerEvent(BetterPlayerEventType.pause));
   }
 
+  ///Stop video playback.
+  Future<void> stop() async {
+    await videoPlayerController.stop();
+    _postEvent(BetterPlayerEvent(BetterPlayerEventType.stop));
+  }
+
   ///Move player to specific position/moment of the video.
   Future<void> seekTo(Duration moment) async {
     await videoPlayerController.seekTo(moment);

@@ -21,6 +21,8 @@ class _NormalPlayerPageState extends State<NormalPlayerPage> {
             aspectRatio: 16 / 9,
             fit: BoxFit.contain,
             translations: [],
+            allowedScreenSleep: false,
+            // autoDetectFullscreenDeviceOrientation: true,
             controlsConfiguration: BetterPlayerControlsConfiguration(
                 setting: SvgPicture.asset(
                   'assets/svg/settings.svg',
@@ -96,7 +98,7 @@ class _NormalPlayerPageState extends State<NormalPlayerPage> {
 
   @override
   Widget build(BuildContext context) {
-    _betterPlayerController.changeOfflineMode(true);
+    // _betterPlayerController.changeOfflineMode(true);
     return Scaffold(
       appBar: AppBar(
         title: Text("Normal player"),
@@ -121,10 +123,11 @@ class _NormalPlayerPageState extends State<NormalPlayerPage> {
           ElevatedButton(
             child: Text("Play file data source"),
             onPressed: () async {
-              String url = await Utils.getFileUrl(Constants.testUrl);
+              // _betterPlayerController.stop();
+              /*String url = await Utils.getFileUrl(Constants.testUrl);
               BetterPlayerDataSource dataSource =
                   BetterPlayerDataSource(BetterPlayerDataSourceType.file, url);
-              _betterPlayerController.setupDataSource(dataSource);
+              _betterPlayerController.setupDataSource(dataSource);*/
             },
           ),
         ],
