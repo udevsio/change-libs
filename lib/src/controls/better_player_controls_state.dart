@@ -226,6 +226,7 @@ abstract class BetterPlayerControlsState<T extends StatefulWidget>
         Navigator.of(context).pop();
         betterPlayerController.setSpeed(value);
       },
+      color: Colors.transparent,
       radius: 0,
       child: ListTile(
         title: Text(
@@ -313,6 +314,7 @@ abstract class BetterPlayerControlsState<T extends StatefulWidget>
         Navigator.of(context).pop();
         betterPlayerController.setupSubtitleSource(subtitlesSource);
       },
+      color: Colors.transparent,
       radius: 0,
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 8),
@@ -424,6 +426,7 @@ abstract class BetterPlayerControlsState<T extends StatefulWidget>
         Navigator.of(context).pop();
         betterPlayerController.setTrack(track);
       },
+      color: Colors.transparent,
       radius: 0,
       child: ListTile(
         title: Text(
@@ -452,6 +455,7 @@ abstract class BetterPlayerControlsState<T extends StatefulWidget>
         Navigator.of(context).pop();
         betterPlayerController.setResolution(url, name);
       },
+      color: Colors.transparent,
       radius: 0,
       child: ListTile(
         title: Text(
@@ -517,6 +521,7 @@ abstract class BetterPlayerControlsState<T extends StatefulWidget>
         Navigator.of(context).pop();
         betterPlayerController.setAudioTrack(audioTrack);
       },
+      color: Colors.transparent,
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 8),
         child: Row(
