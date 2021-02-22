@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 class BetterPlayerMaterialClickableWidget extends StatelessWidget {
   final Widget child;
   final double radius;
+  final Color color;
   final void Function() onTap;
   final void Function() onDoubleTap;
 
@@ -11,6 +12,7 @@ class BetterPlayerMaterialClickableWidget extends StatelessWidget {
       {Key key,
       @required this.onTap,
       this.onDoubleTap,
+        this.color = Colors.black26,
       @required this.child,
       this.radius = 60})
       : assert(onTap != null),
@@ -24,7 +26,7 @@ class BetterPlayerMaterialClickableWidget extends StatelessWidget {
         borderRadius: BorderRadius.circular(radius),
       ),
       clipBehavior: Clip.hardEdge,
-      color: Colors.black26,
+      color: color,
       child: InkWell(
         onDoubleTap: onDoubleTap,
         onTap: onTap,

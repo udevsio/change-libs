@@ -95,10 +95,12 @@ abstract class BetterPlayerControlsState<T extends StatefulWidget>
             if (betterPlayerControlsConfiguration.enableQualities)
               _buildMoreOptionsListRow(
                   betterPlayerControlsConfiguration.qualitiesIcon,
-                  translations.overflowMenuQuality, () {
+                  translations.overflowMenuQuality,
+                      () {
                 Navigator.of(context).pop();
                 _showQualitiesSelectionWidget(
-                    translations.overflowMenuQuality, color, textColor);
+                    translations.overflowMenuQuality,
+                    color, textColor);
               }, textColor),
             Divider(
                 height: 1, thickness: 0.5, color: textColor.withOpacity(.5)),
@@ -149,6 +151,7 @@ abstract class BetterPlayerControlsState<T extends StatefulWidget>
     assert(onTap != null, "OnTap can't be null");
     return BetterPlayerMaterialClickableWidget(
       onTap: onTap,
+      color: Colors.transparent,
       radius: 0,
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 16),
