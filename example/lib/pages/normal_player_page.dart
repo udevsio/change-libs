@@ -40,6 +40,9 @@ class _NormalPlayerPageState extends State<NormalPlayerPage> {
                   'assets/svg/ic_pause.svg',
                   color: Colors.white,
                 ),
+                closeMiniVideo: (){
+
+                },
                 enterFullScreen: SvgPicture.asset(
                   'assets/svg/maximize.svg',
                   color: Colors.white,

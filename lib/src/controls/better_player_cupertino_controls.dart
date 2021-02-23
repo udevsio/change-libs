@@ -342,20 +342,15 @@ class _BetterPlayerCupertinoControlsState extends BetterPlayerControlsState<Bett
               Visibility(
                 visible: _betterPlayerController.betterPlayerDataSource.isMiniVideo,
                 child: Positioned(
-                    top: _betterPlayerController.isFullScreen ? 8 : 0,
-                    left: _betterPlayerController.isFullScreen ? 8 : 0,
-                    child: Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(32),
-                        color: Colors.black26,
-                      ),
-                      child: IconButton(
-                        onPressed: _controlsConfiguration.closeMiniVideo,
-                        icon: Icon(
-                          Icons.clear,
-                          color: Colors.white,
-                          size: getIconSize(32),
-                        ),
+                    top: 8,
+                    left: _betterPlayerController.isFullScreen ? 16 :8,
+                    child: BetterPlayerMaterialClickableWidget(
+                      onTap: _controlsConfiguration.closeMiniVideo,
+                      color: Colors.black26,
+                      child: Icon(
+                        Icons.clear,
+                        color: Colors.white,
+                        size: getIconSize(32),
                       ),
                     )),
               ),
