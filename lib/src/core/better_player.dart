@@ -162,6 +162,7 @@ class _BetterPlayerState extends State<BetterPlayer> with WidgetsBindingObserver
     );
   }
 
+
   AnimatedWidget _defaultRoutePageBuilder(
       BuildContext context, Animation<double> animation, Animation<double> secondaryAnimation, BetterPlayerControllerProvider controllerProvider) {
     return AnimatedBuilder(

@@ -24,6 +24,8 @@ class BetterPlayerDataSource {
   /// Play the video as soon as it's displayed
   final bool autoPlay;
 
+  final double volume;
+
   final bool isMiniVideo;
 
   ///Subtitles configuration
@@ -79,6 +81,7 @@ class BetterPlayerDataSource {
     this.headers,
     this.startAt = Duration.zero,
     this.isSerial = false,
+    this.volume = 1.0,
     this.isMiniVideo = false,
     this.useHlsSubtitles = true,
     this.useHlsTracks = true,
@@ -105,9 +108,12 @@ class BetterPlayerDataSource {
     bool useHlsSubtitles,
     bool useHlsTracks,
     bool isMiniVideo,
+    bool isSerial,
+    bool isPrefetch,
     bool useHlsAudioTracks,
     Duration startAt,
     String quality,
+    double volume,
     Map<String, String> qualities,
     BetterPlayerCacheConfiguration cacheConfiguration,
     BetterPlayerNotificationConfiguration notificationConfiguration,
@@ -121,6 +127,8 @@ class BetterPlayerDataSource {
       headers: headers,
       isMiniVideo: isMiniVideo,
       startAt: startAt,
+      volume: volume,
+      isSerial: isSerial,
       useHlsSubtitles: useHlsSubtitles,
       quality: quality,
       useHlsTracks: useHlsTracks,
@@ -139,6 +147,9 @@ class BetterPlayerDataSource {
     List<BetterPlayerSubtitlesSource> subtitles,
     bool useHlsSubtitles,
     bool useHlsTracks,
+    double volume,
+    bool isSerial,
+    bool isPrefetch,
     Map<String, String> qualities,
     BetterPlayerCacheConfiguration cacheConfiguration,
     BetterPlayerNotificationConfiguration notificationConfiguration,
@@ -149,6 +160,8 @@ class BetterPlayerDataSource {
         useHlsSubtitles: useHlsSubtitles,
         useHlsTracks: useHlsTracks,
         resolutions: qualities,
+        volume: volume,
+        isSerial: isSerial,
         cacheConfiguration: cacheConfiguration,
         notificationConfiguration: notificationConfiguration,
         overriddenDuration: overriddenDuration);
@@ -162,6 +175,9 @@ class BetterPlayerDataSource {
     bool useHlsSubtitles,
     bool useHlsTracks,
     bool isMiniVideo,
+    bool isSerial,
+    bool isPrefetch,
+    double volume,
     Map<String, String> qualities,
     BetterPlayerCacheConfiguration cacheConfiguration,
     BetterPlayerNotificationConfiguration notificationConfiguration,
@@ -172,6 +188,8 @@ class BetterPlayerDataSource {
         subtitles: subtitles,
         useHlsSubtitles: useHlsSubtitles,
         useHlsTracks: useHlsTracks,
+        volume: volume,
+        isSerial: isSerial,
         resolutions: qualities,
         cacheConfiguration: cacheConfiguration,
         notificationConfiguration: notificationConfiguration,
@@ -187,6 +205,9 @@ class BetterPlayerDataSource {
     bool isMiniVideo,
     Duration startAt,
     bool autoPlay,
+    double volume,
+    bool isSerial,
+    bool isPrefetch,
     String quality,
     Map<String, String> headers,
     bool useHlsSubtitles,
@@ -204,7 +225,9 @@ class BetterPlayerDataSource {
       subtitles: subtitles ?? this.subtitles,
       liveStream: liveStream ?? this.liveStream,
       headers: headers ?? this.headers,
+      volume: volume ?? this.volume,
       startAt: startAt ?? this.startAt,
+      isSerial: isSerial ?? this.isSerial,
       autoPlay: autoPlay ?? this.autoPlay,
       quality: quality ?? this.quality,
       isMiniVideo: isMiniVideo ?? this.isMiniVideo,

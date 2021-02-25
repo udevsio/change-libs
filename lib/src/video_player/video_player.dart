@@ -234,7 +234,6 @@ class VideoPlayerController extends ValueNotifier<VideoPlayerValue> {
             value = value.copyWith(isBuffering: false);
           }
           break;
-
         case VideoEventType.play:
           play();
           break;
@@ -428,6 +427,12 @@ class VideoPlayerController extends ValueNotifier<VideoPlayerValue> {
   /// Pauses the video.
   Future<void> pause() async {
     value = value.copyWith(isPlaying: false);
+    await _applyPlayPause();
+  }
+
+  /// Stop the video.
+  Future<void> stop() async {
+    value = value.copyWith(isBuffering: false, isPlaying: false);
     await _applyPlayPause();
   }
 

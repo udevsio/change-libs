@@ -83,7 +83,6 @@ class _VideoProgressBarState
         if (!controller.value.initialized || !enableProgressBarDrag) {
           return;
         }
-        debugPrint("TTT: start");
         _controllerWasPlaying = controller.value.isPlaying;
         if (_controllerWasPlaying) {
           controller.pause();
@@ -97,7 +96,6 @@ class _VideoProgressBarState
         if (!controller.value.initialized || !enableProgressBarDrag) {
           return;
         }
-        debugPrint("TTT: update");
         seekToRelativePosition(details.globalPosition);
 
         if (widget.onDragUpdate != null) {
@@ -108,7 +106,6 @@ class _VideoProgressBarState
         if (!enableProgressBarDrag) {
           return;
         }
-        debugPrint("TTT: end");
         if (_controllerWasPlaying) {
           controller.play();
         }
