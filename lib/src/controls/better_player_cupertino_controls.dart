@@ -52,8 +52,7 @@ class _BetterPlayerCupertinoControlsState
   BetterPlayerController _betterPlayerController;
   StreamSubscription _controlsVisibilityStreamSubscription;
 
-  BetterPlayerControlsConfiguration get _controlsConfiguration =>
-      widget.controlsConfiguration;
+  BetterPlayerControlsConfiguration get _controlsConfiguration => widget.controlsConfiguration;
 
   @override
   VideoPlayerValue get latestValue => _latestValue;
@@ -62,8 +61,7 @@ class _BetterPlayerCupertinoControlsState
   BetterPlayerController get betterPlayerController => _betterPlayerController;
 
   @override
-  BetterPlayerControlsConfiguration get betterPlayerControlsConfiguration =>
-      _controlsConfiguration;
+  BetterPlayerControlsConfiguration get betterPlayerControlsConfiguration => _controlsConfiguration;
 
   @override
   Widget build(BuildContext context) {
@@ -217,12 +215,11 @@ class _BetterPlayerCupertinoControlsState
   }
 
   Widget _buildErrorWidget() {
-    final errorBuilder =
-        _betterPlayerController.betterPlayerConfiguration.errorBuilder;
+    final errorBuilder = _betterPlayerController.betterPlayerConfiguration.errorBuilder;
     debugPrint('TTT: Videoplayer error iOS: \n$errorBuilder');
     if (errorBuilder != null) {
-      return errorBuilder(context,
-          _betterPlayerController.videoPlayerController.value.errorDescription);
+      return errorBuilder(
+          context, _betterPlayerController.videoPlayerController.value.errorDescription);
     } else {
       final textStyle = TextStyle(color: _controlsConfiguration.textColor);
       if (_controlsConfiguration.enableRetry) {
@@ -231,8 +228,7 @@ class _BetterPlayerCupertinoControlsState
       return Center(
         child: CircularProgressIndicator(
           valueColor: AlwaysStoppedAnimation<Color>(
-              _controlsConfiguration.loadingColor ??
-                  _controlsConfiguration.controlBarColor),
+              _controlsConfiguration.loadingColor ?? _controlsConfiguration.controlBarColor),
         ),
       );
       // return Column(
@@ -326,9 +322,7 @@ class _BetterPlayerCupertinoControlsState
     return Expanded(
       child: Text(
         _betterPlayerController.translations.controlsLive,
-        style: TextStyle(
-            color: _controlsConfiguration.liveTextColor,
-            fontWeight: FontWeight.bold),
+        style: TextStyle(color: _controlsConfiguration.liveTextColor, fontWeight: FontWeight.bold),
       ),
     );
   }
@@ -402,8 +396,7 @@ class _BetterPlayerCupertinoControlsState
                 ),
               ),
               Visibility(
-                visible:
-                    _betterPlayerController.betterPlayerDataSource.isMiniVideo,
+                visible: _betterPlayerController.betterPlayerDataSource.isMiniVideo,
                 child: Positioned(
                     top: _betterPlayerController.isFullScreen ? 8 : 0,
                     left: _betterPlayerController.isFullScreen ? 8 : 0,
@@ -486,8 +479,7 @@ class _BetterPlayerCupertinoControlsState
     );
   }
 
-  Widget _buildHitAreaClickableButton(
-      {Widget icon, void Function() onClicked}) {
+  Widget _buildHitAreaClickableButton({Widget icon, void Function() onClicked}) {
     return BetterPlayerMaterialClickableWidget(
       onTap: onClicked,
       radius: 0,
@@ -620,13 +612,10 @@ class _BetterPlayerCupertinoControlsState
   Widget _buildSettingButton() {
     return BetterPlayerMaterialClickableWidget(
       onTap: () {
-        onShowMoreClicked(_controlsConfiguration.bottomSheet,
-            _controlsConfiguration.textColor);
+        onShowMoreClicked(_controlsConfiguration.bottomSheet, _controlsConfiguration.textColor);
       },
       child: SizedBox(
-          width: getIconSize(24),
-          height: getIconSize(24),
-          child: _controlsConfiguration.setting),
+          width: getIconSize(24), height: getIconSize(24), child: _controlsConfiguration.setting),
     );
   }
 
@@ -728,8 +717,7 @@ class _BetterPlayerCupertinoControlsState
     setState(() {
       _hideStuff = true;
       _betterPlayerController.toggleFullScreen();
-      _showAfterExpandCollapseTimer =
-          Timer(_controlsConfiguration.controlsHideTime, () {
+      _showAfterExpandCollapseTimer = Timer(_controlsConfiguration.controlsHideTime, () {
         setState(() {
           cancelAndRestartTimer();
         });
@@ -760,9 +748,8 @@ class _BetterPlayerCupertinoControlsState
   }
 
   Widget _buildTotalPosition() {
-    String textDuration = _controller.value.duration != null
-        ? formatDuration(_controller.value.duration)
-        : '00:00';
+    String textDuration =
+        _controller.value.duration != null ? formatDuration(_controller.value.duration) : '00:00';
     return Text(
       textDuration,
       style: TextStyle(fontSize: 14, color: Colors.white),
@@ -868,8 +855,7 @@ class _BetterPlayerCupertinoControlsState
               playedColor: _controlsConfiguration.progressBarPlayedColor,
               handleColor: _controlsConfiguration.progressBarHandleColor,
               bufferedColor: _controlsConfiguration.progressBarBufferedColor,
-              backgroundColor:
-                  _controlsConfiguration.progressBarBackgroundColor),
+              backgroundColor: _controlsConfiguration.progressBarBackgroundColor),
         ),
       ),
     );
@@ -887,15 +873,12 @@ class _BetterPlayerCupertinoControlsState
 
     return CircularProgressIndicator(
       valueColor: AlwaysStoppedAnimation<Color>(
-          _controlsConfiguration.loadingColor ??
-              _controlsConfiguration.controlBarColor),
+          _controlsConfiguration.loadingColor ?? _controlsConfiguration.controlBarColor),
     );
   }
 
   double getIconSize(double height) {
-    return _betterPlayerController.isFullScreen
-        ? _controlsConfiguration.iconTime * height
-        : height;
+    return _betterPlayerController.isFullScreen ? _controlsConfiguration.iconTime * height : height;
   }
 
   double getPaddingSize() {
