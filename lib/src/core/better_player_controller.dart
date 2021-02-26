@@ -207,8 +207,7 @@ class BetterPlayerController extends ChangeNotifier {
   }
 
   void changeTrack(bool value, int index) {
-
-    _trackList[index - 1] = value;
+    _trackList[index] = value;
   }
 
   List<bool> get trackList => _trackList;
