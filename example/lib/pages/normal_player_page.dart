@@ -1,8 +1,6 @@
 import 'dart:io';
 
 import 'package:better_player/better_player.dart';
-import 'package:better_player_example/constants.dart';
-import 'package:better_player_example/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -88,7 +86,7 @@ class _NormalPlayerPageState extends State<NormalPlayerPage> {
         );
     BetterPlayerDataSource dataSource = BetterPlayerDataSource(
       BetterPlayerDataSourceType.network,
-      "http://cdn.theoplayer.com/video/elephants-dream/playlist.m3u8",
+      "https://voxecdn.s3.us-east-2.amazonaws.com/360p/b8be4615792e871d5fc2388c08f6041a/video.m3u8",
       cacheConfiguration: getCacheConfiguration(),
       isMiniVideo: true,
       volume: 1.0,

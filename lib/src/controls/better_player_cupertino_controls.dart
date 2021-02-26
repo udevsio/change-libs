@@ -218,20 +218,20 @@ class _BetterPlayerCupertinoControlsState
   }
 
   Widget _buildBottomBar() {
-    return Container(
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          colors: gradientColors,
-          stops: gradientStops,
-          end: Alignment.topCenter,
-          begin: Alignment.bottomCenter,
+    return AnimatedOpacity(
+      opacity: _hideStuff ? 0.0 : 1.0,
+      duration: _controlsConfiguration.controlsHideTime,
+      onEnd: _onPlayerHide,
+      child: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: gradientColors,
+            stops: gradientStops,
+            end: Alignment.topCenter,
+            begin: Alignment.bottomCenter,
+          ),
         ),
-      ),
-      child: SafeArea(
-        child: AnimatedOpacity(
-          opacity: _hideStuff ? 0.0 : 1.0,
-          duration: _controlsConfiguration.controlsHideTime,
-          onEnd: _onPlayerHide,
+        child: SafeArea(
           child: Container(
             margin: EdgeInsets.symmetric(vertical: getPaddingWidth(0)),
             height: getPaddingSize(_controlsConfiguration.controlBarHeight),

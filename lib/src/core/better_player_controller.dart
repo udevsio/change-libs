@@ -387,7 +387,7 @@ class BetterPlayerController extends ChangeNotifier {
       default:
         throw UnimplementedError("${betterPlayerDataSource.type} is not implemented");
     }
-    await _initializeVideo(betterPlayerDataSource.startAt);
+    await _initializeVideo();
   }
 
   ///Create file from provided list of bytes. File will be created in temporary
@@ -401,7 +401,7 @@ class BetterPlayerController extends ChangeNotifier {
 
   ///Initializes video based on configuration. Invoke actions which need to be
   ///run on player start.
-  Future _initializeVideo(Duration startAt) async {
+  Future _initializeVideo() async {
     await videoPlayerController.setLooping(betterPlayerConfiguration.looping);
     _videoEventStreamSubscription = videoPlayerController.videoEventStreamController.stream.listen(_handleVideoEvent);
     final fullScreenByDefault = betterPlayerConfiguration.fullScreenByDefault;
@@ -409,7 +409,6 @@ class BetterPlayerController extends ChangeNotifier {
       if (fullScreenByDefault) {
         enterFullScreen();
       }
-
       await play();
     } else {
       if (fullScreenByDefault) {
@@ -417,8 +416,8 @@ class BetterPlayerController extends ChangeNotifier {
       }
     }
 
-    if (startAt != null) {
-      await videoPlayerController.seekTo(startAt);
+    if (betterPlayerDataSource.startAt != null) {
+      await videoPlayerController.seekTo(betterPlayerDataSource.startAt);
     }
   }
 
