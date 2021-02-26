@@ -748,7 +748,7 @@ class _BetterPlayerCupertinoControlsState
     });
   }
 
-  int _oldPos = -1;
+  int _oldPos = 0;
 
   void _updateState() {
     if (mounted) {
@@ -764,8 +764,10 @@ class _BetterPlayerCupertinoControlsState
         });
       }
       if (_controller.value.position.inSeconds == _oldPos) return;
-      _betterPlayerController.changeTrack(true, _controller.value.position.inSeconds ~/ 1.7);
-      _oldPos = _controller.value.position.inSeconds;
+      if(_controlsConfiguration.enableVideoTrack){
+        _betterPlayerController.changeTrack(true, _controller.value.position.inSeconds ~/ 1.7);
+        _oldPos = _controller.value.position.inSeconds;
+      }
     }
   }
 

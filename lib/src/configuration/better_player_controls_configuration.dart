@@ -59,6 +59,9 @@ class BetterPlayerControlsConfiguration {
   ///Flag used to enable/disable progress bar
   final bool enableProgressBar;
 
+  /// Video watched record
+  final bool enableVideoTrack;
+
   ///Flag used to enable/disable progress bar drag
   final bool enableProgressBarDrag;
 
@@ -84,8 +87,7 @@ class BetterPlayerControlsConfiguration {
   final Duration controlsHideTime;
 
   ///Parameter used to build custom controls
-  final Widget Function(BetterPlayerController controller)
-      customControlsBuilder;
+  final Widget Function(BetterPlayerController controller) customControlsBuilder;
 
   ///Parameter used to change theme of the player
   final BetterPlayerTheme playerTheme;
@@ -221,6 +223,7 @@ class BetterPlayerControlsConfiguration {
     this.enableProgressBar = true,
     this.enableProgressBarDrag = true,
     this.enablePlayPause = true,
+    this.enableVideoTrack = false,
     this.enableSkips = true,
     this.enableAudioTracks = true,
     this.progressBarPlayedColor = Colors.white,
