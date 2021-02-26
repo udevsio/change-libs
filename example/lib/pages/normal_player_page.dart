@@ -104,6 +104,8 @@ class _NormalPlayerPageState extends State<NormalPlayerPage> {
     setState(() {});
   }
 
+  String percent = '';
+
   @override
   Widget build(BuildContext context) {
     // _betterPlayerController.changeOfflineMode(true);
@@ -131,13 +133,20 @@ class _NormalPlayerPageState extends State<NormalPlayerPage> {
           ElevatedButton(
             child: Text("Play file data source"),
             onPressed: () async {
-              setState(() {});
+              var trueList = _betterPlayerController.trackList.where((element) => element);
+              setState(() {
+                percent = "${(trueList.length / _betterPlayerController.trackList.length) * 100}";
+              });
               // _betterPlayerController.stop();
               /*String url = await Utils.getFileUrl(Constants.testUrl);
               BetterPlayerDataSource dataSource =
                   BetterPlayerDataSource(BetterPlayerDataSourceType.file, url);
               _betterPlayerController.setupDataSource(dataSource);*/
             },
+          ),
+          Text(
+            percent,
+            style: TextStyle(fontSize: 22, color: Colors.black),
           ),
           Expanded(
             child: ListView.builder(

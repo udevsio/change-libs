@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:math';
 import 'package:better_player/better_player.dart';
 import 'package:better_player/src/configuration/better_player_controls_configuration.dart';
 import 'package:better_player/src/controls/better_player_clickable_widget.dart';
@@ -75,7 +74,7 @@ class _BetterPlayerCupertinoControlsState
                     child: GestureDetector(
                       behavior: HitTestBehavior.opaque,
                       onDoubleTap: () {
-                        backCheckTrack(
+                        /* backCheckTrack(
                           seekDuration: _controller.value.position.inSeconds >= 10
                               ? (Duration(seconds: _controller.value.position.inSeconds - 10))
                               : Duration.zero,
@@ -84,7 +83,7 @@ class _BetterPlayerCupertinoControlsState
                                 ? (_controller.value.position.inSeconds)
                                 : 0,
                           ),
-                        );
+                        );*/
                         skipBack();
                       },
                       onTap: () {
@@ -104,10 +103,11 @@ class _BetterPlayerCupertinoControlsState
                     child: GestureDetector(
                       behavior: HitTestBehavior.opaque,
                       onDoubleTap: () {
-                        nextCheckTrack(
-                          seekDuration: Duration(seconds: _controller.value.position.inSeconds + 10),
+                        /* nextCheckTrack(
+                          seekDuration:
+                              Duration(seconds: _controller.value.position.inSeconds + 10),
                           lastDuration: _controller.value.position,
-                        );
+                        );*/
                         skipForward();
                       },
                       onTap: () {
@@ -339,7 +339,7 @@ class _BetterPlayerCupertinoControlsState
                       child: GestureDetector(
                           behavior: HitTestBehavior.opaque,
                           onDoubleTap: () {
-                            backCheckTrack(
+                            /*backCheckTrack(
                               seekDuration: _controller.value.position.inSeconds >= 10
                                   ? (Duration(seconds: _controller.value.position.inSeconds - 10))
                                   : Duration.zero,
@@ -348,7 +348,7 @@ class _BetterPlayerCupertinoControlsState
                                     ? (_controller.value.position.inSeconds)
                                     : 0,
                               ),
-                            );
+                            );*/
                             skipBack();
                           },
                           onTap: () {
@@ -367,10 +367,11 @@ class _BetterPlayerCupertinoControlsState
                       child: GestureDetector(
                         behavior: HitTestBehavior.opaque,
                         onDoubleTap: () {
-                          nextCheckTrack(
-                            seekDuration: Duration(seconds: _controller.value.position.inSeconds + 10),
+                          /*nextCheckTrack(
+                            seekDuration:
+                                Duration(seconds: _controller.value.position.inSeconds + 10),
                             lastDuration: _controller.value.position,
-                          );
+                          );*/
                           skipForward();
                         },
                         onTap: () {
@@ -474,7 +475,7 @@ class _BetterPlayerCupertinoControlsState
         ),
       ),
       onTap: () {
-        backCheckTrack(
+        /*  backCheckTrack(
           seekDuration: _controller.value.position.inSeconds >= 10
               ? (Duration(seconds: _controller.value.position.inSeconds - 10))
               : Duration.zero,
@@ -483,7 +484,7 @@ class _BetterPlayerCupertinoControlsState
                 ? (_controller.value.position.inSeconds)
                 : 0,
           ),
-        );
+        );*/
         skipBack();
       },
       // onDoubleTap: skipBack,
@@ -531,10 +532,10 @@ class _BetterPlayerCupertinoControlsState
       onTap: () {
         // _videoTrackList
         //     .add(VideoTrackDuration(start: _startPos, end: _controller.value.position.inSeconds));
-        nextCheckTrack(
+        /* nextCheckTrack(
           seekDuration: Duration(seconds: _controller.value.position.inSeconds + 10),
           lastDuration: _controller.value.position,
-        );
+        );*/
         skipForward();
       },
       // onDoubleTap: skipForward,
@@ -686,17 +687,17 @@ class _BetterPlayerCupertinoControlsState
 
   Future<void> _initialize() async {
     _controller.addListener(_updateState);
-    _betterPlayerController.addEventsListener((event) {
-      if (event.betterPlayerEventType == BetterPlayerEventType.play) {
-        // _startPos = _controller.value.position.inSeconds;
-        print("PLAYYYYYYYYYY");
-      } else if (event.betterPlayerEventType == BetterPlayerEventType.pause) {
-        print("PAUSEEEEEEEEE");
-        _betterPlayerController.addVideoTrack(
-            start: _startPos, end: _controller.value.position.inSeconds);
-        _startPos = _controller.value.position.inSeconds + 1;
-      }
-    });
+    // _betterPlayerController.addEventsListener((event) {
+    //   if (event.betterPlayerEventType == BetterPlayerEventType.play) {
+    //     // _startPos = _controller.value.position.inSeconds;
+    //     print("PLAYYYYYYYYYY");
+    //   } else if (event.betterPlayerEventType == BetterPlayerEventType.pause) {
+    //     print("PAUSEEEEEEEEE");
+    //     _betterPlayerController.addVideoTrack(
+    //         start: _startPos, end: _controller.value.position.inSeconds);
+    //     _startPos = _controller.value.position.inSeconds + 1;
+    //   }
+    // });
     _updateState();
 
     if ((_controller.value != null && _controller.value.isPlaying) ||
@@ -804,6 +805,8 @@ class _BetterPlayerCupertinoControlsState
     });
   }
 
+  int _oldPos = 0;
+
   void _updateState() {
     if (mounted) {
       if (!_hideStuff ||
@@ -817,7 +820,10 @@ class _BetterPlayerCupertinoControlsState
           }
         });
       }
-      if (_controller.value.position.inSeconds > 0 &&
+      if (_controller.value.position.inSeconds == _oldPos) return;
+      _betterPlayerController.changeTrack(true, _controller.value.position.inSeconds ~/ 1.7);
+      _oldPos = _controller.value.position.inSeconds;
+      /*  if (_controller.value.position.inSeconds > 0 &&
           _startPos == _controller.value.position.inSeconds) {
         _isSeen = false;
       }
@@ -825,11 +831,11 @@ class _BetterPlayerCupertinoControlsState
         _betterPlayerController.addVideoTrack(start: _startPos, end: _lastSeenInterval.start - 1);
         _startPos = _lastSeenInterval.end + 1;
         _isSeen = true;
-        print("AAAAAAAAAAAAAAAAAAAAAAAAAA        DDDDDDDDDD");
-      }
+      }*/
     }
   }
 
+/*
 
   Demo checkInterval(Duration seekDuration) {
     print("SEEKDURATION: ${seekDuration.inSeconds}");
@@ -866,7 +872,6 @@ class _BetterPlayerCupertinoControlsState
     var a = checkInterval(seekDuration);
     if (seekDuration.inSeconds >= _startPos && lastDuration.inSeconds > seekDuration.inSeconds) {
       _isSeen = true;
-      print("ONangkiiiiii");
       betterPlayerController.addVideoTrack(start: _startPos, end: lastDuration.inSeconds);
       _startPos = lastDuration.inSeconds + 1;
       return;
@@ -919,6 +924,7 @@ class _BetterPlayerCupertinoControlsState
     }
     _isSeen = false;
   }
+*/
 
   int _startPos = 0;
   bool _isSeen = false;
@@ -941,7 +947,7 @@ class _BetterPlayerCupertinoControlsState
             _startHideTimer();
           },
           onSeek: (seekDuration, lastDuration) {
-            if (_controller.value.isPlaying) {
+            /* if (_controller.value.isPlaying) {
               if (seekDuration.inSeconds < lastDuration.inSeconds) {
                 backCheckTrack(seekDuration: seekDuration, lastDuration: lastDuration);
               } else {
@@ -949,7 +955,7 @@ class _BetterPlayerCupertinoControlsState
               }
             } else {
               _startPos = _controller.value.position.inSeconds;
-            }
+            }*/
           },
           colors: BetterPlayerProgressColors(
             playedColor: _controlsConfiguration.progressBarPlayedColor,
