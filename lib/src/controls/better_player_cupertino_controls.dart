@@ -65,67 +65,64 @@ class _BetterPlayerCupertinoControlsState
         color: Colors.black26,
         child: Stack(
           children: [
-            Visibility(
-              visible: _controlsConfiguration.enableAllController,
-              child: Positioned.fill(
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: <Widget>[
-                    Expanded(
-                      child: GestureDetector(
-                        behavior: HitTestBehavior.opaque,
-                        onDoubleTap: () {
-                          /* backCheckTrack(
-                            seekDuration: _controller.value.position.inSeconds >= 10
-                                ? (Duration(seconds: _controller.value.position.inSeconds - 10))
-                                : Duration.zero,
-                            lastDuration: Duration(
-                              seconds: _controller.value.position.inSeconds > 0
-                                  ? (_controller.value.position.inSeconds)
-                                  : 0,
-                            ),
-                          );*/
-                          skipBack();
-                        },
-                        onTap: () {
-                          _hideStuff
-                              ? cancelAndRestartTimer()
-                              : setState(() {
-                                  _hideStuff = true;
-                                });
-                        },
-                        child: SizedBox(
-                          width: double.infinity,
-                          height: double.infinity,
-                        ),
+            Positioned.fill(
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: <Widget>[
+                  Expanded(
+                    child: GestureDetector(
+                      behavior: HitTestBehavior.opaque,
+                      onDoubleTap: () {
+                        /* backCheckTrack(
+                          seekDuration: _controller.value.position.inSeconds >= 10
+                              ? (Duration(seconds: _controller.value.position.inSeconds - 10))
+                              : Duration.zero,
+                          lastDuration: Duration(
+                            seconds: _controller.value.position.inSeconds > 0
+                                ? (_controller.value.position.inSeconds)
+                                : 0,
+                          ),
+                        );*/
+                        skipBack();
+                      },
+                      onTap: () {
+                        _hideStuff
+                            ? cancelAndRestartTimer()
+                            : setState(() {
+                                _hideStuff = true;
+                              });
+                      },
+                      child: SizedBox(
+                        width: double.infinity,
+                        height: double.infinity,
                       ),
                     ),
-                    Expanded(
-                      child: GestureDetector(
-                        behavior: HitTestBehavior.opaque,
-                        onDoubleTap: () {
-                          /* nextCheckTrack(
-                            seekDuration:
-                                Duration(seconds: _controller.value.position.inSeconds + 10),
-                            lastDuration: _controller.value.position,
-                          );*/
-                          skipForward();
-                        },
-                        onTap: () {
-                          _hideStuff
-                              ? cancelAndRestartTimer()
-                              : setState(() {
-                                  _hideStuff = true;
-                                });
-                        },
-                        child: SizedBox(
-                          width: double.infinity,
-                          height: double.infinity,
-                        ),
+                  ),
+                  Expanded(
+                    child: GestureDetector(
+                      behavior: HitTestBehavior.opaque,
+                      onDoubleTap: () {
+                        /* nextCheckTrack(
+                          seekDuration:
+                              Duration(seconds: _controller.value.position.inSeconds + 10),
+                          lastDuration: _controller.value.position,
+                        );*/
+                        skipForward();
+                      },
+                      onTap: () {
+                        _hideStuff
+                            ? cancelAndRestartTimer()
+                            : setState(() {
+                                _hideStuff = true;
+                              });
+                      },
+                      child: SizedBox(
+                        width: double.infinity,
+                        height: double.infinity,
                       ),
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),
             Align(
