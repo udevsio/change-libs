@@ -1,6 +1,6 @@
 import 'dart:async';
-import 'package:better_player/better_player.dart';
 import 'package:better_player/src/configuration/better_player_controls_configuration.dart';
+import 'package:better_player/src/controls/better_player_clickable_widget.dart';
 import 'package:better_player/src/controls/better_player_controls_state.dart';
 import 'package:better_player/src/controls/better_player_progress_colors.dart';
 import 'package:better_player/src/core/better_player_controller.dart';
@@ -60,7 +60,6 @@ class _BetterPlayerCupertinoControlsState
     _wasLoading = isLoading(_latestValue);
     if (_latestValue?.hasError == true) {
       _hideStuff = false;
-
       return Container(
         color: Colors.black26,
         child: Stack(
@@ -73,16 +72,6 @@ class _BetterPlayerCupertinoControlsState
                     child: GestureDetector(
                       behavior: HitTestBehavior.opaque,
                       onDoubleTap: () {
-                        /* backCheckTrack(
-                          seekDuration: _controller.value.position.inSeconds >= 10
-                              ? (Duration(seconds: _controller.value.position.inSeconds - 10))
-                              : Duration.zero,
-                          lastDuration: Duration(
-                            seconds: _controller.value.position.inSeconds > 0
-                                ? (_controller.value.position.inSeconds)
-                                : 0,
-                          ),
-                        );*/
                         skipBack();
                       },
                       onTap: () {
@@ -102,11 +91,6 @@ class _BetterPlayerCupertinoControlsState
                     child: GestureDetector(
                       behavior: HitTestBehavior.opaque,
                       onDoubleTap: () {
-                        /* nextCheckTrack(
-                          seekDuration:
-                              Duration(seconds: _controller.value.position.inSeconds + 10),
-                          lastDuration: _controller.value.position,
-                        );*/
                         skipForward();
                       },
                       onTap: () {
@@ -138,34 +122,31 @@ class _BetterPlayerCupertinoControlsState
       onHover: (_) {
         cancelAndRestartTimer();
       },
-      child: Visibility(
-        visible: _controlsConfiguration.enableAllController,
-        child: GestureDetector(
-          onTap: () {
-            _hideStuff
-                ? cancelAndRestartTimer()
-                : setState(() {
-                    _hideStuff = true;
-                  });
-          },
-          child: AbsorbPointer(
-            absorbing: _hideStuff,
-            child: Column(
-              children: [
-                _wasLoading
-                    ? Expanded(
-                        child: Container(
-                          margin: EdgeInsets.only(
-                              top: getPaddingSize(_controlsConfiguration.controlBarHeight)),
-                          child: Center(
-                            child: _buildLoadingWidget(),
-                          ),
+      child: GestureDetector(
+        onTap: () {
+          _hideStuff
+              ? cancelAndRestartTimer()
+              : setState(() {
+                  _hideStuff = true;
+                });
+        },
+        child: AbsorbPointer(
+          absorbing: _hideStuff,
+          child: Column(
+            children: [
+              _wasLoading
+                  ? Expanded(
+                      child: Container(
+                        margin: EdgeInsets.only(
+                            top: getPaddingSize(_controlsConfiguration.controlBarHeight)),
+                        child: Center(
+                          child: _buildLoadingWidget(),
                         ),
-                      )
-                    : _buildHitArea(),
-                _buildBottomBar(),
-              ],
-            ),
+                      ),
+                    )
+                  : _buildHitArea(),
+              _buildBottomBar(),
+            ],
           ),
         ),
       ),
@@ -237,65 +218,62 @@ class _BetterPlayerCupertinoControlsState
   }
 
   Widget _buildBottomBar() {
-    return Visibility(
-      visible: _controlsConfiguration.enableAllController,
-      child: Container(
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            colors: gradientColors,
-            stops: gradientStops,
-            end: Alignment.topCenter,
-            begin: Alignment.bottomCenter,
-          ),
+    return Container(
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          colors: gradientColors,
+          stops: gradientStops,
+          end: Alignment.topCenter,
+          begin: Alignment.bottomCenter,
         ),
-        child: SafeArea(
-          child: AnimatedOpacity(
-            opacity: _hideStuff ? 0.0 : 1.0,
-            duration: _controlsConfiguration.controlsHideTime,
-            onEnd: _onPlayerHide,
-            child: Container(
-              margin: EdgeInsets.symmetric(vertical: getPaddingWidth(0)),
-              height: getPaddingSize(_controlsConfiguration.controlBarHeight),
-              child: Column(
-                children: [
-                  SizedBox(
-                    height: getIconSize(24),
-                    child: Row(
-                      children: [
-                        SizedBox(
-                          width: 8,
-                        ),
-                        _buildPlayPause(_controller, getIconSize(24), 0),
-                        SizedBox(
-                          width: 12,
-                        ),
-                        _buildMuteButton(_controller),
-                        SizedBox(
-                          width: 12,
-                        ),
-                        _buildCurrentPosition(),
-                        _buildTotalPosition(),
-                        Spacer(),
-                        if (_betterPlayerController.isLiveStream())
-                          _buildLiveWidget()
-                        else
-                          _controlsConfiguration.enableProgressText
-                              ? _buildPosition()
-                              : const SizedBox(),
-                        _buildSettingButton(),
-                        SizedBox(
-                          width: 12,
-                        ),
-                        _buildExpandButton(),
-                        SizedBox(
-                          width: 8,
-                        ),
-                      ],
-                    ),
+      ),
+      child: SafeArea(
+        child: AnimatedOpacity(
+          opacity: _hideStuff ? 0.0 : 1.0,
+          duration: _controlsConfiguration.controlsHideTime,
+          onEnd: _onPlayerHide,
+          child: Container(
+            margin: EdgeInsets.symmetric(vertical: getPaddingWidth(0)),
+            height: getPaddingSize(_controlsConfiguration.controlBarHeight),
+            child: Column(
+              children: [
+                SizedBox(
+                  height: getIconSize(24),
+                  child: Row(
+                    children: [
+                      SizedBox(
+                        width: 8,
+                      ),
+                      _buildPlayPause(_controller, getIconSize(24), 0),
+                      SizedBox(
+                        width: 12,
+                      ),
+                      _buildMuteButton(_controller),
+                      SizedBox(
+                        width: 12,
+                      ),
+                      _buildCurrentPosition(),
+                      _buildTotalPosition(),
+                      Spacer(),
+                      if (_betterPlayerController.isLiveStream())
+                        _buildLiveWidget()
+                      else
+                        _controlsConfiguration.enableProgressText
+                            ? _buildPosition()
+                            : const SizedBox(),
+                      _buildSettingButton(),
+                      SizedBox(
+                        width: 12,
+                      ),
+                      _buildExpandButton(),
+                      SizedBox(
+                        width: 8,
+                      ),
+                    ],
                   ),
-                  _buildProgressBar(),
-                ],
-              ),
+                ),
+                _buildProgressBar(),
+              ],
             ),
           ),
         ),
@@ -314,7 +292,7 @@ class _BetterPlayerCupertinoControlsState
 
   Widget _buildExpandButton() {
     return BetterPlayerMaterialClickableWidget(
-      onTap: _onExpandCollapse ?? () {},
+      onTap: _onExpandCollapse,
       child: SizedBox(
           width: getIconSize(24),
           height: getIconSize(24),
@@ -344,16 +322,6 @@ class _BetterPlayerCupertinoControlsState
                       child: GestureDetector(
                           behavior: HitTestBehavior.opaque,
                           onDoubleTap: () {
-                            /*backCheckTrack(
-                              seekDuration: _controller.value.position.inSeconds >= 10
-                                  ? (Duration(seconds: _controller.value.position.inSeconds - 10))
-                                  : Duration.zero,
-                              lastDuration: Duration(
-                                seconds: _controller.value.position.inSeconds > 0
-                                    ? (_controller.value.position.inSeconds)
-                                    : 0,
-                              ),
-                            );*/
                             skipBack();
                           },
                           onTap: () {
@@ -372,11 +340,6 @@ class _BetterPlayerCupertinoControlsState
                       child: GestureDetector(
                         behavior: HitTestBehavior.opaque,
                         onDoubleTap: () {
-                          /*nextCheckTrack(
-                            seekDuration:
-                                Duration(seconds: _controller.value.position.inSeconds + 10),
-                            lastDuration: _controller.value.position,
-                          );*/
                           skipForward();
                         },
                         onTap: () {
@@ -480,17 +443,8 @@ class _BetterPlayerCupertinoControlsState
         ),
       ),
       onTap: () {
-        /*  backCheckTrack(
-          seekDuration: _controller.value.position.inSeconds >= 10
-              ? (Duration(seconds: _controller.value.position.inSeconds - 10))
-              : Duration.zero,
-          lastDuration: Duration(
-            seconds: _controller.value.position.inSeconds > 0
-                ? (_controller.value.position.inSeconds)
-                : 0,
-          ),
-        );*/
         skipBack();
+        // _betterPlayerController.play();
       },
       // onDoubleTap: skipBack,
     );
@@ -535,13 +489,8 @@ class _BetterPlayerCupertinoControlsState
         ),
       ),
       onTap: () {
-        // _videoTrackList
-        //     .add(VideoTrackDuration(start: _startPos, end: _controller.value.position.inSeconds));
-        /* nextCheckTrack(
-          seekDuration: Duration(seconds: _controller.value.position.inSeconds + 10),
-          lastDuration: _controller.value.position,
-        );*/
         skipForward();
+        // _betterPlayerController.play();
       },
       // onDoubleTap: skipForward,
     );
@@ -649,7 +598,7 @@ class _BetterPlayerCupertinoControlsState
 
   Widget _buildPlayPause(VideoPlayerController controller, double size, double margin) {
     return BetterPlayerMaterialClickableWidget(
-      onTap: _onPlayPause ?? () {},
+      onTap: _onPlayPause,
       child: Container(
           height: size,
           width: size,
@@ -692,17 +641,7 @@ class _BetterPlayerCupertinoControlsState
 
   Future<void> _initialize() async {
     _controller.addListener(_updateState);
-    // _betterPlayerController.addEventsListener((event) {
-    //   if (event.betterPlayerEventType == BetterPlayerEventType.play) {
-    //     // _startPos = _controller.value.position.inSeconds;
-    //     print("PLAYYYYYYYYYY");
-    //   } else if (event.betterPlayerEventType == BetterPlayerEventType.pause) {
-    //     print("PAUSEEEEEEEEE");
-    //     _betterPlayerController.addVideoTrack(
-    //         start: _startPos, end: _controller.value.position.inSeconds);
-    //     _startPos = _controller.value.position.inSeconds + 1;
-    //   }
-    // });
+
     _updateState();
 
     if ((_controller.value != null && _controller.value.isPlaying) ||
@@ -754,7 +693,7 @@ class _BetterPlayerCupertinoControlsState
         position != null &&
         position.inSeconds != 0 &&
         position.inSeconds % 30 == 0) {
-      // _controlsConfiguration.track(position.inSeconds);
+      _controlsConfiguration.track(position.inSeconds);
     }
 
     return Text(
@@ -774,9 +713,11 @@ class _BetterPlayerCupertinoControlsState
 
   void _onPlayPause() {
     bool isFinished = false;
+
     if (_latestValue?.position != null && _latestValue?.duration != null) {
       isFinished = _latestValue.position >= _latestValue.duration;
     }
+
     setState(() {
       if (_controller.value.isPlaying) {
         _hideStuff = false;
@@ -825,112 +766,8 @@ class _BetterPlayerCupertinoControlsState
       if (_controller.value.position.inSeconds == _oldPos) return;
       _betterPlayerController.changeTrack(true, _controller.value.position.inSeconds ~/ 1.7);
       _oldPos = _controller.value.position.inSeconds;
-      /*  if (_controller.value.position.inSeconds > 0 &&
-          _startPos == _controller.value.position.inSeconds) {
-        _isSeen = false;
-      }
-      if (_controller.value.position.inSeconds == _lastSeenInterval.start) {
-        _betterPlayerController.addVideoTrack(start: _startPos, end: _lastSeenInterval.start - 1);
-        _startPos = _lastSeenInterval.end + 1;
-        _isSeen = true;
-      }*/
     }
   }
-
-/*
-
-  Demo checkInterval(Duration seekDuration) {
-    print("SEEKDURATION: ${seekDuration.inSeconds}");
-    bool isFind = false;
-    int findElementEndPos;
-    int findElementStartPos;
-    if (seekDuration.inSeconds == 0)
-      return Demo(isFind: true, findElementEndPos: 0, findElementStartPos: 0);
-
-    _betterPlayerController.videoTrackList.forEach((element) {
-      if (seekDuration.inSeconds >= element.start && seekDuration.inSeconds <= element.end) {
-        findElementEndPos = element.end;
-        findElementStartPos = element.start;
-        print("WWWWWWWWWWWWWW: KO'RILGAN");
-        isFind = true;
-      }
-    });
-    if (!isFind) {
-      print("WWWWWWWWWWWWWW: KO'RILMAGAN");
-      _isSeen = false;
-    }
-    return Demo(
-        isFind: isFind,
-        findElementEndPos: findElementEndPos ?? seekDuration.inSeconds,
-        findElementStartPos: findElementStartPos ?? seekDuration.inSeconds);
-  }
-
-  void backCheckTrack({Duration seekDuration, Duration lastDuration}) {
-    print("WWWWWWWWWWWWWW: BACK");
-    print("WWWWWWWWWWWWWW: ${_isSeen}");
-    if (_isSeen && _lastSeenInterval.start < seekDuration.inSeconds) {
-      return;
-    }
-    var a = checkInterval(seekDuration);
-    if (seekDuration.inSeconds >= _startPos && lastDuration.inSeconds > seekDuration.inSeconds) {
-      _isSeen = true;
-      betterPlayerController.addVideoTrack(start: _startPos, end: lastDuration.inSeconds);
-      _startPos = lastDuration.inSeconds + 1;
-      return;
-    }
-    if (a.isFind &&
-        a.findElementEndPos < lastDuration.inSeconds &&
-        !(lastDuration.inSeconds > _lastSeenInterval.start &&
-            lastDuration.inSeconds < _lastSeenInterval.end)) {
-      _isSeen = true;
-      betterPlayerController.addVideoTrack(start: _startPos, end: lastDuration.inSeconds);
-      _startPos = a.findElementEndPos + 1;
-      _lastSeenInterval =
-          VideoTrackDuration(start: a.findElementStartPos, end: a.findElementEndPos);
-    } else if (a.isFind &&
-        !(lastDuration.inSeconds > _lastSeenInterval.start &&
-            lastDuration.inSeconds < _lastSeenInterval.end)) {
-      _startPos = a.findElementEndPos + 1;
-    } else {
-      betterPlayerController.addVideoTrack(start: _startPos, end: lastDuration.inSeconds);
-      _startPos = a.findElementEndPos + 1;
-      _lastSeenInterval =
-          VideoTrackDuration(start: a.findElementStartPos, end: a.findElementEndPos);
-      _isSeen = false;
-    }
-    _isSeen = false;
-  }
-
-  void nextCheckTrack({Duration seekDuration, Duration lastDuration}) {
-    print("WWWWWWWWWWWWWW: GO");
-    var a = checkInterval(seekDuration);
-    print("${_isSeen} AAAAAAAAAAAAAAAAA");
-    if (_isSeen) {
-      return;
-    }
-    print("aaaaa");
-    if (!a.isFind) {
-      _isSeen = false;
-      print("WWWWWWWWWWWWWW: GO ADD");
-      _betterPlayerController.addVideoTrack(start: _startPos, end: lastDuration.inSeconds);
-      _startPos = seekDuration.inSeconds;
-      return;
-    }
-    if (a.isFind) {
-      _isSeen = true;
-      _betterPlayerController.addVideoTrack(start: _startPos, end: a.findElementStartPos);
-      _startPos = a.findElementEndPos + 1;
-      _lastSeenInterval =
-          VideoTrackDuration(start: a.findElementStartPos, end: a.findElementEndPos);
-      return;
-    }
-    _isSeen = false;
-  }
-*/
-
-  int _startPos = 0;
-  bool _isSeen = false;
-  VideoTrackDuration _lastSeenInterval = VideoTrackDuration(start: 0, end: 0);
 
   Widget _buildProgressBar() {
     return Expanded(
@@ -948,23 +785,11 @@ class _BetterPlayerCupertinoControlsState
           onDragEnd: () {
             _startHideTimer();
           },
-          onSeek: (seekDuration, lastDuration) {
-            /* if (_controller.value.isPlaying) {
-              if (seekDuration.inSeconds < lastDuration.inSeconds) {
-                backCheckTrack(seekDuration: seekDuration, lastDuration: lastDuration);
-              } else {
-                nextCheckTrack(seekDuration: seekDuration, lastDuration: lastDuration);
-              }
-            } else {
-              _startPos = _controller.value.position.inSeconds;
-            }*/
-          },
           colors: BetterPlayerProgressColors(
-            playedColor: _controlsConfiguration.progressBarPlayedColor,
-            handleColor: _controlsConfiguration.progressBarHandleColor,
-            bufferedColor: _controlsConfiguration.progressBarBufferedColor,
-            backgroundColor: _controlsConfiguration.progressBarBackgroundColor,
-          ),
+              playedColor: _controlsConfiguration.progressBarPlayedColor,
+              handleColor: _controlsConfiguration.progressBarHandleColor,
+              bufferedColor: _controlsConfiguration.progressBarBufferedColor,
+              backgroundColor: _controlsConfiguration.progressBarBackgroundColor),
         ),
       ),
     );
@@ -1109,18 +934,3 @@ List<Color> gradientColors = [
   Colors.black.withOpacity(0.0125),
   Colors.black.withOpacity(0.00625),
 ];
-
-class VideoTrackDuration {
-  int start;
-  int end;
-
-  VideoTrackDuration({this.start, this.end});
-}
-
-class Demo {
-  bool isFind;
-  int findElementEndPos;
-  int findElementStartPos;
-
-  Demo({this.isFind, this.findElementStartPos, this.findElementEndPos});
-}

@@ -39,9 +39,9 @@ class BetterPlayerController extends ChangeNotifier {
   final BetterPlayerConfiguration betterPlayerConfiguration;
 
   /// Video track list
-  final List<VideoTrackDuration> _videoTrackList = [];
-
-  List<VideoTrackDuration> get videoTrackList => _videoTrackList;
+  // final List<VideoTrackDuration> _videoTrackList = [];
+  //
+  // List<VideoTrackDuration> get videoTrackList => _videoTrackList;
 
   List<bool> _trackList = [];
 
@@ -336,13 +336,13 @@ class BetterPlayerController extends ChangeNotifier {
       notifyListeners();
     }
   }
-
-  void addVideoTrack({int start, int end}) {
+/// TODO Add video track
+/*  void addVideoTrack({int start, int end}) {
     if (start != end && start < end) {
       _videoTrackList.add(VideoTrackDuration(start: start, end: end));
       onAddTrack();
     }
-  }
+  }*/
 
   ///Get VideoFormat from BetterPlayerVideoFormat (adapter method which translates
   ///to video_player supported format).

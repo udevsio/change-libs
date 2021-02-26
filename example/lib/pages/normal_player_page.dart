@@ -148,7 +148,7 @@ class _NormalPlayerPageState extends State<NormalPlayerPage> {
             percent,
             style: TextStyle(fontSize: 22, color: Colors.black),
           ),
-          Expanded(
+          /*Expanded(
             child: ListView.builder(
                 padding: EdgeInsets.all(12),
                 physics: BouncingScrollPhysics(),
@@ -163,7 +163,7 @@ class _NormalPlayerPageState extends State<NormalPlayerPage> {
                     ),
                   );
                 }),
-          ),
+          ),*/
         ],
       ),
     );
