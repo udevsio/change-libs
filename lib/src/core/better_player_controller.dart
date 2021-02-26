@@ -198,7 +198,17 @@ class BetterPlayerController extends ChangeNotifier {
       setupDataSource(betterPlayerDataSource);
     }
   }
+  List<bool> _trackList = [];
 
+  void addTrack(bool value) {
+    _trackList.add(value);
+  }
+
+  void changeTrack(bool value, int index) {
+    _trackList[index] = value;
+  }
+
+  List<bool> get trackList => _trackList;
   ///Get BetterPlayerController from context. Used in InheritedWidget.
   static BetterPlayerController of(BuildContext context) {
     final betterPLayerControllerProvider = context.dependOnInheritedWidgetOfExactType<BetterPlayerControllerProvider>();
@@ -238,6 +248,10 @@ class BetterPlayerController extends ChangeNotifier {
 
     ///Process data source
     await _setupDataSource(betterPlayerDataSource);
+    int length = videoPlayerController.value.duration.inSeconds ~/ 1.7;
+    for (int i = 0; i < length; i++) {
+      addTrack(false);
+    }
   }
 
   ///Configure subtitles based on subtitles source.
