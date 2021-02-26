@@ -748,7 +748,7 @@ class _BetterPlayerCupertinoControlsState
     });
   }
 
-  int _oldPos = 0;
+  int _oldPos = -1;
 
   void _updateState() {
     if (mounted) {
