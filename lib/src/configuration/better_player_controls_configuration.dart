@@ -56,6 +56,8 @@ class BetterPlayerControlsConfiguration {
   ///Flag used to enable/disable progress texts
   final bool enableProgressText;
 
+  final bool enableAllController;
+
   ///Flag used to enable/disable progress bar
   final bool enableProgressBar;
 
@@ -76,6 +78,7 @@ class BetterPlayerControlsConfiguration {
 
   ///Progress bar buffered video color
   final Color progressBarBufferedColor;
+
 
   ///Progress bar background color
   final Color progressBarBackgroundColor;
@@ -198,6 +201,7 @@ class BetterPlayerControlsConfiguration {
     this.pauseIcon = Icons.pause,
     this.muteIcon = Icons.volume_up,
     this.unMuteIcon = Icons.volume_mute,
+    this.enableAllController=true,
     this.fullscreenEnableIcon = Icons.fullscreen,
     this.fullscreenDisableIcon = Icons.fullscreen_exit,
     this.skipBackIcon = Icons.fast_rewind,

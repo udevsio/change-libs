@@ -65,64 +65,67 @@ class _BetterPlayerCupertinoControlsState
         color: Colors.black26,
         child: Stack(
           children: [
-            Positioned.fill(
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: <Widget>[
-                  Expanded(
-                    child: GestureDetector(
-                      behavior: HitTestBehavior.opaque,
-                      onDoubleTap: () {
-                        /* backCheckTrack(
-                          seekDuration: _controller.value.position.inSeconds >= 10
-                              ? (Duration(seconds: _controller.value.position.inSeconds - 10))
-                              : Duration.zero,
-                          lastDuration: Duration(
-                            seconds: _controller.value.position.inSeconds > 0
-                                ? (_controller.value.position.inSeconds)
-                                : 0,
-                          ),
-                        );*/
-                        skipBack();
-                      },
-                      onTap: () {
-                        _hideStuff
-                            ? cancelAndRestartTimer()
-                            : setState(() {
-                                _hideStuff = true;
-                              });
-                      },
-                      child: SizedBox(
-                        width: double.infinity,
-                        height: double.infinity,
+            Visibility(
+              visible: _controlsConfiguration.enableAllController,
+              child: Positioned.fill(
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: <Widget>[
+                    Expanded(
+                      child: GestureDetector(
+                        behavior: HitTestBehavior.opaque,
+                        onDoubleTap: () {
+                          /* backCheckTrack(
+                            seekDuration: _controller.value.position.inSeconds >= 10
+                                ? (Duration(seconds: _controller.value.position.inSeconds - 10))
+                                : Duration.zero,
+                            lastDuration: Duration(
+                              seconds: _controller.value.position.inSeconds > 0
+                                  ? (_controller.value.position.inSeconds)
+                                  : 0,
+                            ),
+                          );*/
+                          skipBack();
+                        },
+                        onTap: () {
+                          _hideStuff
+                              ? cancelAndRestartTimer()
+                              : setState(() {
+                                  _hideStuff = true;
+                                });
+                        },
+                        child: SizedBox(
+                          width: double.infinity,
+                          height: double.infinity,
+                        ),
                       ),
                     ),
-                  ),
-                  Expanded(
-                    child: GestureDetector(
-                      behavior: HitTestBehavior.opaque,
-                      onDoubleTap: () {
-                        /* nextCheckTrack(
-                          seekDuration:
-                              Duration(seconds: _controller.value.position.inSeconds + 10),
-                          lastDuration: _controller.value.position,
-                        );*/
-                        skipForward();
-                      },
-                      onTap: () {
-                        _hideStuff
-                            ? cancelAndRestartTimer()
-                            : setState(() {
-                                _hideStuff = true;
-                              });
-                      },
-                      child: SizedBox(
-                        width: double.infinity,
-                        height: double.infinity,
+                    Expanded(
+                      child: GestureDetector(
+                        behavior: HitTestBehavior.opaque,
+                        onDoubleTap: () {
+                          /* nextCheckTrack(
+                            seekDuration:
+                                Duration(seconds: _controller.value.position.inSeconds + 10),
+                            lastDuration: _controller.value.position,
+                          );*/
+                          skipForward();
+                        },
+                        onTap: () {
+                          _hideStuff
+                              ? cancelAndRestartTimer()
+                              : setState(() {
+                                  _hideStuff = true;
+                                });
+                        },
+                        child: SizedBox(
+                          width: double.infinity,
+                          height: double.infinity,
+                        ),
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
             Align(
@@ -138,31 +141,34 @@ class _BetterPlayerCupertinoControlsState
       onHover: (_) {
         cancelAndRestartTimer();
       },
-      child: GestureDetector(
-        onTap: () {
-          _hideStuff
-              ? cancelAndRestartTimer()
-              : setState(() {
-                  _hideStuff = true;
-                });
-        },
-        child: AbsorbPointer(
-          absorbing: _hideStuff,
-          child: Column(
-            children: [
-              _wasLoading
-                  ? Expanded(
-                      child: Container(
-                        margin: EdgeInsets.only(
-                            top: getPaddingSize(_controlsConfiguration.controlBarHeight)),
-                        child: Center(
-                          child: _buildLoadingWidget(),
+      child: Visibility(
+        visible: _controlsConfiguration.enableAllController,
+        child: GestureDetector(
+          onTap: () {
+            _hideStuff
+                ? cancelAndRestartTimer()
+                : setState(() {
+                    _hideStuff = true;
+                  });
+          },
+          child: AbsorbPointer(
+            absorbing: _hideStuff,
+            child: Column(
+              children: [
+                _wasLoading
+                    ? Expanded(
+                        child: Container(
+                          margin: EdgeInsets.only(
+                              top: getPaddingSize(_controlsConfiguration.controlBarHeight)),
+                          child: Center(
+                            child: _buildLoadingWidget(),
+                          ),
                         ),
-                      ),
-                    )
-                  : _buildHitArea(),
-              _buildBottomBar(),
-            ],
+                      )
+                    : _buildHitArea(),
+                _buildBottomBar(),
+              ],
+            ),
           ),
         ),
       ),
@@ -234,62 +240,65 @@ class _BetterPlayerCupertinoControlsState
   }
 
   Widget _buildBottomBar() {
-    return Container(
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          colors: gradientColors,
-          stops: gradientStops,
-          end: Alignment.topCenter,
-          begin: Alignment.bottomCenter,
+    return Visibility(
+      visible: _controlsConfiguration.enableAllController,
+      child: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: gradientColors,
+            stops: gradientStops,
+            end: Alignment.topCenter,
+            begin: Alignment.bottomCenter,
+          ),
         ),
-      ),
-      child: SafeArea(
-        child: AnimatedOpacity(
-          opacity: _hideStuff ? 0.0 : 1.0,
-          duration: _controlsConfiguration.controlsHideTime,
-          onEnd: _onPlayerHide,
-          child: Container(
-            margin: EdgeInsets.symmetric(vertical: getPaddingWidth(0)),
-            height: getPaddingSize(_controlsConfiguration.controlBarHeight),
-            child: Column(
-              children: [
-                SizedBox(
-                  height: getIconSize(24),
-                  child: Row(
-                    children: [
-                      SizedBox(
-                        width: 8,
-                      ),
-                      _buildPlayPause(_controller, getIconSize(24), 0),
-                      SizedBox(
-                        width: 12,
-                      ),
-                      _buildMuteButton(_controller),
-                      SizedBox(
-                        width: 12,
-                      ),
-                      _buildCurrentPosition(),
-                      _buildTotalPosition(),
-                      Spacer(),
-                      if (_betterPlayerController.isLiveStream())
-                        _buildLiveWidget()
-                      else
-                        _controlsConfiguration.enableProgressText
-                            ? _buildPosition()
-                            : const SizedBox(),
-                      _buildSettingButton(),
-                      SizedBox(
-                        width: 12,
-                      ),
-                      _buildExpandButton(),
-                      SizedBox(
-                        width: 8,
-                      ),
-                    ],
+        child: SafeArea(
+          child: AnimatedOpacity(
+            opacity: _hideStuff ? 0.0 : 1.0,
+            duration: _controlsConfiguration.controlsHideTime,
+            onEnd: _onPlayerHide,
+            child: Container(
+              margin: EdgeInsets.symmetric(vertical: getPaddingWidth(0)),
+              height: getPaddingSize(_controlsConfiguration.controlBarHeight),
+              child: Column(
+                children: [
+                  SizedBox(
+                    height: getIconSize(24),
+                    child: Row(
+                      children: [
+                        SizedBox(
+                          width: 8,
+                        ),
+                        _buildPlayPause(_controller, getIconSize(24), 0),
+                        SizedBox(
+                          width: 12,
+                        ),
+                        _buildMuteButton(_controller),
+                        SizedBox(
+                          width: 12,
+                        ),
+                        _buildCurrentPosition(),
+                        _buildTotalPosition(),
+                        Spacer(),
+                        if (_betterPlayerController.isLiveStream())
+                          _buildLiveWidget()
+                        else
+                          _controlsConfiguration.enableProgressText
+                              ? _buildPosition()
+                              : const SizedBox(),
+                        _buildSettingButton(),
+                        SizedBox(
+                          width: 12,
+                        ),
+                        _buildExpandButton(),
+                        SizedBox(
+                          width: 8,
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-                _buildProgressBar(),
-              ],
+                  _buildProgressBar(),
+                ],
+              ),
             ),
           ),
         ),
@@ -308,7 +317,7 @@ class _BetterPlayerCupertinoControlsState
 
   Widget _buildExpandButton() {
     return BetterPlayerMaterialClickableWidget(
-      onTap: _onExpandCollapse,
+      onTap: _onExpandCollapse ?? () {},
       child: SizedBox(
           width: getIconSize(24),
           height: getIconSize(24),
@@ -643,7 +652,7 @@ class _BetterPlayerCupertinoControlsState
 
   Widget _buildPlayPause(VideoPlayerController controller, double size, double margin) {
     return BetterPlayerMaterialClickableWidget(
-      onTap: _onPlayPause,
+      onTap: _onPlayPause ?? () {},
       child: Container(
           height: size,
           width: size,
@@ -768,11 +777,9 @@ class _BetterPlayerCupertinoControlsState
 
   void _onPlayPause() {
     bool isFinished = false;
-
     if (_latestValue?.position != null && _latestValue?.duration != null) {
       isFinished = _latestValue.position >= _latestValue.duration;
     }
-
     setState(() {
       if (_controller.value.isPlaying) {
         _hideStuff = false;
@@ -785,7 +792,6 @@ class _BetterPlayerCupertinoControlsState
           if (isFinished) {
             _betterPlayerController.seekTo(const Duration());
           }
-
           _betterPlayerController.play();
           _betterPlayerController.cancelNextVideoTimer();
         }

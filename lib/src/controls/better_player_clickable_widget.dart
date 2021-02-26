@@ -12,7 +12,7 @@ class BetterPlayerMaterialClickableWidget extends StatelessWidget {
       {Key key,
       @required this.onTap,
       this.onDoubleTap,
-        this.color = Colors.black26,
+      this.color = Colors.black26,
       @required this.child,
       this.radius = 60})
       : assert(onTap != null),
