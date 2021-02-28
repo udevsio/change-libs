@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'package:better_player/better_player.dart';
 import 'package:better_player/src/configuration/better_player_controls_configuration.dart';
-import 'package:better_player/src/configuration/user_watched_chunk.dart';
 import 'package:better_player/src/controls/better_player_clickable_widget.dart';
 import 'package:better_player/src/controls/better_player_controls_state.dart';
 import 'package:better_player/src/controls/better_player_progress_colors.dart';

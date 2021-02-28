@@ -9,7 +9,6 @@ import 'package:better_player/src/configuration/better_player_event.dart';
 import 'package:better_player/src/configuration/better_player_event_type.dart';
 import 'package:better_player/src/configuration/better_player_translations.dart';
 import 'package:better_player/src/configuration/better_player_video_format.dart';
-import 'package:better_player/src/configuration/user_watched_chunk.dart';
 import 'package:better_player/src/core/better_player_controller_provider.dart';
 
 // Flutter imports:
@@ -222,6 +221,10 @@ class BetterPlayerController extends ChangeNotifier {
       _videoTrackList.add(UserWatchedChunk(start: start, end: end));
       onAddTrack();
     }
+  }
+
+  void clearChunks() {
+    _videoTrackList.clear();
   }
 
   void changeTrack(bool value, int index) {
@@ -974,6 +977,7 @@ class BetterPlayerController extends ChangeNotifier {
     }
   }
 }
+
 class UserWatchedChunk {
   int end;
   int start;
