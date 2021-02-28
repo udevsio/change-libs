@@ -1,6 +1,8 @@
 import 'dart:io';
 
 import 'package:better_player/better_player.dart';
+import 'package:better_player_example/constants.dart';
+import 'package:better_player_example/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -52,10 +54,7 @@ class _NormalPlayerPageState extends State<NormalPlayerPage> {
             width: 32,
             height: 32,
           ),
-          onVideoEnd: () async {
-            await _betterPlayerController.seekTo(Duration.zero);
-            await _betterPlayerController.play();
-          },
+          onVideoEnd: () {},
           track: () {},
           prev: SvgPicture.asset(
             'assets/svg/skip_prev.svg',
@@ -63,7 +62,6 @@ class _NormalPlayerPageState extends State<NormalPlayerPage> {
             width: 32,
             height: 32,
           ),
-          enableVideoTrack: true,
           skipBackIcon: Icons.replay_10,
           skipForwardIcon: Icons.forward_10,
           nextEpisode: () {},
@@ -87,7 +85,7 @@ class _NormalPlayerPageState extends State<NormalPlayerPage> {
     );
     BetterPlayerDataSource dataSource = BetterPlayerDataSource(
       BetterPlayerDataSourceType.network,
-      "https://voxecdn.s3.us-east-2.amazonaws.com/360p/b8be4615792e871d5fc2388c08f6041a/video.m3u8",
+      "http://cdn.theoplayer.com/video/elephants-dream/playlist.m3u8",
       cacheConfiguration: getCacheConfiguration(),
       isMiniVideo: true,
       volume: 1.0,
@@ -96,12 +94,17 @@ class _NormalPlayerPageState extends State<NormalPlayerPage> {
       // startAt: Duration(seconds: 35),
       // autoPlay: true,
     );
-    _betterPlayerController = BetterPlayerController(betterPlayerConfiguration, onAddTrack: () {
-      setState(() {});
-    });
+    _betterPlayerController =
+        BetterPlayerController(betterPlayerConfiguration, onAddTrack: onChangeTrack);
     _betterPlayerController.setupDataSource(dataSource);
     super.initState();
   }
+
+  void onChangeTrack() {
+    setState(() {});
+  }
+
+  String percent = '';
 
   @override
   Widget build(BuildContext context) {
@@ -130,12 +133,36 @@ class _NormalPlayerPageState extends State<NormalPlayerPage> {
           ElevatedButton(
             child: Text("Play file data source"),
             onPressed: () async {
+              var trueList = _betterPlayerController.trackList.where((element) => element);
+              setState(() {
+                percent = "${(trueList.length / _betterPlayerController.trackList.length) * 100}";
+              });
               // _betterPlayerController.stop();
               /*String url = await Utils.getFileUrl(Constants.testUrl);
               BetterPlayerDataSource dataSource =
                   BetterPlayerDataSource(BetterPlayerDataSourceType.file, url);
               _betterPlayerController.setupDataSource(dataSource);*/
             },
+          ),
+          Text(
+            percent,
+            style: TextStyle(fontSize: 22, color: Colors.black),
+          ),
+          Expanded(
+            child: ListView.builder(
+                padding: EdgeInsets.all(12),
+                physics: BouncingScrollPhysics(),
+                itemCount: _betterPlayerController.videoTrackList.length,
+                itemBuilder: (context, index) {
+                  return Text(
+                    "${_betterPlayerController.videoTrackList[index].start} - ${_betterPlayerController.videoTrackList[index].end}",
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  );
+                }),
           ),
         ],
       ),
