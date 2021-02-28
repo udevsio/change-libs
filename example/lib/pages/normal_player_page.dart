@@ -96,7 +96,9 @@ class _NormalPlayerPageState extends State<NormalPlayerPage> {
       // startAt: Duration(seconds: 35),
       // autoPlay: true,
     );
-    _betterPlayerController = BetterPlayerController(betterPlayerConfiguration);
+    _betterPlayerController = BetterPlayerController(betterPlayerConfiguration, onAddTrack: () {
+      setState(() {});
+    });
     _betterPlayerController.setupDataSource(dataSource);
     super.initState();
   }

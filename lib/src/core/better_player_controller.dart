@@ -9,6 +9,7 @@ import 'package:better_player/src/configuration/better_player_event.dart';
 import 'package:better_player/src/configuration/better_player_event_type.dart';
 import 'package:better_player/src/configuration/better_player_translations.dart';
 import 'package:better_player/src/configuration/better_player_video_format.dart';
+import 'package:better_player/src/configuration/user_watched_chunk.dart';
 import 'package:better_player/src/core/better_player_controller_provider.dart';
 
 // Flutter imports:
@@ -55,6 +56,8 @@ class BetterPlayerController extends ChangeNotifier {
 
   /// Defines a event listener where video player events will be send.
   Function(BetterPlayerEvent) get eventListener => betterPlayerConfiguration.eventListener;
+
+  Function() onAddTrack;
 
   ///Flag used to store full screen mode state.
   bool _isFullScreen = false;
@@ -108,6 +111,11 @@ class BetterPlayerController extends ChangeNotifier {
 
   ///Time for next video.
   int _nextVideoTime;
+
+  /// Video track list
+  final List<UserWatchedChunk> _videoTrackList = [];
+
+  List<UserWatchedChunk> get videoTrackList => _videoTrackList;
 
   ///Stream controller which emits next video time.
   StreamController<int> nextVideoTimeStreamController = StreamController.broadcast();
@@ -192,6 +200,7 @@ class BetterPlayerController extends ChangeNotifier {
   BetterPlayerController(
     this.betterPlayerConfiguration, {
     this.betterPlayerPlaylistConfiguration,
+    this.onAddTrack,
     BetterPlayerDataSource betterPlayerDataSource,
   }) : assert(betterPlayerConfiguration != null, "BetterPlayerConfiguration can't be null") {
     _eventListeners.add(eventListener);
@@ -207,6 +216,13 @@ class BetterPlayerController extends ChangeNotifier {
   }
 
   int indexTrack = 0;
+
+  void addVideoTrack({int start, int end}) {
+    if (start != end && start < end) {
+      _videoTrackList.add(UserWatchedChunk(start: start, end: end));
+      onAddTrack();
+    }
+  }
 
   void changeTrack(bool value, int index) {
     if (index == indexTrack) return;
@@ -262,10 +278,12 @@ class BetterPlayerController extends ChangeNotifier {
 
     ///Process data source
     await _setupDataSource(betterPlayerDataSource);
-    int length = videoPlayerController.value.duration.inSeconds ~/ 1.7;
+
+    ///for user watched
+    /*  int length = videoPlayerController.value.duration.inSeconds ~/ 1.7;
     for (int i = 0; i < length; i++) {
       addTrack(false);
-    }
+    }*/
   }
 
   ///Configure subtitles based on subtitles source.
