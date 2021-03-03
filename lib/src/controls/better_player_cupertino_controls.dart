@@ -49,8 +49,8 @@ class _BetterPlayerCupertinoControlsState extends BetterPlayerControlsState<Bett
   Offset _dragStart;
   Offset _dragcurrent;
   double _dragDelta;
-  int _dragDrection; //0:x,1:y
-  int _controlType; //0:volume,1:brightness
+  int _dragDrection = -1; //0:x,1:y
+  int _controlType = -1; //0:volume,1:brightness
   double _volume = 1;
   double _notifierVolume = 1;
   double _notifierBrightness = 1;
