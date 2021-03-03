@@ -156,6 +156,10 @@ class BetterPlayerControlsConfiguration {
 
   final Widget pause;
 
+  final Widget brightness;
+
+  final Widget volume;
+
   ///Icon of the PiP menu
   final IconData pipMenuIcon;
 
@@ -196,6 +200,8 @@ class BetterPlayerControlsConfiguration {
     this.iconsColor = Colors.white,
     this.playIcon = Icons.play_arrow,
     this.pauseIcon = Icons.pause,
+    this.brightness,
+    this.volume,
     this.muteIcon = Icons.volume_up,
     this.unMuteIcon = Icons.volume_mute,
     this.fullscreenEnableIcon = Icons.fullscreen,

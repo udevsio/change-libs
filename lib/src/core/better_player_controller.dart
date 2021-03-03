@@ -49,6 +49,34 @@ class BetterPlayerController extends ChangeNotifier {
   ///Stream controller which emits stream when control visibility changes.
   final StreamController<bool> _controlsVisibilityStreamController = StreamController.broadcast();
 
+  bool _mounted = true;
+  double _volume = 1;
+  double _screen = 1;
+  // bool _show = false;
+  // bool _isDraging = false;
+  // Offset _dragStart;
+  // Offset _dragCurrent;
+  // double _dragDelta;
+  // int _dragDrection; //0:x,1:y
+  // int _controlType; //0:volume,1:brightness
+
+  // bool get show => _show;
+  //
+  // bool get isDraging => _isDraging;
+  //
+  // Offset get dragStart => _dragStart;
+  //
+  // Offset get dragCurrent => _dragCurrent;
+  //
+  // double get dragDelta => _dragDelta;
+  //
+  // int get dragDrection => _dragDrection; //0:x,1:y
+  // int get controlType => _controlType; //0:volume,1:brightness
+
+  double get volume => _volume;
+
+  double get screen => _screen;
+
   ///Instance of video player controller which is adapter used to communicate
   ///between flutter high level code and lower level native code.
   VideoPlayerController videoPlayerController;
@@ -874,11 +902,64 @@ class BetterPlayerController extends ChangeNotifier {
     videoPlayerController.setAudioTrack(audioTrack.label, audioTrack.id);
   }
 
+  /*
+  void changeShow(bool b) {
+    _show = b;
+    _notify();
+  }
+
+  void changeDraging(bool b) {
+    _isDraging = b;
+    _notify();
+  }
+
+  void changeDragStart(Offset o) {
+    _dragStart = o;
+    _notify();
+  }
+
+  void changeDragCurrent(Offset o) {
+    _dragCurrent = o;
+    _notify();
+  }
+
+  void changeDragDelta(double v) {
+    _dragDelta = v;
+    _notify();
+  }
+
+  void changeDragDrection(int v) {
+    _dragDrection = v;
+    _notify();
+  }
+
+  void changeControlType(int v) {
+    _controlType = v;
+    _notify();
+  }*/
+
+  void _notify() {
+    if (_mounted) {
+      notifyListeners();
+    }
+  }
+
+  void changeVolume(double v) {
+    _volume = v;
+    _notify();
+  }
+
+  void changeScreen(double s) {
+    _screen = s;
+    _notify();
+  }
+
   ///Dispose BetterPlayerController. When [forceDispose] parameter is true, then
   ///autoDispose parameter will be overridden and controller will be disposed
   ///(if it wasn't disposed before).
   @override
   void dispose({bool forceDispose = false}) {
+    _mounted = false;
     if (!betterPlayerConfiguration.autoDispose && !forceDispose) {
       return;
     }

@@ -18,13 +18,21 @@ class _NormalPlayerPageState extends State<NormalPlayerPage> {
         BetterPlayerConfiguration(
             aspectRatio: 16 / 9,
             fit: BoxFit.contain,
-            translations: [],
-            allowedScreenSleep: false,
-            // autoDetectFullscreenDeviceOrientation: true,
             controlsConfiguration: BetterPlayerControlsConfiguration(
                 setting: SvgPicture.asset(
                   'assets/svg/settings.svg',
                   color: Colors.white,
+                ),
+                brightness: SvgPicture.asset(
+                  'assets/svg/brightnes.svg',
+                  height: 24,
+                  width: 24,
+                ),
+                progressBarPlayedColor: Colors.red,
+                volume: SvgPicture.asset(
+                  'assets/svg/volume.svg',
+                  height: 24,
+                  width: 24,
                 ),
                 playerTheme: BetterPlayerTheme.cupertino,
                 play: Container(
@@ -86,10 +94,13 @@ class _NormalPlayerPageState extends State<NormalPlayerPage> {
         );
     BetterPlayerDataSource dataSource = BetterPlayerDataSource(
       BetterPlayerDataSourceType.network,
-      "https://voxecdn.s3.us-east-2.amazonaws.com/360p/b8be4615792e871d5fc2388c08f6041a/video.m3u8",
+      "https://voxecdn.s3.us-east-2.amazonaws.com/360p/c39854edc1b5943abb05d3d5e350b8f9/video.m3u8",
       cacheConfiguration: getCacheConfiguration(),
       isMiniVideo: true,
       volume: 1.0,
+      useHlsAudioTracks: false,
+      useHlsSubtitles: false,
+      useHlsTracks: false,
       // isPrefetch: true,
       isSerial: true,
       // startAt: Duration(seconds: 35),
