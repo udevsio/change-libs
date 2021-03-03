@@ -215,7 +215,13 @@ class BetterPlayerController extends ChangeNotifier {
   }
 
   int indexTrack = 0;
-  int startAt;
+  int _startAt;
+
+  int get startAt => _startAt;
+
+  void changeStartAt(int value) {
+    _startAt = value;
+  }
 
   void addVideoTrack({int start, int end}) {
     if (start != end && start < end) {
@@ -255,7 +261,6 @@ class BetterPlayerController extends ChangeNotifier {
     _hasCurrentDataSourceStarted = false;
     _hasCurrentDataSourceInitialized = false;
     _betterPlayerDataSource = betterPlayerDataSource;
-    startAt = _betterPlayerDataSource?.startAt?.inSeconds ?? 0;
 
     ///Build videoPlayerController if null
     if (videoPlayerController == null) {
@@ -468,6 +473,7 @@ class BetterPlayerController extends ChangeNotifier {
 
     if (betterPlayerDataSource.startAt != null) {
       await videoPlayerController.seekTo(betterPlayerDataSource.startAt);
+      _startAt = betterPlayerDataSource?.startAt?.inSeconds ?? 0;
     }
   }
 
