@@ -216,11 +216,18 @@ class BetterPlayerController extends ChangeNotifier {
 
   int indexTrack = 0;
   int _startAt;
+  UserWatchedChunk _lastSeenInterval;
+
+  UserWatchedChunk get lastSeenInterval => _lastSeenInterval;
 
   int get startAt => _startAt;
 
   void changeStartAt(int value) {
     _startAt = value;
+  }
+
+  void changeLastInterval(UserWatchedChunk userWatchedChunk) {
+    _lastSeenInterval = userWatchedChunk;
   }
 
   void addVideoTrack({int start, int end}) {
@@ -474,6 +481,7 @@ class BetterPlayerController extends ChangeNotifier {
     if (betterPlayerDataSource.startAt != null) {
       await videoPlayerController.seekTo(betterPlayerDataSource.startAt);
       _startAt = betterPlayerDataSource?.startAt?.inSeconds ?? 0;
+      _lastSeenInterval = UserWatchedChunk(start: _startAt, end: _startAt);
     }
   }
 
