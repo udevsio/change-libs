@@ -189,7 +189,7 @@ class _BetterPlayerCupertinoControlsState
     _betterPlayerController = BetterPlayerController.of(context);
     _controller = _betterPlayerController.videoPlayerController;
     _latestValue = _controller.value;
-    _startPos = _latestValue?.position?.inSeconds ?? 0;
+    // _startPos = _latestValue?.position?.inSeconds ?? 0;
     if (_oldController != _betterPlayerController) {
       _dispose();
       _initialize();
@@ -681,6 +681,7 @@ class _BetterPlayerCupertinoControlsState
 
   Future<void> _initialize() async {
     _controller.addListener(_updateState);
+    _startPos = _betterPlayerController.startAt;
     _betterPlayerController.addEventsListener((event) {
       if (event.betterPlayerEventType == BetterPlayerEventType.play) {
         // _startPos = _controller.value.position.inSeconds;
@@ -914,7 +915,8 @@ class _BetterPlayerCupertinoControlsState
     }
   }
 
-  int _startPos = 0;
+  int _startPos;
+
   bool _isSeen = false;
   UserWatchedChunk _lastSeenInterval = UserWatchedChunk(start: 0, end: 0);
 

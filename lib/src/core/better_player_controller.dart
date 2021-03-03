@@ -215,6 +215,7 @@ class BetterPlayerController extends ChangeNotifier {
   }
 
   int indexTrack = 0;
+  int startAt;
 
   void addVideoTrack({int start, int end}) {
     if (start != end && start < end) {
@@ -254,7 +255,7 @@ class BetterPlayerController extends ChangeNotifier {
     _hasCurrentDataSourceStarted = false;
     _hasCurrentDataSourceInitialized = false;
     _betterPlayerDataSource = betterPlayerDataSource;
-    _betterPlayerDataSource.startAt
+    startAt = _betterPlayerDataSource?.startAt?.inSeconds ?? 0;
 
     ///Build videoPlayerController if null
     if (videoPlayerController == null) {
