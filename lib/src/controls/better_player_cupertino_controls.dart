@@ -49,8 +49,8 @@ class _BetterPlayerCupertinoControlsState extends BetterPlayerControlsState<Bett
   Offset _dragStart;
   Offset _dragcurrent;
   double _dragDelta;
-  int _dragDrection = -1; //0:x,1:y
-  int _controlType = -1; //0:volume,1:brightness
+  int _dragDrection; //0:x,1:y
+  int _controlType; //0:volume,1:brightness
   double _volume = 1;
   double _notifierVolume = 1;
   double _notifierBrightness = 1;
@@ -148,62 +148,41 @@ class _BetterPlayerCupertinoControlsState extends BetterPlayerControlsState<Bett
                       _hideStuff = true;
                     });
             },
-            onHorizontalDragStart: (_) {
-              /*_isDraging = true;
-                    _dragStart = _.globalPosition;
-                    _dragDrection = 0;
-                    print('onHorizontalDragStart:$_');*/
-            },
-            onHorizontalDragEnd: (_) {
-              /*_isDraging = false;
-                    RenderBox _rb = context.findRenderObject();
-
-                    var _size = _rb.size;
-                    var _ds = _dragDelta * widget.controller.videoPlayerController.value.duration.inSeconds / _size.width;
-
-                    int _n = widget.controller.videoPlayerController.value.position.inMilliseconds + (_ds * 1000).floor();
-                    widget.controller.videoPlayerController.seekTo(Duration(milliseconds: _n));
-
-                    print('onHorizontalDragEnd:$_');
-                    updateUI();*/
-            },
+            onHorizontalDragStart: (_) {},
+            onHorizontalDragEnd: (_) {},
             onVerticalDragStart: (_) async {
-              _isDraging = true;
-              _dragStart = _.globalPosition;
-              _dragDrection = 1;
+              if (_betterPlayerController.isFullScreen) {
+                _isDraging = true;
+                _dragStart = _.globalPosition;
+                _dragDrection = 1;
 
-              RenderBox _rb = context.findRenderObject();
-              final topLeftPosition = _rb.localToGlobal(Offset.zero);
-              if (topLeftPosition.dx + _dragStart.dx < _rb.size.width / 2) {
-                _controlType = 0;
-              } else {
-                _controlType = 1;
+                RenderBox _rb = context.findRenderObject();
+                final topLeftPosition = _rb.localToGlobal(Offset.zero);
+                if (topLeftPosition.dx + _dragStart.dx < _rb.size.width / 2) {
+                  _controlType = 0;
+                } else {
+                  _controlType = 1;
+                }
               }
-              print('onVerticalDragStart:$_');
             },
             onVerticalDragEnd: (_) {
-              _isDraging = false;
-              print('onVerticalDragEnd:$_');
-              updateUI();
-              if (_controller == 1) {
-                _notifierVolume = (_volume);
-              } else {
-                _notifierBrightness = (_brightness);
+              if (_betterPlayerController.isFullScreen) {
+                _isDraging = false;
+                updateUI();
+                if (_controller == 1) {
+                  _notifierVolume = (_volume);
+                } else {
+                  _notifierBrightness = (_brightness);
+                }
               }
             },
-            onHorizontalDragUpdate: (_) {
-              /*_dragcurrent = _.globalPosition;
-                    _dragDelta = _dragcurrent.dx - _dragStart.dx;
-                    print('onHorizontalDragUpdate:$_dragDelta');
-
-                    updateUI();*/
-            },
+            onHorizontalDragUpdate: (_) {},
             onVerticalDragUpdate: (_) {
-              // print('onVerticalDragUpdate:${_.globalPosition}');
-              _dragcurrent = _.globalPosition;
-              _dragDelta = _dragStart.dy - _dragcurrent.dy;
-              // print('onVerticalDragUpdate:$_dragDelta');
-              updateUI();
+              if (_betterPlayerController.isFullScreen) {
+                _dragcurrent = _.globalPosition;
+                _dragDelta = _dragStart.dy - _dragcurrent.dy;
+                updateUI();
+              }
             },
             child: AbsorbPointer(
               absorbing: _hideStuff,
@@ -631,165 +610,8 @@ class _BetterPlayerCupertinoControlsState extends BetterPlayerControlsState<Bett
     return Container();
   }
 
-  /*Widget _buildCenterWhenDraging(BuildContext context) {
-    if (_dragDrection == 0 &&
-        _betterPlayerController.videoPlayerController.value.duration != null &&
-        _betterPlayerController.videoPlayerController.value.duration.inMilliseconds > 0) {
-      RenderBox _rb = context.findRenderObject();
-
-      var _size = _rb.size;
-      var _ds = _dragDelta * _betterPlayerController.videoPlayerController.value.duration.inSeconds / _size.width;
-      var _dss = (_ds).toStringAsFixed(0) + 'S';
-      return Center(
-          child: Container(
-            height: 48,
-            width: 120,
-            alignment: Alignment.center,
-            decoration: BoxDecoration(
-              color: Colors.black54,
-              borderRadius: BorderRadius.circular(8.0),
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Text(
-                  _ds > 0 ? '+$_dss' : _dss,
-                  style: TextStyle(color: Colors.white),
-                ),
-                Text(
-                  formatDuration(Duration(milliseconds: (_betterPlayerController.videoPlayerController.value.duration.inMilliseconds + (_ds * 1000).floor()))) +
-                      '/' +
-                      formatDuration(_betterPlayerController.videoPlayerController.value.duration),
-                  style: TextStyle(color: Colors.white),
-                )
-              ],
-            ),
-          ));
-    } else if (_dragDrection == 1 && _dragDelta != null) {
-      double _n;
-      String _p;
-      IconData _icon;
-      if (_controlType == 1) {
-        _n = (_dragDelta / 180 * 20).floor() + _volume;
-        if (_n > 20) {
-          _n = 20;
-        } else if (_n < 0) {
-          _n = 0;
-        }
-        _p = _n == 0 ? 'Off' : (_n / 20 * 100).toStringAsFixed(0) + '%';
-        VolumeControl.setVolume(_n);
-        _volume = _n;
-        _icon = _n == 0 ? Icons.volume_off : (_n > 7 ? Icons.volume_up : Icons.volume_down);
-      } else {
-        _n = _dragDelta / 180 + (_brightness <= 0 ? 0.5 : _brightness);
-        if (_n < 0.01) {
-          _n = 0.01;
-        } else if (_n > 1.0) {
-          _n = 1.0;
-        }
-        _p = ((_n * 100)).toStringAsFixed(0) + '%';
-        _icon = _n < 0.5 ? Icons.brightness_low : (_n > 0.8 ? Icons.brightness_high : Icons.brightness_medium);
-        Screen.setBrightness(_n);
-        _brightness = _n;
-      }
-      return Stack(
-        alignment: Alignment.center,
-        children: [
-          Center(
-            child: Container(
-              height: 156,
-              width: 64,
-              alignment: Alignment.center,
-              decoration: BoxDecoration(
-                color: Colors.black54,
-                borderRadius: BorderRadius.circular(8.0),
-              ),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: <Widget>[
-                  Icon(
-                    _icon,
-                    size: 32.0,
-                    color: Colors.white,
-                  ),
-                  Text(
-                    _p,
-                    style: TextStyle(color: Colors.white),
-                  )
-                ],
-              ),
-            ),
-          ),
-          Positioned.fill(
-            right: 40,
-            left: 40,
-            child: Row(
-              children: [
-                Visibility(
-                  visible: _controlType == 0,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      betterPlayerController.betterPlayerConfiguration.controlsConfiguration.brightness,
-                      SizedBox(
-                        height: 8,
-                      ),
-                      BoxedVerticalSeekBar(
-                        height: MediaQuery.of(context).size.height - 200,
-                        width: 6,
-                        // onValueChanged: (newValue) => _brightness = newValue,
-                        value: _brightness * 100,
-                        min: 0,
-                        max: 100,
-                        movingBox: DecoratedBox(decoration: BoxDecoration(color: betterPlayerController.betterPlayerConfiguration.controlsConfiguration.progressBarPlayedColor)),
-                        fixedBox: DecoratedBox(
-                          decoration: BoxDecoration(color: Colors.white),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                Spacer(),
-                Visibility(
-                  visible: _controlType == 1,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      betterPlayerController.betterPlayerConfiguration.controlsConfiguration.volume,
-                      SizedBox(
-                        height: 8,
-                      ),
-                      BoxedVerticalSeekBar(
-                        height: MediaQuery.of(context).size.height - 200,
-                        width: 6,
-                        onValueChanged: (newValue) => _volume = newValue,
-                        value: _volume,
-                        min: 0,
-                        max: 100,
-                        movingBox: DecoratedBox(decoration: BoxDecoration(color: betterPlayerController.betterPlayerConfiguration.controlsConfiguration.progressBarPlayedColor)),
-                        fixedBox: DecoratedBox(
-                          decoration: BoxDecoration(color: Colors.white),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ],
-      );
-    } else {
-      return Container();
-    }
-  }
-*/
   Widget _buildCenter(BuildContext context) {
-    if (_isDraging) {
+    if (_isDraging && _betterPlayerController.isFullScreen) {
       return _buildCenterWhenDraging(context);
     }
     return Container();
