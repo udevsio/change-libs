@@ -254,6 +254,7 @@ class BetterPlayerController extends ChangeNotifier {
     _hasCurrentDataSourceStarted = false;
     _hasCurrentDataSourceInitialized = false;
     _betterPlayerDataSource = betterPlayerDataSource;
+    _betterPlayerDataSource.startAt
 
     ///Build videoPlayerController if null
     if (videoPlayerController == null) {

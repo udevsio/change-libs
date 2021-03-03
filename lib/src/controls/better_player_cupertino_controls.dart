@@ -73,7 +73,7 @@ class _BetterPlayerCupertinoControlsState
                     child: GestureDetector(
                       behavior: HitTestBehavior.opaque,
                       onDoubleTap: () {
-                         backCheckTrack(
+                        backCheckTrack(
                           seekDuration: _controller.value.position.inSeconds >= 10
                               ? (Duration(seconds: _controller.value.position.inSeconds - 10))
                               : Duration.zero,
@@ -189,12 +189,11 @@ class _BetterPlayerCupertinoControlsState
     _betterPlayerController = BetterPlayerController.of(context);
     _controller = _betterPlayerController.videoPlayerController;
     _latestValue = _controller.value;
-
+    _startPos = _latestValue?.position?.inSeconds ?? 0;
     if (_oldController != _betterPlayerController) {
       _dispose();
       _initialize();
     }
-
     super.didChangeDependencies();
   }
 
