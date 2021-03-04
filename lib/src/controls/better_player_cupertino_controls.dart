@@ -50,7 +50,7 @@ class _BetterPlayerCupertinoControlsState extends BetterPlayerControlsState<Bett
   Offset _dragcurrent;
   double _dragDelta;
   int _dragDrection; //0:x,1:y
-  int _controlType; //0:volume,1:brightness
+  int _controlType; //1:volume,0:brightness
   double _volume = 1;
   double _notifierVolume = 1;
   double _notifierBrightness = 1;
@@ -169,10 +169,12 @@ class _BetterPlayerCupertinoControlsState extends BetterPlayerControlsState<Bett
               if (_betterPlayerController.isFullScreen) {
                 _isDraging = false;
                 updateUI();
-                if (_controller == 1) {
-                  _notifierVolume = (_volume);
+                debugPrint("TTT1: ${_controlType}");
+                if (_controlType == 1) {
+                  _notifierVolume = _volume;
+                  _betterPlayerController.setVolume(_volume);
                 } else {
-                  _notifierBrightness = (_brightness);
+                  _notifierBrightness = _brightness;
                 }
               }
             },
@@ -556,7 +558,7 @@ class _BetterPlayerCupertinoControlsState extends BetterPlayerControlsState<Bett
                           BoxedVerticalSeekBar(
                             height: MediaQuery.of(context).size.height - 200,
                             width: 6,
-                            onValueChanged: (newValue) => _notifierBrightness = (newValue),
+                            onValueChanged: (newValue) => _notifierBrightness = newValue,
                             value: _brightness * 20,
                             min: 0,
                             max: 20,
@@ -584,7 +586,7 @@ class _BetterPlayerCupertinoControlsState extends BetterPlayerControlsState<Bett
                           BoxedVerticalSeekBar(
                             height: MediaQuery.of(context).size.height - 200,
                             width: 6,
-                            onValueChanged: (newValue) => _notifierVolume = (newValue),
+                            onValueChanged: (newValue) => _notifierVolume = newValue,
                             value: _volume * 20,
                             min: 0,
                             max: 20,
@@ -789,6 +791,7 @@ class _BetterPlayerCupertinoControlsState extends BetterPlayerControlsState<Bett
         cancelAndRestartTimer();
         if (_latestValue.volume == 0) {
           _betterPlayerController.setVolume(_latestVolume ?? 0.5);
+          VolumeControl.setVolume(_latestVolume ?? 0.5);
         } else {
           _latestVolume = controller.value.volume;
           _betterPlayerController.setVolume(0.0);
