@@ -73,7 +73,7 @@ class _BetterPlayerCupertinoControlsState
                     child: GestureDetector(
                       behavior: HitTestBehavior.opaque,
                       onDoubleTap: () {
-                        backCheckTrack(
+                        backCheckTrackAsWeb(
                           seekDuration: _controller.value.position.inSeconds >= 10
                               ? (Duration(seconds: _controller.value.position.inSeconds - 10))
                               : Duration.zero,
@@ -102,7 +102,7 @@ class _BetterPlayerCupertinoControlsState
                     child: GestureDetector(
                       behavior: HitTestBehavior.opaque,
                       onDoubleTap: () {
-                        nextCheckTrack(
+                        nextCheckTrackAsWeb(
                           seekDuration:
                               Duration(seconds: _controller.value.position.inSeconds + 10),
                           lastDuration: _controller.value.position,
@@ -337,7 +337,7 @@ class _BetterPlayerCupertinoControlsState
                       child: GestureDetector(
                           behavior: HitTestBehavior.opaque,
                           onDoubleTap: () {
-                            backCheckTrack(
+                            backCheckTrackAsWeb(
                               seekDuration: _controller.value.position.inSeconds >= 10
                                   ? (Duration(seconds: _controller.value.position.inSeconds - 10))
                                   : Duration.zero,
@@ -468,7 +468,7 @@ class _BetterPlayerCupertinoControlsState
         ),
       ),
       onTap: () {
-        backCheckTrack(
+        backCheckTrackAsWeb(
           seekDuration: _controller.value.position.inSeconds >= 10
               ? (Duration(seconds: _controller.value.position.inSeconds - 10))
               : Duration.zero,
@@ -524,7 +524,7 @@ class _BetterPlayerCupertinoControlsState
         ),
       ),
       onTap: () {
-        nextCheckTrack(
+        nextCheckTrackAsWeb(
           seekDuration: Duration(seconds: _controller.value.position.inSeconds + 10),
           lastDuration: _controller.value.position,
         );
@@ -797,91 +797,102 @@ class _BetterPlayerCupertinoControlsState
   }
 
   // int _oldPos = 0;
-  Demo checkInterval(Duration seekDuration) {
-    print("SEEKDURATION: ${seekDuration.inSeconds}");
-    bool isFind = false;
-    int findElementEndPos;
-    int findElementStartPos;
-    if (seekDuration.inSeconds == 0)
-      return Demo(isFind: true, findElementEndPos: 0, findElementStartPos: 0);
+  // Demo checkInterval(Duration seekDuration) {
+  //   print("SEEKDURATION: ${seekDuration.inSeconds}");
+  //   bool isFind = false;
+  //   int findElementEndPos;
+  //   int findElementStartPos;
+  //   if (seekDuration.inSeconds == 0)
+  //     return Demo(isFind: true, findElementEndPos: 0, findElementStartPos: 0);
+  //   _betterPlayerController.videoTrackList.forEach((element) {
+  //     if (seekDuration.inSeconds >= element.start && seekDuration.inSeconds <= element.end) {
+  //       findElementEndPos = element.end;
+  //       findElementStartPos = element.start;
+  //       isFind = true;
+  //     }
+  //   });
+  //   if (!isFind) {
+  //     _isSeen = false;
+  //   }
+  //   return Demo(
+  //       isFind: isFind,
+  //       findElementEndPos: findElementEndPos ?? seekDuration.inSeconds,
+  //       findElementStartPos: findElementStartPos ?? seekDuration.inSeconds);
+  // }
 
-    _betterPlayerController.videoTrackList.forEach((element) {
-      if (seekDuration.inSeconds >= element.start && seekDuration.inSeconds <= element.end) {
-        findElementEndPos = element.end;
-        findElementStartPos = element.start;
-        isFind = true;
-      }
-    });
-    if (!isFind) {
-      _isSeen = false;
-    }
-    return Demo(
-        isFind: isFind,
-        findElementEndPos: findElementEndPos ?? seekDuration.inSeconds,
-        findElementStartPos: findElementStartPos ?? seekDuration.inSeconds);
+  void backCheckTrackAsWeb({Duration seekDuration, Duration lastDuration}) {
+    betterPlayerController.addVideoTrack(
+        start: _betterPlayerController.startAt, end: lastDuration.inSeconds);
+    _betterPlayerController.changeStartAt(seekDuration.inSeconds);
   }
 
-  void backCheckTrack({Duration seekDuration, Duration lastDuration}) {
-    if (_isSeen && _betterPlayerController.lastSeenInterval.start < seekDuration.inSeconds) {
-      return;
-    }
-    var a = checkInterval(seekDuration);
-    if (seekDuration.inSeconds >= _betterPlayerController.startAt &&
-        lastDuration.inSeconds > seekDuration.inSeconds) {
-      _isSeen = true;
-      betterPlayerController.addVideoTrack(
-          start: _betterPlayerController.startAt, end: lastDuration.inSeconds);
-      _betterPlayerController.changeStartAt(lastDuration.inSeconds + 1);
-      return;
-    }
-    if (a.isFind &&
-        a.findElementEndPos < lastDuration.inSeconds &&
-        !(lastDuration.inSeconds > _betterPlayerController.lastSeenInterval.start &&
-            lastDuration.inSeconds < _betterPlayerController.lastSeenInterval.end)) {
-      _isSeen = true;
-      betterPlayerController.addVideoTrack(
-          start: _betterPlayerController.startAt, end: lastDuration.inSeconds);
-      _betterPlayerController.changeStartAt(a.findElementEndPos + 1);
-      _betterPlayerController.changeLastInterval(
-          UserWatchedChunk(start: a.findElementStartPos, end: a.findElementEndPos));
-    } else if (a.isFind &&
-        !(lastDuration.inSeconds > _betterPlayerController.lastSeenInterval.start &&
-            lastDuration.inSeconds < _betterPlayerController.lastSeenInterval.end)) {
-      _betterPlayerController.changeStartAt(a.findElementEndPos + 1);
-    } else {
-      betterPlayerController.addVideoTrack(
-          start: _betterPlayerController.startAt, end: lastDuration.inSeconds);
-      _betterPlayerController.changeStartAt(a.findElementEndPos + 1);
-      _betterPlayerController.changeLastInterval(
-          UserWatchedChunk(start: a.findElementStartPos, end: a.findElementEndPos));
-      _isSeen = false;
-    }
-    _isSeen = false;
+  void nextCheckTrackAsWeb({Duration seekDuration, Duration lastDuration}) {
+    _betterPlayerController.addVideoTrack(
+        start: _betterPlayerController.startAt, end: lastDuration.inSeconds);
+    _betterPlayerController.changeStartAt(seekDuration.inSeconds);
   }
 
-  void nextCheckTrack({Duration seekDuration, Duration lastDuration}) {
-    var a = checkInterval(seekDuration);
-    if (_isSeen) {
-      return;
-    }
-    if (!a.isFind) {
-      _isSeen = false;
-      _betterPlayerController.addVideoTrack(
-          start: _betterPlayerController.startAt, end: lastDuration.inSeconds);
-      _betterPlayerController.changeStartAt(seekDuration.inSeconds);
-      return;
-    }
-    if (a.isFind) {
-      _isSeen = true;
-      _betterPlayerController.addVideoTrack(
-          start: _betterPlayerController.startAt, end: a.findElementStartPos);
-      _betterPlayerController.changeStartAt(a.findElementEndPos + 1);
-      _betterPlayerController.changeLastInterval(
-          UserWatchedChunk(start: a.findElementStartPos, end: a.findElementEndPos));
-      return;
-    }
-    _isSeen = false;
-  }
+  // void backCheckTrack({Duration seekDuration, Duration lastDuration}) {
+  //   if (_isSeen && _betterPlayerController.lastSeenInterval.start < seekDuration.inSeconds) {
+  //     return;
+  //   }
+  //   var a = checkInterval(seekDuration);
+  //   if (seekDuration.inSeconds >= _betterPlayerController.startAt &&
+  //       lastDuration.inSeconds > seekDuration.inSeconds) {
+  //     _isSeen = true;
+  //     betterPlayerController.addVideoTrack(
+  //         start: _betterPlayerController.startAt, end: lastDuration.inSeconds);
+  //     _betterPlayerController.changeStartAt(lastDuration.inSeconds + 1);
+  //     return;
+  //   }
+  //   if (a.isFind &&
+  //       a.findElementEndPos < lastDuration.inSeconds &&
+  //       !(lastDuration.inSeconds > _betterPlayerController.lastSeenInterval.start &&
+  //           lastDuration.inSeconds < _betterPlayerController.lastSeenInterval.end)) {
+  //     _isSeen = true;
+  //     betterPlayerController.addVideoTrack(
+  //         start: _betterPlayerController.startAt, end: lastDuration.inSeconds);
+  //     _betterPlayerController.changeStartAt(a.findElementEndPos + 1);
+  //     _betterPlayerController.changeLastInterval(
+  //         UserWatchedChunk(start: a.findElementStartPos, end: a.findElementEndPos));
+  //   } else if (a.isFind &&
+  //       !(lastDuration.inSeconds > _betterPlayerController.lastSeenInterval.start &&
+  //           lastDuration.inSeconds < _betterPlayerController.lastSeenInterval.end)) {
+  //     _betterPlayerController.changeStartAt(a.findElementEndPos + 1);
+  //   } else {
+  //     betterPlayerController.addVideoTrack(
+  //         start: _betterPlayerController.startAt, end: lastDuration.inSeconds);
+  //     _betterPlayerController.changeStartAt(a.findElementEndPos + 1);
+  //     _betterPlayerController.changeLastInterval(
+  //         UserWatchedChunk(start: a.findElementStartPos, end: a.findElementEndPos));
+  //     _isSeen = false;
+  //   }
+  //   _isSeen = false;
+  // }
+  //
+  // void nextCheckTrack({Duration seekDuration, Duration lastDuration}) {
+  //   var a = checkInterval(seekDuration);
+  //   if (_isSeen) {
+  //     return;
+  //   }
+  //   if (!a.isFind) {
+  //     _isSeen = false;
+  //     _betterPlayerController.addVideoTrack(
+  //         start: _betterPlayerController.startAt, end: lastDuration.inSeconds);
+  //     _betterPlayerController.changeStartAt(seekDuration.inSeconds);
+  //     return;
+  //   }
+  //   if (a.isFind) {
+  //     _isSeen = true;
+  //     _betterPlayerController.addVideoTrack(
+  //         start: _betterPlayerController.startAt, end: a.findElementStartPos);
+  //     _betterPlayerController.changeStartAt(a.findElementEndPos + 1);
+  //     _betterPlayerController.changeLastInterval(
+  //         UserWatchedChunk(start: a.findElementStartPos, end: a.findElementEndPos));
+  //     return;
+  //   }
+  //   _isSeen = false;
+  // }
 
   void _updateState() {
     if (mounted) {
@@ -896,7 +907,7 @@ class _BetterPlayerCupertinoControlsState
           }
         });
       }
-      if (_controller.value.position.inSeconds > 0 &&
+      /*  if (_controller.value.position.inSeconds > 0 &&
           _betterPlayerController.startAt == _controller.value.position.inSeconds) {
         _isSeen = false;
       }
@@ -906,7 +917,7 @@ class _BetterPlayerCupertinoControlsState
             end: _betterPlayerController.lastSeenInterval.start - 1);
         _betterPlayerController.changeStartAt(_betterPlayerController.lastSeenInterval.start + 1);
         _isSeen = true;
-      }
+      }*/
       /*  if (_controller.value.position.inSeconds == _oldPos) return;
       if(_controlsConfiguration.enableVideoTrack){
         _betterPlayerController.changeTrack(true, _controller.value.position.inSeconds ~/ 1.7);
@@ -937,9 +948,9 @@ class _BetterPlayerCupertinoControlsState
           onSeek: (seekDuration, lastDuration) {
             if (_controller.value.isPlaying) {
               if (seekDuration.inSeconds < lastDuration.inSeconds) {
-                backCheckTrack(seekDuration: seekDuration, lastDuration: lastDuration);
+                backCheckTrackAsWeb(seekDuration: seekDuration, lastDuration: lastDuration);
               } else {
-                nextCheckTrack(seekDuration: seekDuration, lastDuration: lastDuration);
+                nextCheckTrackAsWeb(seekDuration: seekDuration, lastDuration: lastDuration);
               }
             } else {
               _betterPlayerController.changeStartAt(_controller.value.position.inSeconds);
@@ -1068,6 +1079,7 @@ List<double> gradientStops = [
   0.99,
   1.0
 ];
+
 List<Color> gradientColors = [
   Colors.black.withOpacity(0.93),
   Colors.black.withOpacity(0.91),

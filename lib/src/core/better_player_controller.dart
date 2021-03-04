@@ -776,6 +776,9 @@ class BetterPlayerController extends ChangeNotifier {
     videoPlayerController.pause();
     await setupDataSource(betterPlayerDataSource.copyWith(url: url, quality: quality));
     videoPlayerController.seekTo(position);
+    _startAt = position.inSeconds;
+    _lastSeenInterval = UserWatchedChunk(start: _startAt, end: _startAt);
+    print("PPPPPPPPPPPPPPPP: ${_startAt}");
     if (wasPlayingBeforeChange) {
       videoPlayerController.play();
     }
