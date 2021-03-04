@@ -391,6 +391,17 @@ class BetterPlayerController extends ChangeNotifier {
     return null;
   }
 
+  void _autoReplayListener() {
+    var videoPlayerValue = videoPlayerController.value;
+    if (videoPlayerValue?.position != null &&
+        videoPlayerValue?.duration != null &&
+        videoPlayerValue.position >= videoPlayerValue.duration) {
+      seekTo(Duration(seconds: 0)).then((value) {
+        play();
+      });
+    }
+  }
+
   ///Internal method which invokes videoPlayerController source setup.
   Future _setupDataSource(BetterPlayerDataSource betterPlayerDataSource) async {
     assert(betterPlayerDataSource != null, "BetterPlayerDataSource can't be null");
@@ -476,6 +487,9 @@ class BetterPlayerController extends ChangeNotifier {
       if (fullScreenByDefault) {
         videoPlayerController.addListener(_onFullScreenStateChanged);
       }
+    }
+    if (_betterPlayerDataSource.autoReplay) {
+      videoPlayerController.addListener(_autoReplayListener);
     }
 
     if (betterPlayerDataSource.startAt != null) {

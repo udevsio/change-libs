@@ -24,6 +24,9 @@ class BetterPlayerDataSource {
   /// Play the video as soon as it's displayed
   final bool autoPlay;
 
+  /// auto replay on video end
+  final bool autoReplay;
+
   final double volume;
 
   final bool isMiniVideo;
@@ -77,6 +80,7 @@ class BetterPlayerDataSource {
     this.bytes,
     this.subtitles,
     this.autoPlay = false,
+    this.autoReplay = false,
     this.liveStream = false,
     this.headers,
     this.startAt = Duration.zero,
@@ -90,11 +94,14 @@ class BetterPlayerDataSource {
     this.resolutions,
     this.quality,
     this.cacheConfiguration,
-    this.notificationConfiguration = const BetterPlayerNotificationConfiguration(showNotification: false),
+    this.notificationConfiguration =
+        const BetterPlayerNotificationConfiguration(showNotification: false),
     this.overriddenDuration,
     this.videoFormat,
   }) : assert(
-            ((type == BetterPlayerDataSourceType.network || type == BetterPlayerDataSourceType.file) && url != null) ||
+            ((type == BetterPlayerDataSourceType.network ||
+                        type == BetterPlayerDataSourceType.file) &&
+                    url != null) ||
                 (type == BetterPlayerDataSourceType.memory && bytes?.isNotEmpty == true),
             "Url can't be null in network or file data source | bytes can't be null when using memory data source");
 
@@ -205,6 +212,7 @@ class BetterPlayerDataSource {
     bool isMiniVideo,
     Duration startAt,
     bool autoPlay,
+    bool autoReplay,
     double volume,
     bool isSerial,
     bool isPrefetch,
@@ -226,6 +234,7 @@ class BetterPlayerDataSource {
       liveStream: liveStream ?? this.liveStream,
       headers: headers ?? this.headers,
       volume: volume ?? this.volume,
+      autoReplay: autoReplay ?? this.autoReplay,
       startAt: startAt ?? this.startAt,
       isSerial: isSerial ?? this.isSerial,
       autoPlay: autoPlay ?? this.autoPlay,
