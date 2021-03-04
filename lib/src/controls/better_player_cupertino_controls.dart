@@ -155,7 +155,8 @@ class _BetterPlayerCupertinoControlsState extends BetterPlayerControlsState<Bett
                 _isDraging = true;
                 _dragStart = _.globalPosition;
                 _dragDrection = 1;
-
+                _notifierBrightness = await Screen.brightness;
+                _notifierVolume = await VolumeControl.volume;
                 RenderBox _rb = context.findRenderObject();
                 final topLeftPosition = _rb.localToGlobal(Offset.zero);
                 if (topLeftPosition.dx + _dragStart.dx < _rb.size.width / 2) {
