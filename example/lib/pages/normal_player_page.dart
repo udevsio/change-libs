@@ -82,12 +82,12 @@ class _NormalPlayerPageState extends State<NormalPlayerPage> {
     );
     BetterPlayerDataSource dataSource = BetterPlayerDataSource(
       BetterPlayerDataSourceType.network,
-      "http://cdn.theoplayer.com/video/elephants-dream/playlist.m3u8",
+      "https://mvdcdn.s3.eu-north-1.amazonaws.com/720p/111f753cd07e3ba109c74a985b653c44/video.m3u8",
       cacheConfiguration: getCacheConfiguration(),
       isMiniVideo: true,
       resolutions: {
-        "480": "http://cdn.theoplayer.com/video/elephants-dream/playlist.m3u8",
-        "720": "http://cdn.theoplayer.com/video/elephants-dream/playlist.m3u8"
+        "480": "https://mvdcdn.s3.eu-north-1.amazonaws.com/720p/111f753cd07e3ba109c74a985b653c44/video.m3u8",
+        "720": "https://mvdcdn.s3.eu-north-1.amazonaws.com/720p/111f753cd07e3ba109c74a985b653c44/video.m3u8"
       },
       quality: "480",
       startAt: Duration(seconds: 120),

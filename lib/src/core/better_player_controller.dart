@@ -231,7 +231,7 @@ class BetterPlayerController extends ChangeNotifier {
   }
 
   void addVideoTrack({int start, int end}) {
-    if (start != end && start < end) {
+    if (start != end && start < end && (end - start) > 1) {
       _videoTrackList.add(UserWatchedChunk(start: start, end: end));
       onAddTrack();
     }

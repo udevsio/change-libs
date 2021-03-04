@@ -953,14 +953,16 @@ class _BetterPlayerCupertinoControlsState
                 nextCheckTrackAsWeb(seekDuration: seekDuration, lastDuration: lastDuration);
               }
             } else {
-              _betterPlayerController.changeStartAt(_controller.value.position.inSeconds);
+              print("QQQQQQQQQQQQQQ:${seekDuration.inSeconds}");
+              _betterPlayerController.changeStartAt(seekDuration.inSeconds);
             }
           },
           colors: BetterPlayerProgressColors(
-              playedColor: _controlsConfiguration.progressBarPlayedColor,
-              handleColor: _controlsConfiguration.progressBarHandleColor,
-              bufferedColor: _controlsConfiguration.progressBarBufferedColor,
-              backgroundColor: _controlsConfiguration.progressBarBackgroundColor),
+            playedColor: _controlsConfiguration.progressBarPlayedColor,
+            handleColor: _controlsConfiguration.progressBarHandleColor,
+            bufferedColor: _controlsConfiguration.progressBarBufferedColor,
+            backgroundColor: _controlsConfiguration.progressBarBackgroundColor,
+          ),
         ),
       ),
     );
