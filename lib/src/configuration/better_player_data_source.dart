@@ -26,6 +26,8 @@ class BetterPlayerDataSource {
 
   final double volume;
 
+  final double rotation;
+
   final bool isMiniVideo;
 
   ///Subtitles configuration
@@ -76,6 +78,7 @@ class BetterPlayerDataSource {
     this.url, {
     this.bytes,
     this.subtitles,
+    this.rotation = 640 / 360,
     this.autoPlay = false,
     this.liveStream = false,
     this.headers,
@@ -114,6 +117,7 @@ class BetterPlayerDataSource {
     Duration startAt,
     String quality,
     double volume,
+    double rotation,
     Map<String, String> qualities,
     BetterPlayerCacheConfiguration cacheConfiguration,
     BetterPlayerNotificationConfiguration notificationConfiguration,
@@ -128,6 +132,7 @@ class BetterPlayerDataSource {
       isMiniVideo: isMiniVideo,
       startAt: startAt,
       volume: volume,
+      rotation: rotation,
       isSerial: isSerial,
       useHlsSubtitles: useHlsSubtitles,
       quality: quality,
@@ -148,6 +153,7 @@ class BetterPlayerDataSource {
     bool useHlsSubtitles,
     bool useHlsTracks,
     double volume,
+    double rotation,
     bool isSerial,
     bool isPrefetch,
     Map<String, String> qualities,
@@ -161,6 +167,7 @@ class BetterPlayerDataSource {
         useHlsTracks: useHlsTracks,
         resolutions: qualities,
         volume: volume,
+        rotation: rotation,
         isSerial: isSerial,
         cacheConfiguration: cacheConfiguration,
         notificationConfiguration: notificationConfiguration,
@@ -178,6 +185,7 @@ class BetterPlayerDataSource {
     bool isSerial,
     bool isPrefetch,
     double volume,
+    double rotation,
     Map<String, String> qualities,
     BetterPlayerCacheConfiguration cacheConfiguration,
     BetterPlayerNotificationConfiguration notificationConfiguration,
@@ -189,6 +197,7 @@ class BetterPlayerDataSource {
         useHlsSubtitles: useHlsSubtitles,
         useHlsTracks: useHlsTracks,
         volume: volume,
+        rotation: rotation,
         isSerial: isSerial,
         resolutions: qualities,
         cacheConfiguration: cacheConfiguration,
@@ -206,6 +215,7 @@ class BetterPlayerDataSource {
     Duration startAt,
     bool autoPlay,
     double volume,
+    double rotation,
     bool isSerial,
     bool isPrefetch,
     String quality,
@@ -228,6 +238,7 @@ class BetterPlayerDataSource {
       volume: volume ?? this.volume,
       startAt: startAt ?? this.startAt,
       isSerial: isSerial ?? this.isSerial,
+      rotation: rotation ?? this.rotation,
       autoPlay: autoPlay ?? this.autoPlay,
       quality: quality ?? this.quality,
       isMiniVideo: isMiniVideo ?? this.isMiniVideo,

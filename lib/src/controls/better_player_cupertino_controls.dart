@@ -55,6 +55,7 @@ class _BetterPlayerCupertinoControlsState extends BetterPlayerControlsState<Bett
   double _notifierVolume = 1;
   double _notifierBrightness = 1;
   double _brightness = 1;
+  var lastTapDown = 0;
 
   Timer _timer;
   Timer _getPlayerPostionTimer;
@@ -141,13 +142,6 @@ class _BetterPlayerCupertinoControlsState extends BetterPlayerControlsState<Bett
             cancelAndRestartTimer();
           },
           child: GestureDetector(
-            onTap: () {
-              _hideStuff
-                  ? cancelAndRestartTimer()
-                  : setState(() {
-                      _hideStuff = true;
-                    });
-            },
             onHorizontalDragStart: (_) {},
             onHorizontalDragEnd: (_) {},
             onVerticalDragStart: (_) async {
@@ -170,7 +164,6 @@ class _BetterPlayerCupertinoControlsState extends BetterPlayerControlsState<Bett
               if (_betterPlayerController.isFullScreen) {
                 _isDraging = false;
                 updateUI();
-                debugPrint("TTT1: ${_controlType}");
                 if (_controlType == 1) {
                   _notifierVolume = _volume;
                   _betterPlayerController.setVolume(_volume);
@@ -178,6 +171,25 @@ class _BetterPlayerCupertinoControlsState extends BetterPlayerControlsState<Bett
                   _notifierBrightness = _brightness;
                 }
               }
+            },
+            onTapDown: (TapDownDetails details){
+              var now = DateTime.now().millisecondsSinceEpoch;
+              if (now - lastTapDown < 300) {
+                  if(details.globalPosition.dx > MediaQuery.of(context).size.width / 2){
+                    skipForward();
+                  }
+                  else {
+                    skipBack();
+                  }
+              }
+              else {
+                _hideStuff
+                    ? cancelAndRestartTimer()
+                    : setState(() {
+                  _hideStuff = true;
+                });
+              }
+              lastTapDown = now;
             },
             onHorizontalDragUpdate: (_) {},
             onVerticalDragUpdate: (_) {
@@ -367,7 +379,7 @@ class _BetterPlayerCupertinoControlsState extends BetterPlayerControlsState<Bett
           duration: _controlsConfiguration.controlsHideTime,
           child: Stack(
             children: [
-              Positioned.fill(
+              /*Positioned.fill(
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: <Widget>[
@@ -376,13 +388,6 @@ class _BetterPlayerCupertinoControlsState extends BetterPlayerControlsState<Bett
                           behavior: HitTestBehavior.opaque,
                           onDoubleTap: () {
                             skipBack();
-                          },
-                          onTap: () {
-                            _hideStuff
-                                ? cancelAndRestartTimer()
-                                : setState(() {
-                                    _hideStuff = true;
-                                  });
                           },
                           child: SizedBox(
                             width: double.infinity,
@@ -395,13 +400,6 @@ class _BetterPlayerCupertinoControlsState extends BetterPlayerControlsState<Bett
                         onDoubleTap: () {
                           skipForward();
                         },
-                        onTap: () {
-                          _hideStuff
-                              ? cancelAndRestartTimer()
-                              : setState(() {
-                                  _hideStuff = true;
-                                });
-                        },
                         child: SizedBox(
                           width: double.infinity,
                           height: double.infinity,
@@ -410,7 +408,7 @@ class _BetterPlayerCupertinoControlsState extends BetterPlayerControlsState<Bett
                     )
                   ],
                 ),
-              ),
+              ),*/
               Visibility(
                 visible: _betterPlayerController.betterPlayerDataSource.isMiniVideo,
                 child: Positioned(

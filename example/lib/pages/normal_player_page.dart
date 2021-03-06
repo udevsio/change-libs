@@ -94,7 +94,7 @@ class _NormalPlayerPageState extends State<NormalPlayerPage> {
         );
     BetterPlayerDataSource dataSource = BetterPlayerDataSource(
       BetterPlayerDataSourceType.network,
-      "https://voxecdn.s3.us-east-2.amazonaws.com/360p/c39854edc1b5943abb05d3d5e350b8f9/video.m3u8",
+      "https://voxe-cdn.s3.eu-north-1.amazonaws.com/360p/dd8addc7286ad02d73b049ee33244931/video.m3u8",
       cacheConfiguration: getCacheConfiguration(),
       isMiniVideo: true,
       volume: 1.0,
@@ -103,6 +103,7 @@ class _NormalPlayerPageState extends State<NormalPlayerPage> {
       useHlsTracks: false,
       // isPrefetch: true,
       isSerial: true,
+      rotation: 1280 / 534
       // startAt: Duration(seconds: 35),
       // autoPlay: true,
     );
