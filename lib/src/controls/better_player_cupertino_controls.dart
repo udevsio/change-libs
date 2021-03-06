@@ -80,7 +80,11 @@ class _BetterPlayerCupertinoControlsState extends BetterPlayerControlsState<Bett
         color: Colors.black26,
         child: Stack(
           children: [
-            Positioned.fill(
+            Positioned(
+              bottom: getPaddingSize(_controlsConfiguration.controlBarHeight),
+              left: 0,
+              right: 0,
+              top: 0,
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: <Widget>[
@@ -379,36 +383,6 @@ class _BetterPlayerCupertinoControlsState extends BetterPlayerControlsState<Bett
           duration: _controlsConfiguration.controlsHideTime,
           child: Stack(
             children: [
-              /*Positioned.fill(
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: <Widget>[
-                    Expanded(
-                      child: GestureDetector(
-                          behavior: HitTestBehavior.opaque,
-                          onDoubleTap: () {
-                            skipBack();
-                          },
-                          child: SizedBox(
-                            width: double.infinity,
-                            height: double.infinity,
-                          )),
-                    ),
-                    Expanded(
-                      child: GestureDetector(
-                        behavior: HitTestBehavior.opaque,
-                        onDoubleTap: () {
-                          skipForward();
-                        },
-                        child: SizedBox(
-                          width: double.infinity,
-                          height: double.infinity,
-                        ),
-                      ),
-                    )
-                  ],
-                ),
-              ),*/
               Visibility(
                 visible: _betterPlayerController.betterPlayerDataSource.isMiniVideo,
                 child: Positioned(
