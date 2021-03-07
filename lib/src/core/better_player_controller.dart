@@ -366,7 +366,6 @@ class BetterPlayerController extends ChangeNotifier {
           overriddenDuration: _betterPlayerDataSource.overriddenDuration,
           formatHint: _getVideoFormat(_betterPlayerDataSource.videoFormat),
         );
-
         break;
       case BetterPlayerDataSourceType.file:
         await videoPlayerController.setFileDataSource(
@@ -401,6 +400,7 @@ class BetterPlayerController extends ChangeNotifier {
       default:
         throw UnimplementedError("${betterPlayerDataSource.type} is not implemented");
     }
+    _betterPlayerDataSource = betterPlayerDataSource;
     await _initializeVideo();
   }
 
@@ -429,6 +429,8 @@ class BetterPlayerController extends ChangeNotifier {
         videoPlayerController.addListener(_onFullScreenStateChanged);
       }
     }
+
+    print("222${betterPlayerDataSource.startAt}");
 
     if (betterPlayerDataSource.startAt != null) {
       await videoPlayerController.seekTo(betterPlayerDataSource.startAt);
@@ -880,13 +882,15 @@ class BetterPlayerController extends ChangeNotifier {
 
   ///Retry data source if playback failed.
   Future retryDataSource() async {
+    print("111${videoPlayerController.value.position}");
     await _setupDataSource(_betterPlayerDataSource.copyWith(startAt: videoPlayerController.value.position));
-    if (_videoPlayerValueOnError != null) {
+    /*if (_videoPlayerValueOnError != null) {
       final position = videoPlayerController.value.position;
       await seekTo(position);
+      print("111111${position}");
       await play();
       _videoPlayerValueOnError = null;
-    }
+    }*/
   }
 
   ///Set [audioTrack] in player. Works only for HLS streams.

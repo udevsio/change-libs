@@ -338,7 +338,7 @@ class _BetterPlayerCupertinoControlsState extends BetterPlayerControlsState<Bett
                       ),
                       _buildExpandButton(),
                       SizedBox(
-                        width: 8,
+                        width: 16,
                       ),
                     ],
                   ),
@@ -976,9 +976,6 @@ class _BetterPlayerCupertinoControlsState extends BetterPlayerControlsState<Bett
                   behavior: HitTestBehavior.opaque,
                   onDoubleTap: () {
                     skipBack();
-                    /*_betterPlayerController.setupDataSource(betterPlayerController.betterPlayerDataSource.copyWith(
-                        startAt: Duration(seconds: _betterPlayerController.videoPlayerController.value.position.inSeconds - 10
-                        )));*/
                   },
                   onTap: () {
                     _hideStuff
@@ -998,9 +995,6 @@ class _BetterPlayerCupertinoControlsState extends BetterPlayerControlsState<Bett
                   behavior: HitTestBehavior.opaque,
                   onDoubleTap: () {
                     skipForward();
-                    /*_betterPlayerController.setupDataSource(betterPlayerController.betterPlayerDataSource.copyWith(
-                        startAt: Duration(seconds: _betterPlayerController.videoPlayerController.value.position.inSeconds + 10
-                        )));*/
                   },
                   onTap: () {
                     _hideStuff
