@@ -1015,7 +1015,7 @@ class _BetterPlayerCupertinoControlsState extends BetterPlayerControlsState<Bett
         Align(
           alignment: Alignment.center,
           child: CircularProgressIndicator(
-            valueColor: AlwaysStoppedAnimation<Color>(_controlsConfiguration.loadingColor ?? _controlsConfiguration.controlBarColor),
+            valueColor: AlwaysStoppedAnimation<Color>(_controlsConfiguration.progressBarPlayedColor),
           ),
         ),
       ],
