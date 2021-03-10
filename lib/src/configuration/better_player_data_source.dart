@@ -85,7 +85,7 @@ class BetterPlayerDataSource {
     this.startAt = Duration.zero,
     this.isSerial = false,
     this.volume = 1.0,
-    this.isMiniVideo = false,
+    this.isMiniVideo = true,
     this.useHlsSubtitles = true,
     this.useHlsTracks = true,
     this.useHlsAudioTracks = true,
