@@ -709,7 +709,7 @@ class BetterPlayerController extends ChangeNotifier {
   }
 
   ///Set different resolution (quality) for video
-  void setResolution(String url, String quality) async {
+  void setResolution(String url, String quality, double speed) async {
     assert(url != null, "Url can't be null");
     final position = await videoPlayerController.position;
     final wasPlayingBeforeChange = isPlaying();
@@ -717,6 +717,7 @@ class BetterPlayerController extends ChangeNotifier {
     videoPlayerController.pause();
     await setupDataSource(betterPlayerDataSource.copyWith(url: url, quality: quality));
     videoPlayerController.seekTo(position);
+    videoPlayerController.setSpeed(speed);
     if (wasPlayingBeforeChange) {
       videoPlayerController.play();
     }

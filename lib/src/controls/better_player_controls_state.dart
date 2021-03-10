@@ -453,7 +453,7 @@ abstract class BetterPlayerControlsState<T extends StatefulWidget>
     return BetterPlayerMaterialClickableWidget(
       onTap: () {
         Navigator.of(context).pop();
-        betterPlayerController.setResolution(url, name);
+        betterPlayerController.setResolution(url, name, betterPlayerController.videoPlayerController.value.speed);
       },
       color: Colors.transparent,
       radius: 0,
