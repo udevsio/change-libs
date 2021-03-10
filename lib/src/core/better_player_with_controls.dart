@@ -50,6 +50,7 @@ class _BetterPlayerWithControlsState extends State<BetterPlayerWithControls> {
     super.didUpdateWidget(oldWidget);
   }
 
+
   @override
   void dispose() {
     playerVisibilityStreamController.close();
