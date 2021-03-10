@@ -334,10 +334,6 @@ class _BetterPlayerCupertinoControlsState extends BetterPlayerControlsState<Bett
                       if (_betterPlayerController.isLiveStream()) _buildLiveWidget() else _controlsConfiguration.enableProgressText ? _buildPosition() : const SizedBox(),
                       _buildSettingButton(),
                       SizedBox(
-                        width: 12,
-                      ),
-                      _buildExpandButton(),
-                      SizedBox(
                         width: 16,
                       ),
                     ],
