@@ -154,10 +154,10 @@ class _BetterPlayerState extends State<BetterPlayer> with WidgetsBindingObserver
   Widget _buildFullScreenVideo(BuildContext context, Animation<double> animation, BetterPlayerControllerProvider controllerProvider) {
 
     return WillPopScope(
-      onWillPop: () {
-        controllerProvider.controller?.postEvent(BetterPlayerEvent(BetterPlayerEventType.hideFullscreen));
+      onWillPop: () async {
+        controllerProvider.controller.postEvent(BetterPlayerEvent(BetterPlayerEventType.hideFullscreen));
         Navigator.of(context).pop();
-        return;
+        return false;
       },
       child: Scaffold(
         resizeToAvoidBottomInset: false,
