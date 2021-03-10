@@ -53,7 +53,7 @@ class _BetterPlayerWithControlsState extends State<BetterPlayerWithControls> {
   @override
   void dispose() {
     playerVisibilityStreamController.close();
-    widget.controller.removeListener(_onControllerChanged);
+    widget.controller?.removeListener(_onControllerChanged);
     super.dispose();
   }
 

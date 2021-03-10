@@ -155,7 +155,7 @@ class _BetterPlayerState extends State<BetterPlayer> with WidgetsBindingObserver
 
     return WillPopScope(
       onWillPop: () {
-        controllerProvider.controller.postEvent(BetterPlayerEvent(BetterPlayerEventType.hideFullscreen));
+        controllerProvider.controller?.postEvent(BetterPlayerEvent(BetterPlayerEventType.hideFullscreen));
         Navigator.of(context).pop();
         return;
       },
