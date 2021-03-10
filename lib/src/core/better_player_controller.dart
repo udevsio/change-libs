@@ -85,7 +85,7 @@ class BetterPlayerController extends ChangeNotifier {
   Function(BetterPlayerEvent) get eventListener => betterPlayerConfiguration.eventListener;
 
   ///Flag used to store full screen mode state.
-  bool _isFullScreen = false;
+  bool _isFullScreen = true;
 
   ///Flag used to store is offline mode state.
   bool _isOffline = false;
@@ -429,8 +429,6 @@ class BetterPlayerController extends ChangeNotifier {
         videoPlayerController.addListener(_onFullScreenStateChanged);
       }
     }
-
-    print("222${betterPlayerDataSource.startAt}");
 
     if (betterPlayerDataSource.startAt != null) {
       await videoPlayerController.seekTo(betterPlayerDataSource.startAt);

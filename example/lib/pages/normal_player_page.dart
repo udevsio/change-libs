@@ -18,6 +18,7 @@ class _NormalPlayerPageState extends State<NormalPlayerPage> {
         BetterPlayerConfiguration(
             aspectRatio: 16 / 9,
             fit: BoxFit.contain,
+            fullScreenByDefault: true,
             controlsConfiguration: BetterPlayerControlsConfiguration(
                 setting: SvgPicture.asset(
                   'assets/svg/settings.svg',
@@ -109,6 +110,12 @@ class _NormalPlayerPageState extends State<NormalPlayerPage> {
     );
     _betterPlayerController = BetterPlayerController(betterPlayerConfiguration);
     _betterPlayerController.setupDataSource(dataSource);
+    _betterPlayerController.addEventsListener((event) {
+      debugPrint("TTT: ${event.betterPlayerEventType.toString()}");
+      if(event.betterPlayerEventType == BetterPlayerEventType.hideFullscreen){
+        _betterPlayerController.pause();
+      }
+    });
     super.initState();
   }
 
