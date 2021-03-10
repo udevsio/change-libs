@@ -153,19 +153,12 @@ class _BetterPlayerState extends State<BetterPlayer> with WidgetsBindingObserver
 
   Widget _buildFullScreenVideo(BuildContext context, Animation<double> animation, BetterPlayerControllerProvider controllerProvider) {
 
-    return WillPopScope(
-      onWillPop: () async {
-        controllerProvider.controller.postEvent(BetterPlayerEvent(BetterPlayerEventType.hideFullscreen));
-        Navigator.of(context).pop();
-        return false;
-      },
-      child: Scaffold(
-        resizeToAvoidBottomInset: false,
-        body: Container(
-          alignment: Alignment.center,
-          color: Colors.black,
-          child: controllerProvider,
-        ),
+    return Scaffold(
+      resizeToAvoidBottomInset: false,
+      body: Container(
+        alignment: Alignment.center,
+        color: Colors.black,
+        child: controllerProvider,
       ),
     );
   }
@@ -233,6 +226,7 @@ class _BetterPlayerState extends State<BetterPlayer> with WidgetsBindingObserver
     await Navigator.of(context, rootNavigator: true).push(route);
     _isFullScreen = false;
     widget.controller.exitFullScreen();
+    widget.controller.postEvent(BetterPlayerEvent(BetterPlayerEventType.hideFullscreen));
 
     // The wakelock plugins checks whether it needs to perform an action internally,
     // so we do not need to check Wakelock.isEnabled.
