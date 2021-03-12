@@ -45,7 +45,8 @@ class _BetterPlayerCupertinoControlsState
   BetterPlayerController _betterPlayerController;
   StreamSubscription _controlsVisibilityStreamSubscription;
 
-  BetterPlayerControlsConfiguration get _controlsConfiguration => widget.controlsConfiguration;
+  BetterPlayerControlsConfiguration get _controlsConfiguration =>
+      widget.controlsConfiguration;
 
   @override
   VideoPlayerValue get latestValue => _latestValue;
@@ -54,7 +55,8 @@ class _BetterPlayerCupertinoControlsState
   BetterPlayerController get betterPlayerController => _betterPlayerController;
 
   @override
-  BetterPlayerControlsConfiguration get betterPlayerControlsConfiguration => _controlsConfiguration;
+  BetterPlayerControlsConfiguration get betterPlayerControlsConfiguration =>
+      _controlsConfiguration;
 
   @override
   Widget build(BuildContext context) {
@@ -74,9 +76,13 @@ class _BetterPlayerCupertinoControlsState
                       behavior: HitTestBehavior.opaque,
                       onDoubleTap: () {
                         backCheckTrackAsWeb(
-                          seekDuration: _controller.value.position.inSeconds >= 10
-                              ? (Duration(seconds: _controller.value.position.inSeconds - 10))
-                              : Duration.zero,
+                          seekDuration:
+                              _controller.value.position.inSeconds >= 10
+                                  ? (Duration(
+                                      seconds:
+                                          _controller.value.position.inSeconds -
+                                              10))
+                                  : Duration.zero,
                           lastDuration: Duration(
                             seconds: _controller.value.position.inSeconds > 0
                                 ? (_controller.value.position.inSeconds)
@@ -103,8 +109,9 @@ class _BetterPlayerCupertinoControlsState
                       behavior: HitTestBehavior.opaque,
                       onDoubleTap: () {
                         nextCheckTrackAsWeb(
-                          seekDuration:
-                              Duration(seconds: _controller.value.position.inSeconds + 10),
+                          seekDuration: Duration(
+                              seconds:
+                                  _controller.value.position.inSeconds + 10),
                           lastDuration: _controller.value.position,
                         );
                         skipForward();
@@ -154,7 +161,8 @@ class _BetterPlayerCupertinoControlsState
                   ? Expanded(
                       child: Container(
                         margin: EdgeInsets.only(
-                            top: getPaddingSize(_controlsConfiguration.controlBarHeight)),
+                            top: getPaddingSize(
+                                _controlsConfiguration.controlBarHeight)),
                         child: Center(
                           child: _buildLoadingWidget(),
                         ),
@@ -197,10 +205,11 @@ class _BetterPlayerCupertinoControlsState
   }
 
   Widget _buildErrorWidget() {
-    final errorBuilder = _betterPlayerController.betterPlayerConfiguration.errorBuilder;
+    final errorBuilder =
+        _betterPlayerController.betterPlayerConfiguration.errorBuilder;
     if (errorBuilder != null) {
-      return errorBuilder(
-          context, _betterPlayerController.videoPlayerController.value.errorDescription);
+      return errorBuilder(context,
+          _betterPlayerController.videoPlayerController.value.errorDescription);
     } else {
       final textStyle = TextStyle(color: _controlsConfiguration.textColor);
       return Column(
@@ -299,7 +308,9 @@ class _BetterPlayerCupertinoControlsState
     return Expanded(
       child: Text(
         _betterPlayerController.translations.controlsLive,
-        style: TextStyle(color: _controlsConfiguration.liveTextColor, fontWeight: FontWeight.bold),
+        style: TextStyle(
+            color: _controlsConfiguration.liveTextColor,
+            fontWeight: FontWeight.bold),
       ),
     );
   }
@@ -338,13 +349,18 @@ class _BetterPlayerCupertinoControlsState
                           behavior: HitTestBehavior.opaque,
                           onDoubleTap: () {
                             backCheckTrackAsWeb(
-                              seekDuration: _controller.value.position.inSeconds >= 10
-                                  ? (Duration(seconds: _controller.value.position.inSeconds - 10))
-                                  : Duration.zero,
+                              seekDuration:
+                                  _controller.value.position.inSeconds >= 10
+                                      ? (Duration(
+                                          seconds: _controller
+                                                  .value.position.inSeconds -
+                                              10))
+                                      : Duration.zero,
                               lastDuration: Duration(
-                                seconds: _controller.value.position.inSeconds > 0
-                                    ? (_controller.value.position.inSeconds)
-                                    : 0,
+                                seconds:
+                                    _controller.value.position.inSeconds > 0
+                                        ? (_controller.value.position.inSeconds)
+                                        : 0,
                               ),
                             );
                             skipBack();
@@ -384,7 +400,8 @@ class _BetterPlayerCupertinoControlsState
                 ),
               ),
               Visibility(
-                visible: _betterPlayerController.betterPlayerDataSource.isMiniVideo,
+                visible:
+                    _betterPlayerController.betterPlayerDataSource.isMiniVideo,
                 child: Positioned(
                     top: 8,
                     left: _betterPlayerController.isFullScreen ? 16 : 8,
@@ -409,7 +426,8 @@ class _BetterPlayerCupertinoControlsState
 
   Widget _buildMiddleRow() {
     return Container(
-      margin: EdgeInsets.only(top: getPaddingSize(_controlsConfiguration.controlBarHeight)),
+      margin: EdgeInsets.only(
+          top: getPaddingSize(_controlsConfiguration.controlBarHeight)),
       padding: const EdgeInsets.symmetric(horizontal: 16),
       child: Center(
         child: Row(
@@ -439,7 +457,8 @@ class _BetterPlayerCupertinoControlsState
     );
   }
 
-  Widget _buildHitAreaClickableButton({Widget icon, void Function() onClicked}) {
+  Widget _buildHitAreaClickableButton(
+      {Widget icon, void Function() onClicked}) {
     return BetterPlayerMaterialClickableWidget(
       onTap: onClicked,
       radius: 0,
@@ -490,10 +509,11 @@ class _BetterPlayerCupertinoControlsState
       visible: _betterPlayerController.betterPlayerDataSource.isSerial,
       child: BetterPlayerMaterialClickableWidget(
         child: Container(
-            width: getIconSize(32),
-            height: getIconSize(32),
-            margin: EdgeInsets.all(4),
-            child: _controlsConfiguration.prev ?? SizedBox()),
+          width: getIconSize(32),
+          height: getIconSize(32),
+          margin: EdgeInsets.all(4),
+          child: _controlsConfiguration.prev ?? SizedBox(),
+        ),
         onTap: _controlsConfiguration.prevEpisode,
       ),
     );
@@ -525,7 +545,8 @@ class _BetterPlayerCupertinoControlsState
       ),
       onTap: () {
         nextCheckTrackAsWeb(
-          seekDuration: Duration(seconds: _controller.value.position.inSeconds + 10),
+          seekDuration:
+              Duration(seconds: _controller.value.position.inSeconds + 10),
           lastDuration: _controller.value.position,
         );
         skipForward();
@@ -605,10 +626,13 @@ class _BetterPlayerCupertinoControlsState
   Widget _buildSettingButton() {
     return BetterPlayerMaterialClickableWidget(
       onTap: () {
-        onShowMoreClicked(_controlsConfiguration.bottomSheet, _controlsConfiguration.textColor);
+        onShowMoreClicked(_controlsConfiguration.bottomSheet,
+            _controlsConfiguration.textColor);
       },
       child: SizedBox(
-          width: getIconSize(24), height: getIconSize(24), child: _controlsConfiguration.setting),
+          width: getIconSize(24),
+          height: getIconSize(24),
+          child: _controlsConfiguration.setting),
     );
   }
 
@@ -635,7 +659,8 @@ class _BetterPlayerCupertinoControlsState
     );
   }
 
-  Widget _buildPlayPause(VideoPlayerController controller, double size, double margin) {
+  Widget _buildPlayPause(
+      VideoPlayerController controller, double size, double margin) {
     return BetterPlayerMaterialClickableWidget(
       onTap: _onPlayPause,
       child: Container(
@@ -687,8 +712,10 @@ class _BetterPlayerCupertinoControlsState
       } else if (event.betterPlayerEventType == BetterPlayerEventType.pause) {
         print("PAUSEEEEEEEEE");
         _betterPlayerController.addVideoTrack(
-            start: _betterPlayerController.startAt, end: _controller.value.position.inSeconds);
-        _betterPlayerController.changeStartAt(_controller.value.position.inSeconds + 1);
+            start: _betterPlayerController.startAt,
+            end: _controller.value.position.inSeconds);
+        _betterPlayerController
+            .changeStartAt(_controller.value.position.inSeconds + 1);
       }
     });
     _updateState();
@@ -720,7 +747,8 @@ class _BetterPlayerCupertinoControlsState
     setState(() {
       _hideStuff = true;
       _betterPlayerController.toggleFullScreen();
-      _showAfterExpandCollapseTimer = Timer(_controlsConfiguration.controlsHideTime, () {
+      _showAfterExpandCollapseTimer =
+          Timer(_controlsConfiguration.controlsHideTime, () {
         setState(() {
           cancelAndRestartTimer();
         });
@@ -751,8 +779,9 @@ class _BetterPlayerCupertinoControlsState
   }
 
   Widget _buildTotalPosition() {
-    String textDuration =
-        _controller.value.duration != null ? formatDuration(_controller.value.duration) : '00:00';
+    String textDuration = _controller.value.duration != null
+        ? formatDuration(_controller.value.duration)
+        : '00:00';
     return Text(
       textDuration,
       style: TextStyle(fontSize: 14, color: Colors.white),
@@ -945,15 +974,16 @@ class _BetterPlayerCupertinoControlsState
           onDragEnd: () {
             _startHideTimer();
           },
-          onSeek: (seekDuration, lastDuration) {
-            if (_controller.value.isPlaying) {
+          onSeek: (seekDuration, lastDuration, isPlaying) {
+            if (isPlaying) {
               if (seekDuration.inSeconds < lastDuration.inSeconds) {
-                backCheckTrackAsWeb(seekDuration: seekDuration, lastDuration: lastDuration);
+                backCheckTrackAsWeb(
+                    seekDuration: seekDuration, lastDuration: lastDuration);
               } else {
-                nextCheckTrackAsWeb(seekDuration: seekDuration, lastDuration: lastDuration);
+                nextCheckTrackAsWeb(
+                    seekDuration: seekDuration, lastDuration: lastDuration);
               }
             } else {
-              print("QQQQQQQQQQQQQQ:${seekDuration.inSeconds}");
               _betterPlayerController.changeStartAt(seekDuration.inSeconds);
             }
           },
@@ -1035,7 +1065,8 @@ class _BetterPlayerCupertinoControlsState
           alignment: Alignment.center,
           child: CircularProgressIndicator(
             valueColor: AlwaysStoppedAnimation<Color>(
-                _controlsConfiguration.loadingColor ?? _controlsConfiguration.controlBarColor),
+                _controlsConfiguration.loadingColor ??
+                    _controlsConfiguration.controlBarColor),
           ),
         ),
       ],
@@ -1043,7 +1074,9 @@ class _BetterPlayerCupertinoControlsState
   }
 
   double getIconSize(double height) {
-    return _betterPlayerController.isFullScreen ? _controlsConfiguration.iconTime * height : height;
+    return _betterPlayerController.isFullScreen
+        ? _controlsConfiguration.iconTime * height
+        : height;
   }
 
   double getPaddingSize(double height) {

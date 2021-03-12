@@ -26,7 +26,8 @@ class BetterPlayerCupertinoVideoProgressBar extends StatefulWidget {
   final Function() onDragStart;
   final Function() onDragEnd;
   final Function() onDragUpdate;
-  final Function(Duration seekedDuration, Duration lastDuration) onSeek;
+  final Function(Duration seekedDuration, Duration lastDuration, bool isPlaying)
+      onSeek;
 
   @override
   _VideoProgressBarState createState() {
@@ -34,7 +35,8 @@ class BetterPlayerCupertinoVideoProgressBar extends StatefulWidget {
   }
 }
 
-class _VideoProgressBarState extends State<BetterPlayerCupertinoVideoProgressBar> {
+class _VideoProgressBarState
+    extends State<BetterPlayerCupertinoVideoProgressBar> {
   _VideoProgressBarState() {
     listener = () {
       setState(() {});
@@ -46,7 +48,8 @@ class _VideoProgressBarState extends State<BetterPlayerCupertinoVideoProgressBar
 
   VideoPlayerController get controller => widget.controller;
 
-  BetterPlayerController get betterPlayerController => widget.betterPlayerController;
+  BetterPlayerController get betterPlayerController =>
+      widget.betterPlayerController;
 
   @override
   void initState() {
@@ -68,7 +71,8 @@ class _VideoProgressBarState extends State<BetterPlayerCupertinoVideoProgressBar
       final double relative = tapPos.dx / box.size.width;
       if (relative > 0) {
         final Duration position = controller.value.duration * relative;
-        widget.onSeek(position, controller.value.position);
+        widget.onSeek(
+            position, controller.value.position, controller.value.isPlaying);
         controller.seekTo(position);
       }
     }
@@ -110,8 +114,10 @@ class _VideoProgressBarState extends State<BetterPlayerCupertinoVideoProgressBar
         }
 
         if (betterPlayerController.isOffline) {
-          betterPlayerController.setupDataSource(betterPlayerController.betterPlayerDataSource
-              .copyWith(startAt: betterPlayerController.videoPlayerController.value.position));
+          betterPlayerController.setupDataSource(
+              betterPlayerController.betterPlayerDataSource.copyWith(
+                  startAt: betterPlayerController
+                      .videoPlayerController.value.position));
         }
         if (widget.onDragEnd != null) {
           widget.onDragEnd();
@@ -171,8 +177,10 @@ class _ProgressBarPainter extends CustomPainter {
     if (!value.initialized) {
       return;
     }
-    final double playedPartPercent = value.position.inMilliseconds / value.duration.inMilliseconds;
-    final double playedPart = playedPartPercent > 1 ? size.width : playedPartPercent * size.width;
+    final double playedPartPercent =
+        value.position.inMilliseconds / value.duration.inMilliseconds;
+    final double playedPart =
+        playedPartPercent > 1 ? size.width : playedPartPercent * size.width;
     for (final DurationRange range in value.buffered) {
       final double start = range.startFraction(value.duration) * size.width;
       final double end = range.endFraction(value.duration) * size.width;
@@ -200,7 +208,8 @@ class _ProgressBarPainter extends CustomPainter {
 
     final shadowPath = Path()
       ..addOval(Rect.fromCircle(
-          center: Offset(playedPart, baseOffset + barHeight / 2), radius: handleHeight));
+          center: Offset(playedPart, baseOffset + barHeight / 2),
+          radius: handleHeight));
 
     canvas.drawShadow(shadowPath, Colors.black, 0.2, false);
     canvas.drawCircle(

@@ -13,91 +13,95 @@ class _NormalPlayerPageState extends State<NormalPlayerPage> {
 
   @override
   void initState() {
-    BetterPlayerConfiguration betterPlayerConfiguration = BetterPlayerConfiguration(
+    BetterPlayerConfiguration betterPlayerConfiguration =
+        BetterPlayerConfiguration(
       aspectRatio: 16 / 9,
       fit: BoxFit.contain,
       translations: [],
       allowedScreenSleep: false,
       // autoDetectFullscreenDeviceOrientation: true,
       controlsConfiguration: BetterPlayerControlsConfiguration(
-          setting: SvgPicture.asset(
-            'assets/svg/settings.svg',
+        setting: SvgPicture.asset(
+          'assets/svg/settings.svg',
+          color: Colors.white,
+        ),
+        playerTheme: BetterPlayerTheme.cupertino,
+        play: Container(
+          padding: EdgeInsets.only(left: 4),
+          child: SvgPicture.asset(
+            'assets/svg/play.svg',
             color: Colors.white,
           ),
-          playerTheme: BetterPlayerTheme.cupertino,
-          play: Container(
-            padding: EdgeInsets.only(left: 4),
-            child: SvgPicture.asset(
-              'assets/svg/play.svg',
-              color: Colors.white,
-            ),
-          ),
-          pause: SvgPicture.asset(
-            'assets/svg/ic_pause.svg',
-            color: Colors.white,
-          ),
-          closeMiniVideo: () {},
-          enterFullScreen: SvgPicture.asset(
-            'assets/svg/maximize.svg',
-            color: Colors.white,
-          ),
-          exitFullScreen: SvgPicture.asset(
-            'assets/svg/minimize.svg',
-            color: Colors.white,
-          ),
-          next: SvgPicture.asset(
-            'assets/svg/skip_next.svg',
-            color: Colors.white,
-            width: 32,
-            height: 32,
-          ),
-          onVideoEnd: () {},
-          track: () {},
-          prev: SvgPicture.asset(
-            'assets/svg/skip_prev.svg',
-            color: Colors.white,
-            width: 32,
-            height: 32,
-          ),
-          skipBackIcon: Icons.replay_10,
-          skipForwardIcon: Icons.forward_10,
-          nextEpisode: () {},
-          prevEpisode: () {},
-          enableAudioTracks: false,
-          enableSubtitles: false,
-          qualitiesIcon: SvgPicture.asset(
-            'assets/svg/settings.svg',
-            color: Colors.white,
-          ),
-          subtitlesIcon: SvgPicture.asset(
-            'assets/svg/file_text.svg',
-            color: Colors.white,
-          ),
-          playbackSpeedIcon: SvgPicture.asset(
-            'assets/svg/play_circle.svg',
-            color: Colors.white,
-          ),
-          bottomSheet: Color(0xff263c44),
-          textColor: Colors.white),
+        ),
+        pause: SvgPicture.asset(
+          'assets/svg/ic_pause.svg',
+          color: Colors.white,
+        ),
+        closeMiniVideo: () {},
+        enterFullScreen: SvgPicture.asset(
+          'assets/svg/maximize.svg',
+          color: Colors.white,
+        ),
+        exitFullScreen: SvgPicture.asset(
+          'assets/svg/minimize.svg',
+          color: Colors.white,
+        ),
+        next: SvgPicture.asset(
+          'assets/svg/skip_next.svg',
+          color: Colors.white,
+          width: 32,
+          height: 32,
+        ),
+        onVideoEnd: () {},
+        track: () {},
+        prev: SvgPicture.asset(
+          'assets/svg/skip_prev.svg',
+          color: Colors.white,
+          width: 32,
+          height: 32,
+        ),
+        skipBackIcon: Icons.replay_10,
+        skipForwardIcon: Icons.forward_10,
+        nextEpisode: () {},
+        prevEpisode: () {},
+        enableAudioTracks: false,
+        enableSubtitles: false,
+        qualitiesIcon: SvgPicture.asset(
+          'assets/svg/settings.svg',
+          color: Colors.white,
+        ),
+        subtitlesIcon: SvgPicture.asset(
+          'assets/svg/file_text.svg',
+          color: Colors.white,
+        ),
+        playbackSpeedIcon: SvgPicture.asset(
+          'assets/svg/play_circle.svg',
+          color: Colors.white,
+        ),
+        bottomSheet: Color(0xff263c44),
+        textColor: Colors.white,
+      ),
     );
     BetterPlayerDataSource dataSource = BetterPlayerDataSource(
       BetterPlayerDataSourceType.network,
-      "https://mvdcdn.s3.eu-north-1.amazonaws.com/720p/111f753cd07e3ba109c74a985b653c44/video.m3u8",
+      "https://mvdcdn.s3.eu-north-1.amazonaws.com/720p/ddedea2466d0f13b411fc08f69315e5b/video.m3u8",
       cacheConfiguration: getCacheConfiguration(),
       isMiniVideo: true,
       resolutions: {
-        "480": "https://mvdcdn.s3.eu-north-1.amazonaws.com/720p/111f753cd07e3ba109c74a985b653c44/video.m3u8",
-        "720": "https://mvdcdn.s3.eu-north-1.amazonaws.com/720p/111f753cd07e3ba109c74a985b653c44/video.m3u8"
+        "480":
+            "https://mvdcdn.s3.eu-north-1.amazonaws.com/720p/ddedea2466d0f13b411fc08f69315e5b/video.m3u8",
+        "720":
+            "https://mvdcdn.s3.eu-north-1.amazonaws.com/720p/ddedea2466d0f13b411fc08f69315e5b/video.m3u8"
       },
-      quality: "480",
-      startAt: Duration(seconds: 120),
+      quality: "720",
+      // startAt: Duration(seconds: 120),
       volume: 1.0,
       // isPrefetch: true,
       isSerial: true,
       // autoPlay: true,
     );
-    _betterPlayerController =
-        BetterPlayerController(betterPlayerConfiguration, onAddTrack: onChangeTrack);
+    _betterPlayerController = BetterPlayerController(betterPlayerConfiguration,
+        onAddTrack: onChangeTrack);
     _betterPlayerController.setupDataSource(dataSource);
     super.initState();
   }
@@ -135,9 +139,11 @@ class _NormalPlayerPageState extends State<NormalPlayerPage> {
           ElevatedButton(
             child: Text("Play file data source"),
             onPressed: () async {
-              var trueList = _betterPlayerController.trackList.where((element) => element);
+              var trueList =
+                  _betterPlayerController.trackList.where((element) => element);
               setState(() {
-                percent = "${(trueList.length / _betterPlayerController.trackList.length) * 100}";
+                percent =
+                    "${(trueList.length / _betterPlayerController.trackList.length) * 100}";
               });
               // _betterPlayerController.stop();
               /*String url = await Utils.getFileUrl(Constants.testUrl);
@@ -174,7 +180,9 @@ class _NormalPlayerPageState extends State<NormalPlayerPage> {
   BetterPlayerCacheConfiguration getCacheConfiguration() {
     return Platform.isAndroid
         ? BetterPlayerCacheConfiguration(
-            useCache: true, maxCacheFileSize: 8096 * 8096 * 8096, maxCacheSize: 8096 * 8096 * 8096)
+            useCache: true,
+            maxCacheFileSize: 8096 * 8096 * 8096,
+            maxCacheSize: 8096 * 8096 * 8096)
         : BetterPlayerCacheConfiguration(useCache: false);
   }
 }
