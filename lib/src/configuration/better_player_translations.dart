@@ -7,6 +7,8 @@ class BetterPlayerTranslations {
   final String generalRetry;
   final String playlistLoadingNextVideo;
   final String controlsLive;
+  final String noInternet;
+  final String hasInternet;
   final String controlsNextVideoIn;
   final String overflowMenuPlaybackSpeed;
   final String overflowMenuSubtitles;
@@ -18,6 +20,8 @@ class BetterPlayerTranslations {
     this.languageCode = "en",
     this.generalDefaultError = "Video can't be played",
     this.generalNone = "None",
+    this.noInternet = "No connection, plase check internet",
+    this.hasInternet = "Back online",
     this.setting = "Settings",
     this.generalDefault = "Default",
     this.generalRetry = "Retry",
@@ -37,6 +41,8 @@ class BetterPlayerTranslations {
         setting: "Параметр",
         generalDefault: "По умолчонию",
         generalRetry: "Повторить",
+        noInternet: "Снова в сети",
+        hasInternet: "Нет связи, проверьте свой интернет",
         playlistLoadingNextVideo: "Загрузка следующего видео",
         controlsNextVideoIn: "Следующее видео в",
         controlsLive: "LIVE",
@@ -52,6 +58,8 @@ class BetterPlayerTranslations {
         generalNone: "Йўқ",
         setting: "Созламалар",
         generalDefault: "Одатий",
+        noInternet: "Уланиш йўқ, илтимос, интернетингизни текширинг",
+        hasInternet: "Яна онлайн",
         generalRetry: "Қайта уриниш",
         playlistLoadingNextVideo: "Кейинги видео юкланмоқда",
         controlsNextVideoIn: "Кейинги видео",
@@ -68,6 +76,8 @@ class BetterPlayerTranslations {
         generalNone: "Yo'q",
         setting: "Sozlamalar",
         generalDefault: "Odatiy",
+        noInternet: "Tarmoq yo'q, iltimos, internetingizni tekshiring",
+        hasInternet: "Yana onlayn",
         generalRetry: "Qayta urinish",
         playlistLoadingNextVideo: "Keyingi video yuklanmoqda",
         controlsNextVideoIn: "Keyingi video",

@@ -8,7 +8,9 @@ import 'package:better_player/src/core/better_player_utils.dart';
 import 'package:better_player/src/core/boxed_vertical_seekbar.dart';
 import 'package:better_player/src/core/utils.dart';
 import 'package:better_player/src/video_player/video_player.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:volume_control/volume_control.dart';
 import 'better_player_clickable_widget.dart';
 import 'better_player_cupertino_progress_bar.dart';
@@ -56,7 +58,68 @@ class _BetterPlayerCupertinoControlsState extends BetterPlayerControlsState<Bett
   double _notifierBrightness = 1;
   double _brightness = 1;
   var lastTapDown = 0;
+  ConnectivityResult _connectionStatus = ConnectivityResult.none;
+  final Connectivity _connectivity = Connectivity();
+  StreamSubscription<ConnectivityResult> _connectivitySubscription;
+  @override
+  void initState() {
+    super.initState();
+    initConnectivity();
+    _connectivitySubscription = _connectivity.onConnectivityChanged.listen(_updateConnectionStatus);
+  }
 
+  Future<void> initConnectivity() async {
+    ConnectivityResult result;
+    // Platform messages may fail, so we use a try/catch PlatformException.
+    try {
+      result = await _connectivity.checkConnectivity();
+    } on PlatformException catch (e) {
+      print(e.toString());
+      return;
+    }
+
+    // If the widget was removed from the tree while the asynchronous platform
+    // message was in flight, we want to discard the reply rather than calling
+    // setState to update our non-existent appearance.
+    if (!mounted) {
+      return Future.value(null);
+    }
+
+    return _updateConnectionStatus(result);
+  }
+
+  Future<void> _updateConnectionStatus(ConnectivityResult result) async {
+    if (_betterPlayerController.isVideoInitialized()) {
+      final snackBar = SnackBar(
+        duration: Duration(seconds: 3),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.only(
+              topRight: Radius.circular(6), topLeft: Radius.circular(6)),
+        ),
+        padding: EdgeInsets.zero,
+        content: SizedBox(
+          height: 24,
+          child: Center(
+            child: Text(
+                result == ConnectivityResult.none
+                    ? _betterPlayerController.translations.noInternet
+                    : _betterPlayerController.translations.hasInternet,
+                textAlign: TextAlign.center,
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+                style: TextStyle(
+                    fontSize: 15,
+                    color: Colors.white,
+                    fontWeight: FontWeight.w500)),
+          ),
+        ),
+        backgroundColor: result == ConnectivityResult.none
+            ? Color(0xFFd50000)
+            : Colors.green,
+      );
+      Scaffold.of(context).showSnackBar(snackBar);
+    }
+  }
   Timer _timer;
   Timer _getPlayerPostionTimer;
 
