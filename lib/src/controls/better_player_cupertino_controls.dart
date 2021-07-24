@@ -27,7 +27,7 @@ class BetterPlayerCupertinoControls extends StatefulWidget {
     @required this.controlsConfiguration,
   })  : assert(onControlsVisibilityChanged != null),
         assert(controlsConfiguration != null),
-        super(key: key);
+        super (key: key);
 
   @override
   State<StatefulWidget> createState() {
@@ -39,6 +39,7 @@ class _BetterPlayerCupertinoControlsState extends BetterPlayerControlsState<Bett
   VideoPlayerValue _latestValue;
   double _latestVolume;
   bool _hideStuff = false;
+  bool _isFirst = true;
   Timer _hideTimer;
   Timer _initTimer;
   Timer _showAfterExpandCollapseTimer;
@@ -65,8 +66,8 @@ class _BetterPlayerCupertinoControlsState extends BetterPlayerControlsState<Bett
   @override
   void initState() {
     super.initState();
-    // initConnectivity();
-    // _connectivitySubscription = _connectivity.onConnectivityChanged.listen(_updateConnectionStatus);
+    initConnectivity();
+    _connectivitySubscription = _connectivity.onConnectivityChanged.listen(_updateConnectionStatus);
   }
 
   Future<void> initConnectivity() async {
@@ -118,7 +119,12 @@ class _BetterPlayerCupertinoControlsState extends BetterPlayerControlsState<Bett
             ? Color(0xFFd50000)
             : Colors.green,
       );
-      Scaffold.of(context).showSnackBar(snackBar);
+      if(_isFirst){
+        _isFirst = false;
+      }
+      else {
+        Scaffold.of(context).showSnackBar(snackBar);
+      }
     }
   }
   Timer _timer;
