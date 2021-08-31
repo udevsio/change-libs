@@ -42,10 +42,10 @@ class BetterPlayerControlsConfiguration {
   final IconData fullscreenDisableIcon;
 
   ///Cupertino only icon, icon of skip
-  final IconData skipBackIcon;
+  final Widget skipBackIcon;
 
   ///Cupertino only icon, icon of forward
-  final IconData skipForwardIcon;
+  final Widget skipForwardIcon;
 
   ///Flag used to enable/disable fullscreen
   final bool enableFullscreen;
@@ -206,8 +206,8 @@ class BetterPlayerControlsConfiguration {
     this.unMuteIcon = Icons.volume_mute,
     this.fullscreenEnableIcon = Icons.fullscreen,
     this.fullscreenDisableIcon = Icons.fullscreen_exit,
-    this.skipBackIcon = Icons.fast_rewind,
-    this.skipForwardIcon = Icons.fast_forward,
+    this.skipBackIcon,
+    this.skipForwardIcon,
     this.enableFullscreen = true,
     this.enableMute = true,
     this.iconTime = 1.5,

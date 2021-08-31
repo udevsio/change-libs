@@ -72,8 +72,18 @@ class _NormalPlayerPageState extends State<NormalPlayerPage> {
           width: 32,
           height: 32,
         ),
-        skipBackIcon: Icons.replay_10,
-        skipForwardIcon: Icons.forward_10,
+        skipBackIcon: SvgPicture.asset(
+          'assets/svg/ic_replay10.svg',
+          height: 32,
+          width: 32,
+          color: Colors.white,
+        ),
+        skipForwardIcon: SvgPicture.asset(
+          'assets/svg/ic_forward10.svg',
+          height: 32,
+          width: 32,
+          color: Colors.white,
+        ),
         nextEpisode: () {},
         prevEpisode: () {},
         enableAudioTracks: false,
@@ -96,8 +106,8 @@ class _NormalPlayerPageState extends State<NormalPlayerPage> {
     );
     BetterPlayerDataSource dataSource = BetterPlayerDataSource(
         BetterPlayerDataSourceType.network,
-        // "https://voxe-cdn.s3.eu-north-1.amazonaws.com/720p/9445712b398b74e9a917666587265bdd/video.m3u8",
-        "https://voxe-cdn.s3.eu-north-1.amazonaws.com/720p/dd8addc7286ad02d73b049ee33244931/video.m3u8",
+        "https://voxe-cdn.s3.eu-north-1.amazonaws.com/720p/9445712b398b74e9a917666587265bdd/video.m3u8",
+        // "https://voxe-cdn.s3.eu-north-1.amazonaws.com/720p/dd8addc7286ad02d73b049ee33244931/video.m3u8",
         cacheConfiguration: getCacheConfiguration(),
         isMiniVideo: true,
         volume: 1.0,
@@ -105,9 +115,9 @@ class _NormalPlayerPageState extends State<NormalPlayerPage> {
         useHlsSubtitles: false,
         useHlsTracks: false,
         // isPrefetch: true,
-        isSerial: true,
-        // rotation: 1280 / 720
-        rotation: 1280 / 534
+        isSerial: false,
+        rotation: 1280 / 720
+        // rotation: 1280 / 534
         // startAt: Duration(seconds: 35),
         // autoPlay: true,
         );
